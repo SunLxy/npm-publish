@@ -2,6 +2,7 @@ import npmPublish, {Options} from '@jsdevtools/npm-publish'
 import * as core from '@actions/core'
 import micromatch from 'micromatch'
 import fs from 'fs'
+import path from 'path'
 const parseInputFiles = (files: string): string[] => {
   return files.split(/\r?\n/).reduce<string[]>(
     (acc, line) =>
@@ -73,7 +74,21 @@ async function run(): Promise<void> {
     getBoolenValue('dryRun', dryRun, options)
     getBoolenValue('quiet', quiet, options)
 
-    if (entries.length && !packages) {
+    const newEntries: string[] = []
+    // 判断 package.json文件是否存在存在则进行，不存在则不进行
+    if (entries.length) {
+      entries.forEach(key => {
+        const filePath = path.join(process.cwd(), newCwd, key)
+        const packageJson = path.join(filePath, 'package.json')
+        // 判断 package.json 是否存在
+        if (fs.existsSync(packageJson)) {
+          newEntries.push(packageJson)
+        }
+      })
+    }
+    // eslint-disable-next-line no-console
+    console.log(`newEntries---->${JSON.stringify(newEntries, null, 2)}`)
+    if (newEntries.length && !packages) {
       // const entries = await FG(input_files, {cwd: newCwd})
       // eslint-disable-next-line no-console
       console.log(`entries---->${JSON.stringify(entries, null, 2)}`)
@@ -82,7 +97,7 @@ async function run(): Promise<void> {
         entries.map(async pathUrls => {
           const json = await npmPublish({
             ...options,
-            package: `${pathUrls}/package.json`
+            package: pathUrls
           })
           return json
         })

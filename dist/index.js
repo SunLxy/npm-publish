@@ -46,6 +46,7 @@ const npm_publish_1 = __importDefault(__nccwpck_require__(7863));
 const core = __importStar(__nccwpck_require__(4167));
 const micromatch_1 = __importDefault(__nccwpck_require__(810));
 const fs_1 = __importDefault(__nccwpck_require__(5747));
+const path_1 = __importDefault(__nccwpck_require__(5622));
 const parseInputFiles = (files) => {
     return files.split(/\r?\n/).reduce((acc, line) => acc
         .concat(line.split(','))
@@ -103,13 +104,27 @@ function run() {
             getBoolenValue('checkVersion', checkVersion, options);
             getBoolenValue('dryRun', dryRun, options);
             getBoolenValue('quiet', quiet, options);
-            if (entries.length && !packages) {
+            const newEntries = [];
+            // 判断 package.json文件是否存在存在则进行，不存在则不进行
+            if (entries.length) {
+                entries.forEach(key => {
+                    const filePath = path_1.default.join(process.cwd(), newCwd, key);
+                    const packageJson = path_1.default.join(filePath, 'package.json');
+                    // 判断 package.json 是否存在
+                    if (fs_1.default.existsSync(packageJson)) {
+                        newEntries.push(packageJson);
+                    }
+                });
+            }
+            // eslint-disable-next-line no-console
+            console.log(`newEntries---->${JSON.stringify(newEntries, null, 2)}`);
+            if (newEntries.length && !packages) {
                 // const entries = await FG(input_files, {cwd: newCwd})
                 // eslint-disable-next-line no-console
                 console.log(`entries---->${JSON.stringify(entries, null, 2)}`);
                 core.info(`entries---->${JSON.stringify(entries, null, 2)}`);
                 const assets = yield Promise.all(entries.map((pathUrls) => __awaiter(this, void 0, void 0, function* () {
-                    const json = yield (0, npm_publish_1.default)(Object.assign(Object.assign({}, options), { package: `${pathUrls}/package.json` }));
+                    const json = yield (0, npm_publish_1.default)(Object.assign(Object.assign({}, options), { package: pathUrls }));
                     return json;
                 }))
                 // eslint-disable-next-line github/no-then
