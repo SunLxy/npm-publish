@@ -8,7 +8,7 @@
 | 参数  |是否必传 | 类型 | 默认值 | 说明  |
 |------|--|-----|-------|------|
 | cwd |否 |`string` | `process.cwd()` | 目录 |
-| files |否 | `string` |  | 包文件夹正则 |
+| files |否 | `string` |  | 包文件夹正则,[正则参考](https://www.npmjs.com/package/micromatch) |
 | package | 否 | `string` | | `package.json` 文件的路径|
 
 📢:当`package`存在的时候直接走`package`,不走`files`是否传递值。当`package`不传并且`files`传递的时候才走`files`

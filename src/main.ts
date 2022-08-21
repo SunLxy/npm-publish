@@ -1,6 +1,7 @@
 import npmPublish, {Options} from '@jsdevtools/npm-publish'
 import * as core from '@actions/core'
-import FG from 'fast-glob'
+import micromatch from 'micromatch'
+import fs from 'fs'
 const parseInputFiles = (files: string): string[] => {
   return files.split(/\r?\n/).reduce<string[]>(
     (acc, line) =>
@@ -51,21 +52,23 @@ async function run(): Promise<void> {
     if (file && !packages) {
       input_files = parseInputFiles(file)
     }
-
     let entries: string[] = []
-    if (input_files.length) {
-      entries = await FG(input_files, {cwd: newCwd})
-    } else if (!packages && cwd) {
-      entries = await FG(`${cwd}/*`)
+    if (cwd && !packages) {
+      entries = fs.readdirSync(cwd)
     }
 
+    if (input_files.length) {
+      entries = micromatch(input_files, entries)
+    }
     const options: Options = {
       registry,
       package: packages,
       tag
     }
+    console.log(`process---->${process.cwd()}`)
     // eslint-disable-next-line no-console
     console.log(`entries---->${JSON.stringify(entries, null, 2)}`)
+    return
 
     getBoolenValue('checkVersion', checkVersion, options)
     getBoolenValue('dryRun', dryRun, options)
