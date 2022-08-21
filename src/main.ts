@@ -53,7 +53,7 @@ async function run(): Promise<void> {
     if (file && !packages) {
       input_files = parseInputFiles(file)
     } else if (!packages) {
-      input_files = fs.readdirSync(path.join(__dirname, newCwd), 'utf-8')
+      input_files = fs.readdirSync(path.join(process.cwd(), newCwd), 'utf-8')
     }
 
     const options: Options = {
