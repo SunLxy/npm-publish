@@ -165,8 +165,15 @@ const getOptions = (props) => {
         token,
         registry: registry || 'https://registry.npmjs.org',
         tag: tag || 'latest',
-        package: props.package || './package.json'
+        package: props.package
     };
+    // 当 package 不存在值的时候
+    if (!options.package) {
+        const pg = path_1.default.join(process.cwd(), 'package.json');
+        if (fs_1.default.existsSync(pg)) {
+            options.package = './package.json';
+        }
+    }
     (0, exports.getBoolenValue)(options, 'checkVersion', checkVersion);
     (0, exports.getBoolenValue)(options, 'dryRun', dryRun);
     (0, exports.getBoolenValue)(options, 'quiet', quiet);
