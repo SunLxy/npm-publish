@@ -24,7 +24,7 @@
   "author": "SunLxy <1011771396@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.6.0",
+    "@actions/core": "^1.9.1",
     "@jsdevtools/npm-publish": "^1.4.3",
     "micromatch": "~4.0.5"
   },
