@@ -94,9 +94,10 @@ function run() {
                 entries = (0, micromatch_1.default)(input_files, entries);
             }
             const options = {
-            // registry,
-            // package: packages,
-            // tag
+                token
+                // registry,
+                // package: packages,
+                // tag
             };
             console.log(`process---->${process.cwd()}`);
             // eslint-disable-next-line no-console

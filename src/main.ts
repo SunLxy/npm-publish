@@ -62,6 +62,7 @@ async function run(): Promise<void> {
       entries = micromatch(input_files, entries)
     }
     const options: Options = {
+      token
       // registry,
       // package: packages,
       // tag
