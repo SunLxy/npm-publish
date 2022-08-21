@@ -133,6 +133,7 @@ function run() {
                 // eslint-disable-next-line no-console
                 console.log(`entries---->${JSON.stringify(newEntries, null, 2)}`);
                 core.info(`entries---->${JSON.stringify(newEntries, null, 2)}`);
+                core.info(`options---->${JSON.stringify(options, null, 2)}`);
                 const assets = yield Promise.all(newEntries.map((pathUrls) => __awaiter(this, void 0, void 0, function* () {
                     const json = yield (0, npm_publish_1.default)(Object.assign(Object.assign({}, options), { package: pathUrls }));
                     return json;

@@ -103,6 +103,7 @@ async function run(): Promise<void> {
       // eslint-disable-next-line no-console
       console.log(`entries---->${JSON.stringify(newEntries, null, 2)}`)
       core.info(`entries---->${JSON.stringify(newEntries, null, 2)}`)
+      core.info(`options---->${JSON.stringify(options, null, 2)}`)
       const assets = await Promise.all(
         newEntries.map(async pathUrls => {
           const json = await npmPublish({
