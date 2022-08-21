@@ -45,8 +45,6 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 const npm_publish_1 = __importDefault(__nccwpck_require__(7863));
 const core = __importStar(__nccwpck_require__(4167));
 const fast_glob_1 = __importDefault(__nccwpck_require__(5281));
-const fs_1 = __importDefault(__nccwpck_require__(5747));
-const path_1 = __importDefault(__nccwpck_require__(5622));
 const parseInputFiles = (files) => {
     return files.split(/\r?\n/).reduce((acc, line) => acc
         .concat(line.split(','))
@@ -86,8 +84,12 @@ function run() {
             if (file && !packages) {
                 input_files = parseInputFiles(file);
             }
-            else if (!packages) {
-                input_files = fs_1.default.readdirSync(path_1.default.join(__dirname, newCwd), 'utf-8');
+            let entries = [];
+            if (input_files.length) {
+                entries = yield (0, fast_glob_1.default)(input_files, { cwd: newCwd });
+            }
+            else if (!packages && cwd) {
+                entries = yield (0, fast_glob_1.default)('*', { cwd });
             }
             const options = {
                 registry,
@@ -97,8 +99,8 @@ function run() {
             getBoolenValue('checkVersion', checkVersion, options);
             getBoolenValue('dryRun', dryRun, options);
             getBoolenValue('quiet', quiet, options);
-            if (input_files.length && !packages) {
-                const entries = yield (0, fast_glob_1.default)(input_files, { cwd: newCwd });
+            if (entries.length && !packages) {
+                // const entries = await FG(input_files, {cwd: newCwd})
                 // eslint-disable-next-line no-console
                 console.log(`entries---->${JSON.stringify(entries, null, 2)}`);
                 core.info(`entries---->${JSON.stringify(entries, null, 2)}`);

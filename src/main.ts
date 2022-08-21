@@ -1,8 +1,6 @@
 import npmPublish, {Options} from '@jsdevtools/npm-publish'
 import * as core from '@actions/core'
 import FG from 'fast-glob'
-import fs from 'fs'
-import path from 'path'
 const parseInputFiles = (files: string): string[] => {
   return files.split(/\r?\n/).reduce<string[]>(
     (acc, line) =>
@@ -52,8 +50,13 @@ async function run(): Promise<void> {
     let input_files: string[] = []
     if (file && !packages) {
       input_files = parseInputFiles(file)
-    } else if (!packages) {
-      input_files = fs.readdirSync(path.join(process.cwd(), newCwd), 'utf-8')
+    }
+
+    let entries: string[] = []
+    if (input_files.length) {
+      entries = await FG(input_files, {cwd: newCwd})
+    } else if (!packages && cwd) {
+      entries = await FG('*', {cwd})
     }
 
     const options: Options = {
@@ -66,8 +69,8 @@ async function run(): Promise<void> {
     getBoolenValue('dryRun', dryRun, options)
     getBoolenValue('quiet', quiet, options)
 
-    if (input_files.length && !packages) {
-      const entries = await FG(input_files, {cwd: newCwd})
+    if (entries.length && !packages) {
+      // const entries = await FG(input_files, {cwd: newCwd})
       // eslint-disable-next-line no-console
       console.log(`entries---->${JSON.stringify(entries, null, 2)}`)
       core.info(`entries---->${JSON.stringify(entries, null, 2)}`)
