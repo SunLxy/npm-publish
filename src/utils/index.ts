@@ -20,7 +20,7 @@ export const getBoolenValue = (
   type: fieldIdType,
   value?: string | boolean
 ): void => {
-  if (typeof value === 'string') {
+  if (typeof value === 'string' && value) {
     if (value === 'true') {
       options[type] = true
     } else {
