@@ -100,10 +100,10 @@ async function run(): Promise<void> {
     if (newEntries.length && !packages) {
       // const entries = await FG(input_files, {cwd: newCwd})
       // eslint-disable-next-line no-console
-      console.log(`entries---->${JSON.stringify(entries, null, 2)}`)
-      core.info(`entries---->${JSON.stringify(entries, null, 2)}`)
+      console.log(`entries---->${JSON.stringify(newEntries, null, 2)}`)
+      core.info(`entries---->${JSON.stringify(newEntries, null, 2)}`)
       const assets = await Promise.all(
-        entries.map(async pathUrls => {
+        newEntries.map(async pathUrls => {
           const json = await npmPublish({
             ...options,
             package: pathUrls

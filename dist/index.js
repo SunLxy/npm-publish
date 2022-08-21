@@ -130,9 +130,9 @@ function run() {
             if (newEntries.length && !packages) {
                 // const entries = await FG(input_files, {cwd: newCwd})
                 // eslint-disable-next-line no-console
-                console.log(`entries---->${JSON.stringify(entries, null, 2)}`);
-                core.info(`entries---->${JSON.stringify(entries, null, 2)}`);
-                const assets = yield Promise.all(entries.map((pathUrls) => __awaiter(this, void 0, void 0, function* () {
+                console.log(`entries---->${JSON.stringify(newEntries, null, 2)}`);
+                core.info(`entries---->${JSON.stringify(newEntries, null, 2)}`);
+                const assets = yield Promise.all(newEntries.map((pathUrls) => __awaiter(this, void 0, void 0, function* () {
                     const json = yield (0, npm_publish_1.default)(Object.assign(Object.assign({}, options), { package: pathUrls }));
                     return json;
                 }))
