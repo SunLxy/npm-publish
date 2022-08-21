@@ -68,7 +68,6 @@ async function run(): Promise<void> {
     console.log(`process---->${process.cwd()}`)
     // eslint-disable-next-line no-console
     console.log(`entries---->${JSON.stringify(entries, null, 2)}`)
-    return
 
     getBoolenValue('checkVersion', checkVersion, options)
     getBoolenValue('dryRun', dryRun, options)

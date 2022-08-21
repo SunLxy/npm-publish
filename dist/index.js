@@ -100,7 +100,6 @@ function run() {
             console.log(`process---->${process.cwd()}`);
             // eslint-disable-next-line no-console
             console.log(`entries---->${JSON.stringify(entries, null, 2)}`);
-            return;
             getBoolenValue('checkVersion', checkVersion, options);
             getBoolenValue('dryRun', dryRun, options);
             getBoolenValue('quiet', quiet, options);
