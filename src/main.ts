@@ -72,6 +72,8 @@ async function run(): Promise<void> {
     console.log(`entries---->${JSON.stringify(entries, null, 2)}`)
     if (registry) {
       options.registry = registry
+    } else {
+      options.registry = 'https://registry.npmjs.org'
     }
     if (tag) {
       options.tag = tag

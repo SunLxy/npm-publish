@@ -105,6 +105,9 @@ function run() {
             if (registry) {
                 options.registry = registry;
             }
+            else {
+                options.registry = 'https://registry.npmjs.org';
+            }
             if (tag) {
                 options.tag = tag;
             }
