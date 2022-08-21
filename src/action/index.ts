@@ -41,4 +41,4 @@ async function mainNpmPublish(): Promise<void> {
   }
   return
 }
-export default mainNpmPublish
+mainNpmPublish()

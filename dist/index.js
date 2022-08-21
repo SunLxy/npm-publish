@@ -84,7 +84,7 @@ function mainNpmPublish() {
         return;
     });
 }
-exports.default = mainNpmPublish;
+mainNpmPublish();
 
 
 /***/ }),
