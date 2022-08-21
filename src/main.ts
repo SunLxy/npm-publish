@@ -56,7 +56,7 @@ async function run(): Promise<void> {
     if (input_files.length) {
       entries = await FG(input_files, {cwd: newCwd})
     } else if (!packages && cwd) {
-      entries = await FG('*', {cwd})
+      entries = await FG(`${cwd}/*`)
     }
 
     const options: Options = {
@@ -64,6 +64,8 @@ async function run(): Promise<void> {
       package: packages,
       tag
     }
+    // eslint-disable-next-line no-console
+    console.log(`entries---->${JSON.stringify(entries, null, 2)}`)
 
     getBoolenValue('checkVersion', checkVersion, options)
     getBoolenValue('dryRun', dryRun, options)

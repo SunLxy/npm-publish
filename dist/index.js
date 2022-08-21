@@ -89,13 +89,15 @@ function run() {
                 entries = yield (0, fast_glob_1.default)(input_files, { cwd: newCwd });
             }
             else if (!packages && cwd) {
-                entries = yield (0, fast_glob_1.default)('*', { cwd });
+                entries = yield (0, fast_glob_1.default)(`${cwd}/*`);
             }
             const options = {
                 registry,
                 package: packages,
                 tag
             };
+            // eslint-disable-next-line no-console
+            console.log(`entries---->${JSON.stringify(entries, null, 2)}`);
             getBoolenValue('checkVersion', checkVersion, options);
             getBoolenValue('dryRun', dryRun, options);
             getBoolenValue('quiet', quiet, options);
