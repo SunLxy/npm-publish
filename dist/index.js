@@ -2484,7 +2484,11 @@ function sync () {
 
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -2521,7 +2525,9 @@ const url_1 = __nccwpck_require__(8835);
  * @internal
  */
 function normalizeOptions(options) {
-    let registryURL = typeof options.registry === "string" ? new url_1.URL(options.registry) : options.registry;
+    let registryURL = typeof options.registry === "string"
+        ? new url_1.URL(options.registry)
+        : options.registry;
     return {
         token: options.token || "",
         registry: registryURL || new url_1.URL("https://registry.npmjs.org/"),
@@ -2530,6 +2536,9 @@ function normalizeOptions(options) {
         access: options.access,
         dryRun: options.dryRun || false,
         checkVersion: options.checkVersion === undefined ? true : Boolean(options.checkVersion),
+        greaterVersionOnly: options.greaterVersionOnly === undefined
+            ? false
+            : Boolean(options.greaterVersionOnly),
         quiet: options.quiet || false,
         debug: options.debug || (() => undefined),
     };
@@ -2587,13 +2596,13 @@ function updateConfig(config, { registry, debug }) {
 async function getNpmConfigPath(options) {
     try {
         // Get the environment variables to pass to NPM
-        let env = npm_env_1.getNpmEnvironment(options);
+        let env = (0, npm_env_1.getNpmEnvironment)(options);
         options.debug("Running command: npm config get userconfig");
         let process = await ezSpawn.async("npm", "config", "get", "userconfig", { env });
         return process.stdout.trim();
     }
     catch (error) {
-        throw ono_1.ono(error, "Unable to determine the NPM config file path.");
+        throw (0, ono_1.ono)(error, "Unable to determine the NPM config file path.");
     }
 }
 /**
@@ -2611,7 +2620,7 @@ async function readNpmConfig(configPath, { debug }) {
             debug("OLD NPM CONFIG: <none>");
             return "";
         }
-        throw ono_1.ono(error, `Unable to read the NPM config file: ${configPath}`);
+        throw (0, ono_1.ono)(error, `Unable to read the NPM config file: ${configPath}`);
     }
 }
 /**
@@ -2620,11 +2629,11 @@ async function readNpmConfig(configPath, { debug }) {
 async function writeNpmConfig(configPath, config, { debug }) {
     try {
         debug(`Writing new NPM config to ${configPath}`);
-        await fs_1.promises.mkdir(path_1.dirname(configPath), { recursive: true });
+        await fs_1.promises.mkdir((0, path_1.dirname)(configPath), { recursive: true });
         await fs_1.promises.writeFile(configPath, config);
     }
     catch (error) {
-        throw ono_1.ono(error, `Unable to update the NPM config file: ${configPath}`);
+        throw (0, ono_1.ono)(error, `Unable to update the NPM config file: ${configPath}`);
     }
 }
 //# sourceMappingURL=npm-config.js.map
@@ -2677,24 +2686,33 @@ const read_manifest_1 = __nccwpck_require__(4881);
  * Publishes a package to NPM, if its version has changed
  */
 async function npmPublish(opts = {}) {
-    let options = normalize_options_1.normalizeOptions(opts);
+    let options = (0, normalize_options_1.normalizeOptions)(opts);
     // Get the old and new version numbers
-    let manifest = await read_manifest_1.readManifest(options.package, options.debug);
+    let manifest = await (0, read_manifest_1.readManifest)(options.package, options.debug);
     let publishedVersion = await npm_1.npm.getLatestVersion(manifest.name, options);
     // Determine if/how the version has changed
     let diff = semver.diff(manifest.version, publishedVersion);
-    if (diff || !options.checkVersion) {
+    // Compare both versions to see if it's changed
+    let cmp = semver.compare(manifest.version, publishedVersion);
+    let shouldPublish = !options.checkVersion ||
+        // compare returns 1 if manifest is higher than published
+        (options.greaterVersionOnly && cmp === 1) ||
+        // compare returns 0 if the manifest is the same as published
+        cmp !== 0;
+    if (shouldPublish) {
         // Publish the new version to NPM
         await npm_1.npm.publish(manifest, options);
     }
     let results = {
         package: manifest.name,
-        type: diff || "none",
+        // The version should be marked as lower if we disallow decrementing the version
+        type: (options.greaterVersionOnly && cmp === -1 && "lower") || diff || "none",
         version: manifest.version.raw,
         oldVersion: publishedVersion.raw,
         tag: options.tag,
-        access: options.access || (manifest.name.startsWith("@") ? "restricted" : "public"),
-        dryRun: options.dryRun
+        access: options.access ||
+            (manifest.name.startsWith("@") ? "restricted" : "public"),
+        dryRun: options.dryRun,
     };
     options.debug("OUTPUT:", results);
     return results;
@@ -2727,7 +2745,7 @@ exports.npm = {
      */
     async getLatestVersion(name, options) {
         // Update the NPM config with the specified registry and token
-        await npm_config_1.setNpmConfig(options);
+        await (0, npm_config_1.setNpmConfig)(options);
         try {
             let command = ["npm", "view"];
             if (options.tag === "latest") {
@@ -2738,9 +2756,12 @@ exports.npm = {
             }
             command.push("version");
             // Get the environment variables to pass to NPM
-            let env = npm_env_1.getNpmEnvironment(options);
+            let env = (0, npm_env_1.getNpmEnvironment)(options);
             // Run NPM to get the latest published version of the package
-            options.debug(`Running command: npm view ${name} version`, { command, env });
+            options.debug(`Running command: npm view ${name} version`, {
+                command,
+                env,
+            });
             let result;
             try {
                 result = await ezSpawn.async(command, { env });
@@ -2767,7 +2788,7 @@ exports.npm = {
             return semver;
         }
         catch (error) {
-            throw ono_1.ono(error, `Unable to determine the current version of ${name} on NPM.`);
+            throw (0, ono_1.ono)(error, `Unable to determine the current version of ${name} on NPM.`);
         }
     },
     /**
@@ -2775,7 +2796,7 @@ exports.npm = {
      */
     async publish({ name, version }, options) {
         // Update the NPM config with the specified registry and token
-        await npm_config_1.setNpmConfig(options);
+        await (0, npm_config_1.setNpmConfig)(options);
         try {
             let command = ["npm", "publish"];
             if (options.tag !== "latest") {
@@ -2788,17 +2809,27 @@ exports.npm = {
                 command.push("--dry-run");
             }
             // Run "npm publish" in the package.json directory
-            let cwd = path_1.resolve(path_1.dirname(options.package));
+            let cwd = (0, path_1.resolve)((0, path_1.dirname)(options.package));
             // Determine whether to suppress NPM's output
             let stdio = options.quiet ? "pipe" : "inherit";
             // Get the environment variables to pass to NPM
-            let env = npm_env_1.getNpmEnvironment(options);
+            let env = (0, npm_env_1.getNpmEnvironment)(options);
             // Run NPM to publish the package
-            options.debug("Running command: npm publish", { command, stdio, cwd, env });
+            options.debug("Running command: npm publish", {
+                command,
+                stdio,
+                cwd,
+                env,
+            });
+            await ezSpawn.async(["npm", "config", "get", "registry"], {
+                cwd,
+                stdio,
+                env,
+            });
             await ezSpawn.async(command, { cwd, stdio, env });
         }
         catch (error) {
-            throw ono_1.ono(error, `Unable to publish ${name} v${version} to NPM.`);
+            throw (0, ono_1.ono)(error, `Unable to publish ${name} v${version} to ${options.registry}.`);
         }
     },
 };
@@ -2832,13 +2863,13 @@ const semver_1 = __nccwpck_require__(8319);
  * @internal
  */
 async function readManifest(path, debug) {
-    debug && debug(`Reading package manifest from ${path_1.resolve(path)}`);
+    debug && debug(`Reading package manifest from ${(0, path_1.resolve)(path)}`);
     let json;
     try {
         json = await fs_1.promises.readFile(path, "utf-8");
     }
     catch (error) {
-        throw ono_1.ono(error, `Unable to read ${path}`);
+        throw (0, ono_1.ono)(error, `Unable to read ${path}`);
     }
     try {
         let { name, version } = JSON.parse(json);
@@ -2853,7 +2884,7 @@ async function readManifest(path, debug) {
         return manifest;
     }
     catch (error) {
-        throw ono_1.ono(error, `Unable to parse ${path}`);
+        throw (0, ono_1.ono)(error, `Unable to parse ${path}`);
     }
 }
 exports.readManifest = readManifest;
