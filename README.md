@@ -1,6 +1,6 @@
 # 说明
 
-使用[JS-DevTools/npm-publish]进行上传，增加某个目录下所有包进行上传
+使用[JS-DevTools/npm-publish](https://github.com/JS-DevTools/npm-publish)进行包发布，增加某个目录下所有包进行上传
 
 [参数参考](https://github.com/JS-DevTools/npm-publish)
 
@@ -11,4 +11,7 @@
 | files |否 | `string` |  | 包文件夹正则,[正则参考](https://www.npmjs.com/package/micromatch) |
 | package | 否 | `string` | | `package.json` 文件的路径|
 
-📢:当`package`存在的时候直接走`package`,不走`files`是否传递值。当`package`不传并且`files`传递的时候才走`files`
+📢:注意
+
+1. 当`package`存在的时候直接走`package`,不走`files`是否传递值。
+2. 当`package`不传并且`files`传递的时候才走`files`
