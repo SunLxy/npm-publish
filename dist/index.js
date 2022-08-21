@@ -94,13 +94,22 @@ function run() {
                 entries = (0, micromatch_1.default)(input_files, entries);
             }
             const options = {
-                registry,
-                package: packages,
-                tag
+            // registry,
+            // package: packages,
+            // tag
             };
             console.log(`process---->${process.cwd()}`);
             // eslint-disable-next-line no-console
             console.log(`entries---->${JSON.stringify(entries, null, 2)}`);
+            if (registry) {
+                options.registry = registry;
+            }
+            if (tag) {
+                options.tag = tag;
+            }
+            if (packages) {
+                options.package = packages;
+            }
             getBoolenValue('checkVersion', checkVersion, options);
             getBoolenValue('dryRun', dryRun, options);
             getBoolenValue('quiet', quiet, options);
