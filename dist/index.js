@@ -38,11 +38,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
+const npm_publish_1 = __importDefault(__nccwpck_require__(7863));
 const core = __importStar(__nccwpck_require__(4167));
-const utils_1 = __nccwpck_require__(4507);
-const request_1 = __nccwpck_require__(3002);
-function mainNpmPublish() {
+const micromatch_1 = __importDefault(__nccwpck_require__(810));
+const fs_1 = __importDefault(__nccwpck_require__(5747));
+const path_1 = __importDefault(__nccwpck_require__(5622));
+const parseInputFiles = (files) => {
+    return files.split(/\r?\n/).reduce((acc, line) => acc
+        .concat(line.split(','))
+        .filter(pat => pat)
+        .map(pat => pat.trim()), []);
+};
+const getBoolenValue = (type, value, options) => {
+    if (value) {
+        if (value === 'true') {
+            options[type] = true;
+        }
+        else {
+            options.dryRun = false;
+        }
+    }
+};
+function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             // 文件正则
@@ -60,22 +81,85 @@ function mainNpmPublish() {
             if (!token) {
                 throw new Error('token is empty');
             }
-            const options = (0, utils_1.getOptions)({
-                token,
-                registry,
-                package: packages,
-                tag,
-                dryRun,
-                checkVersion,
-                quiet
-            });
-            // 获取包文件夹
-            const newEntries = (0, utils_1.getEntries)({ cwd, package: packages, file });
-            core.info(`newEntries---->${JSON.stringify(newEntries, null, 2)}`);
-            core.info(`options---->${JSON.stringify(options, null, 2)}`);
-            const result = yield (0, request_1.request)(options, newEntries);
-            core.setOutput('assets', result);
-            core.info(`assets: ${JSON.stringify(result, null, 2)}`);
+            const newCwd = cwd || process.cwd();
+            let input_files = [];
+            if (file && !packages) {
+                input_files = parseInputFiles(file);
+            }
+            let entries = [];
+            if (cwd && !packages) {
+                entries = fs_1.default.readdirSync(cwd);
+            }
+            if (input_files.length) {
+                entries = (0, micromatch_1.default)(input_files, entries);
+            }
+            const options = {
+                token
+                // registry,
+                // package: packages,
+                // tag
+            };
+            console.log(`process---->${process.cwd()}`);
+            // eslint-disable-next-line no-console
+            console.log(`entries---->${JSON.stringify(entries, null, 2)}`);
+            if (registry) {
+                options.registry = registry;
+            }
+            else {
+                options.registry = 'https://registry.npmjs.org';
+            }
+            if (tag) {
+                options.tag = tag;
+            }
+            if (packages) {
+                options.package = packages;
+            }
+            getBoolenValue('checkVersion', checkVersion, options);
+            getBoolenValue('dryRun', dryRun, options);
+            getBoolenValue('quiet', quiet, options);
+            const newEntries = [];
+            // 判断 package.json文件是否存在存在则进行，不存在则不进行
+            if (entries.length) {
+                entries.forEach(key => {
+                    const filePath = path_1.default.join(process.cwd(), newCwd, key);
+                    const packageJson = path_1.default.join(filePath, 'package.json');
+                    // 判断 package.json 是否存在
+                    if (fs_1.default.existsSync(packageJson)) {
+                        newEntries.push(packageJson);
+                    }
+                });
+            }
+            // eslint-disable-next-line no-console
+            console.log(`newEntries---->${JSON.stringify(newEntries, null, 2)}`);
+            if (newEntries.length && !packages) {
+                // const entries = await FG(input_files, {cwd: newCwd})
+                // eslint-disable-next-line no-console
+                console.log(`entries---->${JSON.stringify(newEntries, null, 2)}`);
+                core.info(`entries---->${JSON.stringify(newEntries, null, 2)}`);
+                core.info(`options---->${JSON.stringify(options, null, 2)}`);
+                const assets = yield Promise.all(newEntries.map((pathUrls) => __awaiter(this, void 0, void 0, function* () {
+                    const json = yield (0, npm_publish_1.default)(Object.assign(Object.assign({}, options), { package: pathUrls }));
+                    return json;
+                }))
+                // eslint-disable-next-line github/no-then
+                ).catch(error => {
+                    throw error;
+                });
+                core.setOutput('assets', assets);
+                // eslint-disable-next-line no-console
+                console.log(`'assets--->${JSON.stringify(assets, null, 2)}`);
+                core.info(`assets: ${JSON.stringify(assets, null, 2)}`);
+            }
+            else if (packages) {
+                const json = yield (0, npm_publish_1.default)(Object.assign({}, options));
+                core.setOutput('assets', json);
+                // eslint-disable-next-line no-console
+                console.log(`'assets--->${JSON.stringify(json, null, 2)}`);
+                core.info(`assets: ${JSON.stringify(json, null, 2)}`);
+            }
+            else {
+                throw new Error('package is empty');
+            }
         }
         catch (error) {
             if (error instanceof Error)
@@ -84,138 +168,7 @@ function mainNpmPublish() {
         return;
     });
 }
-mainNpmPublish();
-
-
-/***/ }),
-
-/***/ 4507:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getOptions = exports.getEntries = exports.getBoolenValue = exports.parseInputFiles = void 0;
-const path_1 = __importDefault(__nccwpck_require__(5622));
-const fs_1 = __importDefault(__nccwpck_require__(5747));
-const micromatch_1 = __importDefault(__nccwpck_require__(810));
-const parseInputFiles = (files) => {
-    return files.split(/\r?\n/).reduce((acc, line) => acc
-        .concat(line.split(','))
-        .filter(pat => pat)
-        .map(pat => pat.trim()), []);
-};
-exports.parseInputFiles = parseInputFiles;
-const getBoolenValue = (options, type, value) => {
-    if (typeof value === 'string') {
-        if (value === 'true') {
-            options[type] = true;
-        }
-        else {
-            options[type] = false;
-        }
-    }
-    else if (typeof value === 'boolean') {
-        options[type] = value;
-    }
-};
-exports.getBoolenValue = getBoolenValue;
-/**
- * @description: 获取输入文件地址
- */
-const getEntries = (props) => {
-    const newCwd = props.cwd || process.cwd();
-    let input_files = [];
-    if (props.file && !props.package) {
-        if (Array.isArray(props.file)) {
-            input_files = props.file;
-        }
-        else {
-            input_files = (0, exports.parseInputFiles)(props.file);
-        }
-    }
-    let entries = [];
-    if (props.cwd && !props.package) {
-        entries = fs_1.default.readdirSync(props.cwd);
-    }
-    if (input_files.length) {
-        entries = (0, micromatch_1.default)(input_files, entries);
-    }
-    const newEntries = [];
-    // 判断 package.json文件是否存在存在则进行，不存在则不进行
-    if (entries.length) {
-        entries.forEach(key => {
-            const filePath = path_1.default.join(process.cwd(), newCwd, key);
-            const packageJson = path_1.default.join(filePath, 'package.json');
-            // 判断 package.json 是否存在
-            if (fs_1.default.existsSync(packageJson)) {
-                newEntries.push(packageJson);
-            }
-        });
-    }
-    return newEntries;
-};
-exports.getEntries = getEntries;
-const getOptions = (props) => {
-    const { token, registry, tag, checkVersion, dryRun, quiet } = props;
-    const options = {
-        token,
-        registry: registry || 'https://registry.npmjs.org',
-        tag: tag || 'latest',
-        package: props.package || './package.json'
-    };
-    (0, exports.getBoolenValue)(options, 'checkVersion', checkVersion);
-    (0, exports.getBoolenValue)(options, 'dryRun', dryRun);
-    (0, exports.getBoolenValue)(options, 'quiet', quiet);
-    return options;
-};
-exports.getOptions = getOptions;
-
-
-/***/ }),
-
-/***/ 3002:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.request = void 0;
-const npm_publish_1 = __importDefault(__nccwpck_require__(7863));
-const request = (options, newEntries) => __awaiter(void 0, void 0, void 0, function* () {
-    if (Array.isArray(newEntries) && newEntries.length) {
-        const assets = yield Promise.all(newEntries.map((pathUrls) => __awaiter(void 0, void 0, void 0, function* () {
-            const json = yield (0, npm_publish_1.default)(Object.assign(Object.assign({}, options), { package: pathUrls }));
-            return json;
-        }))).catch(error => {
-            throw error;
-        });
-        return assets;
-    }
-    else if (options.package) {
-        const json = yield (0, npm_publish_1.default)(Object.assign({}, options));
-        return json;
-    }
-    else {
-        throw 'package is empty';
-    }
-});
-exports.request = request;
+run();
 
 
 /***/ }),
