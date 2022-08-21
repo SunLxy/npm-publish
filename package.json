@@ -1,8 +1,7 @@
 {
-  "name": "typescript-action",
-  "version": "0.0.0",
-  "private": true,
-  "description": "TypeScript template action",
+  "name": "npm-publish",
+  "version": "1.0.0",
+  "description": "npm publish",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -18,7 +17,11 @@
     "node",
     "setup"
   ],
-  "author": "",
+  "files": [
+    "src",
+    "lib"
+  ],
+  "author": "SunLxy <1011771396@qq.com>",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.6.0",
