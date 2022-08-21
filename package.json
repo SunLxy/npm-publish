@@ -6,10 +6,8 @@
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
-    "format": "prettier --write '**/*.ts'",
-    "format-check": "prettier --check '**/*.ts'",
-    "package": "ncc build --source-map --license licenses.txt",
-    "all": "npm run build && npm run format && npm run package "
+    "package": "ncc build ./lib/action/index.js --source-map --license licenses.txt",
+    "all": "npm run build &&  npm run package "
   },
   "repository": {
     "type": "git",
