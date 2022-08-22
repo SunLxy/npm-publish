@@ -197,7 +197,8 @@ const getVersion = (paths) => {
         if (json) {
             const data = JSON.parse(json);
             const version = data.version;
-            if (version) {
+            const priv = data.private;
+            if (version && !priv) {
                 const bate = /(-|\.)bate(-|\.)/.test(version);
                 const alpha = /(-|\.)alpha(-|\.)/.test(version);
                 const rc = /(-|\.)rc(-|\.)/.test(version);
