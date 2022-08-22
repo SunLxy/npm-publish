@@ -20,7 +20,6 @@ async function mainNpmPublish(): Promise<void> {
     if (!token) {
       throw new Error('token is empty')
     }
-    core.info(`packages---->${packages}`)
     // 获取包文件夹
     const newEntries = getEntries({cwd, package: packages, file})
     core.info(`packages---->${packages}`)

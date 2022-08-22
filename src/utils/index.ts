@@ -85,12 +85,15 @@ export const getOptions = (props: OptionsProps) => {
   const {token, registry, tag, checkVersion, dryRun, quiet} = props
   const options: Options = {
     token,
-    registry: registry || 'https://registry.npmjs.org',
-    package: props.package
+    registry: registry || 'https://registry.npmjs.org'
   }
 
   if (tag) {
     options.tag = tag
+  }
+
+  if (props.package) {
+    options.package = props.package
   }
 
   // 当 package 不存在值的时候
@@ -120,14 +123,14 @@ export const getVersion = (paths: string) => {
       const version = data.version
       const priv = data.private
       if (version && !priv) {
-        const bate = /(-|\.)bate(-|\.)/.test(version)
-        const alpha = /(-|\.)alpha(-|\.)/.test(version)
-        const rc = /(-|\.)rc(-|\.)/.test(version)
+        const bate = /(-|\.)bate(-|\.|$)/.test(version)
+        const alpha = /(-|\.)alpha(-|\.|$)/.test(version)
+        const rc = /(-|\.)rc(-|\.|$)/.test(version)
         let tag = 'latest'
-        if (bate) {
-          tag = 'bate'
-        } else if (alpha) {
+        if (alpha) {
           tag = 'alpha'
+        } else if (bate) {
+          tag = 'bate'
         } else if (rc) {
           tag = 'rc'
         }
