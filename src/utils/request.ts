@@ -12,14 +12,15 @@ export interface Results {
 
 export const request = async (
   options: Options,
-  newEntries?: string[]
+  newEntries?: {tag: string; package: string}[]
 ): Promise<Results | Results[]> => {
   if (Array.isArray(newEntries) && newEntries.length) {
     const assets = await Promise.all(
-      newEntries.map(async pathUrls => {
+      newEntries.map(async item => {
         const json = await npmPublish({
           ...options,
-          package: pathUrls
+          tag: options.tag || item.tag,
+          package: item.package
         })
         return json
       })

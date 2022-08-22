@@ -100,7 +100,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getOptions = exports.getEntries = exports.getBoolenValue = exports.parseInputFiles = void 0;
+exports.getVersion = exports.getOptions = exports.getEntries = exports.getBoolenValue = exports.parseInputFiles = void 0;
 const path_1 = __importDefault(__nccwpck_require__(5622));
 const fs_1 = __importDefault(__nccwpck_require__(5747));
 const micromatch_1 = __importDefault(__nccwpck_require__(810));
@@ -154,7 +154,9 @@ const getEntries = (props) => {
             const packageJson = path_1.default.join(filePath, 'package.json');
             // 判断 package.json 是否存在
             if (fs_1.default.existsSync(packageJson)) {
-                newEntries.push(packageJson);
+                const result = (0, exports.getVersion)(packageJson);
+                if (result)
+                    newEntries.push(result);
             }
         });
     }
@@ -166,14 +168,20 @@ const getOptions = (props) => {
     const options = {
         token,
         registry: registry || 'https://registry.npmjs.org',
-        tag: tag || 'latest',
         package: props.package
     };
+    if (tag) {
+        options.tag = tag;
+    }
     // 当 package 不存在值的时候
     if (!options.package) {
         const pg = path_1.default.join(process.cwd(), 'package.json');
         if (fs_1.default.existsSync(pg)) {
-            options.package = './package.json';
+            const result = (0, exports.getVersion)(pg);
+            if (result) {
+                options.package = pg;
+                options.tag = options.tag || result.tag;
+            }
         }
     }
     (0, exports.getBoolenValue)(options, 'checkVersion', checkVersion);
@@ -182,6 +190,39 @@ const getOptions = (props) => {
     return options;
 };
 exports.getOptions = getOptions;
+/** 读取版本信息 **/
+const getVersion = (paths) => {
+    const json = fs_1.default.readFileSync(paths, { encoding: 'utf-8' });
+    try {
+        if (json) {
+            const data = JSON.parse(json);
+            const version = data.version;
+            if (version) {
+                const bate = /(-|\.)bate(-|\.)/.test(version);
+                const alpha = /(-|\.)alpha(-|\.)/.test(version);
+                const rc = /(-|\.)rc(-|\.)/.test(version);
+                let tag = 'latest';
+                if (bate) {
+                    tag = 'bate';
+                }
+                else if (alpha) {
+                    tag = 'alpha';
+                }
+                else if (rc) {
+                    tag = 'rc';
+                }
+                return {
+                    package: paths,
+                    tag
+                };
+            }
+        }
+    }
+    catch (err) {
+        console.log(err);
+    }
+};
+exports.getVersion = getVersion;
 
 
 /***/ }),
@@ -208,8 +249,8 @@ exports.request = void 0;
 const npm_publish_1 = __importDefault(__nccwpck_require__(7863));
 const request = (options, newEntries) => __awaiter(void 0, void 0, void 0, function* () {
     if (Array.isArray(newEntries) && newEntries.length) {
-        const assets = yield Promise.all(newEntries.map((pathUrls) => __awaiter(void 0, void 0, void 0, function* () {
-            const json = yield (0, npm_publish_1.default)(Object.assign(Object.assign({}, options), { package: pathUrls }));
+        const assets = yield Promise.all(newEntries.map((item) => __awaiter(void 0, void 0, void 0, function* () {
+            const json = yield (0, npm_publish_1.default)(Object.assign(Object.assign({}, options), { tag: options.tag || item.tag, package: item.package }));
             return json;
         }))).catch(error => {
             throw error;

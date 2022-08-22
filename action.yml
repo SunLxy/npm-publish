@@ -28,7 +28,6 @@ inputs:
   tag:
     description: The tag to publish to. This allows people to install the package using "npm install <package-name>@<tag>".
     required: false
-    default: "latest"
 
   access:
     description:

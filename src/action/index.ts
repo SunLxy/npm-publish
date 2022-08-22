@@ -22,7 +22,7 @@ async function mainNpmPublish(): Promise<void> {
     }
     core.info(`packages---->${packages}`)
     // 获取包文件夹
-    const newEntries: string[] = getEntries({cwd, package: packages, file})
+    const newEntries = getEntries({cwd, package: packages, file})
     core.info(`packages---->${packages}`)
     const options: Options = getOptions({
       token,

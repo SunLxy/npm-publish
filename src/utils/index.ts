@@ -59,7 +59,7 @@ export const getEntries = (props: GetEntriesProps) => {
     entries = micromatch(input_files, entries)
   }
 
-  const newEntries: string[] = []
+  const newEntries: {tag: string; package: string}[] = []
   // 判断 package.json文件是否存在存在则进行，不存在则不进行
   if (entries.length) {
     entries.forEach(key => {
@@ -67,7 +67,8 @@ export const getEntries = (props: GetEntriesProps) => {
       const packageJson = path.join(filePath, 'package.json')
       // 判断 package.json 是否存在
       if (fs.existsSync(packageJson)) {
-        newEntries.push(packageJson)
+        const result = getVersion(packageJson)
+        if (result) newEntries.push(result)
       }
     })
   }
@@ -85,20 +86,57 @@ export const getOptions = (props: OptionsProps) => {
   const options: Options = {
     token,
     registry: registry || 'https://registry.npmjs.org',
-    tag: tag || 'latest',
     package: props.package
   }
+
+  if (tag) {
+    options.tag = tag
+  }
+
   // 当 package 不存在值的时候
   if (!options.package) {
     const pg = path.join(process.cwd(), 'package.json')
     if (fs.existsSync(pg)) {
-      options.package = './package.json'
+      const result = getVersion(pg)
+      if (result) {
+        options.package = pg
+        options.tag = options.tag || result.tag
+      }
     }
   }
-
   getBoolenValue(options, 'checkVersion', checkVersion)
   getBoolenValue(options, 'dryRun', dryRun)
   getBoolenValue(options, 'quiet', quiet)
 
   return options
+}
+
+/** 读取版本信息 **/
+export const getVersion = (paths: string) => {
+  const json = fs.readFileSync(paths, {encoding: 'utf-8'})
+  try {
+    if (json) {
+      const data = JSON.parse(json)
+      const version = data.version
+      if (version) {
+        const bate = /(-|\.)bate(-|\.)/.test(version)
+        const alpha = /(-|\.)alpha(-|\.)/.test(version)
+        const rc = /(-|\.)rc(-|\.)/.test(version)
+        let tag = 'latest'
+        if (bate) {
+          tag = 'bate'
+        } else if (alpha) {
+          tag = 'alpha'
+        } else if (rc) {
+          tag = 'rc'
+        }
+        return {
+          package: paths,
+          tag
+        }
+      }
+    }
+  } catch (err) {
+    console.log(err)
+  }
 }
