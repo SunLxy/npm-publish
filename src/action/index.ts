@@ -32,6 +32,7 @@ async function mainNpmPublish(): Promise<void> {
     // 获取包文件夹
     const newEntries: string[] = getEntries({cwd, package: packages, file})
     core.info(`newEntries---->${JSON.stringify(newEntries, null, 2)}`)
+    core.info(`packages---->${packages}`)
     core.info(`options---->${JSON.stringify(options, null, 2)}`)
     const result = await request(options, newEntries)
     core.setOutput('assets', result)

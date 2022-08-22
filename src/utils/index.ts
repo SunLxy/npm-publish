@@ -52,7 +52,7 @@ export const getEntries = (props: GetEntriesProps) => {
 
   let entries: string[] = []
   if (props.cwd && !props.package) {
-    entries = fs.readdirSync(props.cwd)
+    entries = fs.readdirSync(path.join(process.cwd(), props.cwd))
   }
 
   if (input_files.length) {

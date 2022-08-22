@@ -72,6 +72,7 @@ function mainNpmPublish() {
             // 获取包文件夹
             const newEntries = (0, utils_1.getEntries)({ cwd, package: packages, file });
             core.info(`newEntries---->${JSON.stringify(newEntries, null, 2)}`);
+            core.info(`packages---->${packages}`);
             core.info(`options---->${JSON.stringify(options, null, 2)}`);
             const result = yield (0, request_1.request)(options, newEntries);
             core.setOutput('assets', result);
@@ -139,7 +140,7 @@ const getEntries = (props) => {
     }
     let entries = [];
     if (props.cwd && !props.package) {
-        entries = fs_1.default.readdirSync(props.cwd);
+        entries = fs_1.default.readdirSync(path_1.default.join(process.cwd(), props.cwd));
     }
     if (input_files.length) {
         entries = (0, micromatch_1.default)(input_files, entries);
