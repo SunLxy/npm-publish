@@ -10,11 +10,11 @@ async function mainNpmPublish(
 ): Promise<Results | Results[]> {
   const {cwd, file, ...rest} = props
   try {
-    const newOptions = getOptions(rest)
-    if (!newOptions.token) {
+    if (!props.token) {
       throw new Error('token is empty')
     }
     const newEntries = getEntries({cwd, file, package: props.package})
+    const newOptions = getOptions(rest)
     return await request(newOptions, newEntries)
   } catch (err) {
     console.log(err)

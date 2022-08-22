@@ -60,6 +60,10 @@ function mainNpmPublish() {
             if (!token) {
                 throw new Error('token is empty');
             }
+            core.info(`packages---->${packages}`);
+            // 获取包文件夹
+            const newEntries = (0, utils_1.getEntries)({ cwd, package: packages, file });
+            core.info(`packages---->${packages}`);
             const options = (0, utils_1.getOptions)({
                 token,
                 registry,
@@ -69,10 +73,7 @@ function mainNpmPublish() {
                 checkVersion,
                 quiet
             });
-            // 获取包文件夹
-            const newEntries = (0, utils_1.getEntries)({ cwd, package: packages, file });
             core.info(`newEntries---->${JSON.stringify(newEntries, null, 2)}`);
-            core.info(`packages---->${packages}`);
             core.info(`options---->${JSON.stringify(options, null, 2)}`);
             const result = yield (0, request_1.request)(options, newEntries);
             core.setOutput('assets', result);

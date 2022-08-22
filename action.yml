@@ -24,7 +24,6 @@ inputs:
   package:
     description: The path of your package.json file
     required: false
-    default: package.json
 
   tag:
     description: The tag to publish to. This allows people to install the package using "npm install <package-name>@<tag>".
