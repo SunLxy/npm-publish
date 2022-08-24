@@ -19,7 +19,7 @@ export const getBoolenValue = (
   options: Options,
   type: fieldIdType,
   value?: string | boolean
-): void => {
+): Options => {
   if (typeof value === 'string' && value) {
     if (value === 'true') {
       options[type] = true
@@ -29,6 +29,7 @@ export const getBoolenValue = (
   } else if (typeof value === 'boolean') {
     options[type] = value
   }
+  return options
 }
 
 export interface GetEntriesProps {
@@ -88,7 +89,7 @@ export interface OptionsProps
 }
 export const getOptions = (props: OptionsProps) => {
   const {token, registry, tag, checkVersion, dryRun, quiet} = props
-  const options: Options = {
+  let options: Options = {
     token,
     registry: registry || 'https://registry.npmjs.org'
   }
@@ -112,9 +113,9 @@ export const getOptions = (props: OptionsProps) => {
       }
     }
   }
-  getBoolenValue(options, 'checkVersion', checkVersion)
-  getBoolenValue(options, 'dryRun', dryRun)
-  getBoolenValue(options, 'quiet', quiet)
+  options = getBoolenValue(options, 'checkVersion', checkVersion)
+  options = getBoolenValue(options, 'dryRun', dryRun)
+  options = getBoolenValue(options, 'quiet', quiet)
 
   return options
 }

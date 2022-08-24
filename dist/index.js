@@ -122,6 +122,7 @@ const getBoolenValue = (options, type, value) => {
     else if (typeof value === 'boolean') {
         options[type] = value;
     }
+    return options;
 };
 exports.getBoolenValue = getBoolenValue;
 /**
@@ -167,7 +168,7 @@ const getEntries = (props) => {
 exports.getEntries = getEntries;
 const getOptions = (props) => {
     const { token, registry, tag, checkVersion, dryRun, quiet } = props;
-    const options = {
+    let options = {
         token,
         registry: registry || 'https://registry.npmjs.org'
     };
@@ -188,9 +189,9 @@ const getOptions = (props) => {
             }
         }
     }
-    (0, exports.getBoolenValue)(options, 'checkVersion', checkVersion);
-    (0, exports.getBoolenValue)(options, 'dryRun', dryRun);
-    (0, exports.getBoolenValue)(options, 'quiet', quiet);
+    options = (0, exports.getBoolenValue)(options, 'checkVersion', checkVersion);
+    options = (0, exports.getBoolenValue)(options, 'dryRun', dryRun);
+    options = (0, exports.getBoolenValue)(options, 'quiet', quiet);
     return options;
 };
 exports.getOptions = getOptions;
