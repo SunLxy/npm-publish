@@ -138,13 +138,16 @@ const getEntries = (props) => {
             input_files = (0, exports.parseInputFiles)(props.file);
         }
     }
+    console.log(`input_files:${JSON.stringify(input_files, null, 2)}`);
     let entries = [];
     if (props.cwd && !props.package) {
         entries = fs_1.default.readdirSync(path_1.default.join(process.cwd(), props.cwd));
     }
+    console.log(`readdir:${JSON.stringify(entries, null, 2)}`);
     if (input_files.length) {
         entries = (0, micromatch_1.default)(input_files, entries);
     }
+    console.log(`entries:${JSON.stringify(entries, null, 2)}`);
     const newEntries = [];
     // 判断 package.json文件是否存在存在则进行，不存在则不进行
     if (entries.length) {

@@ -49,15 +49,20 @@ export const getEntries = (props: GetEntriesProps) => {
       input_files = parseInputFiles(props.file)
     }
   }
+  console.log(`input_files:${JSON.stringify(input_files, null, 2)}`)
 
   let entries: string[] = []
   if (props.cwd && !props.package) {
     entries = fs.readdirSync(path.join(process.cwd(), props.cwd))
   }
 
+  console.log(`readdir:${JSON.stringify(entries, null, 2)}`)
+
   if (input_files.length) {
     entries = micromatch(input_files, entries)
   }
+
+  console.log(`entries:${JSON.stringify(entries, null, 2)}`)
 
   const newEntries: {tag: string; package: string}[] = []
   // 判断 package.json文件是否存在存在则进行，不存在则不进行
