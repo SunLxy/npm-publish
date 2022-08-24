@@ -145,7 +145,7 @@ const getEntries = (props) => {
     }
     console.log(`readdir:${JSON.stringify(entries, null, 2)}`);
     if (input_files.length) {
-        entries = (0, micromatch_1.default)(input_files, entries);
+        entries = (0, micromatch_1.default)(entries, input_files);
     }
     console.log(`entries:${JSON.stringify(entries, null, 2)}`);
     const newEntries = [];

@@ -59,7 +59,7 @@ export const getEntries = (props: GetEntriesProps) => {
   console.log(`readdir:${JSON.stringify(entries, null, 2)}`)
 
   if (input_files.length) {
-    entries = micromatch(input_files, entries)
+    entries = micromatch(entries, input_files)
   }
 
   console.log(`entries:${JSON.stringify(entries, null, 2)}`)
