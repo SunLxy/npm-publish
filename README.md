@@ -1,10 +1,8 @@
-# 说明
-
 使用[JS-DevTools/npm-publish](https://github.com/JS-DevTools/npm-publish)进行包发布，增加某个目录下所有包进行上传
 
 [参数参考](https://github.com/JS-DevTools/npm-publish)
 
-增加参数
+## 增加参数
 | 参数  |是否必传 | 类型 | 默认值 | 说明  |
 |------|--|-----|-------|------|
 | cwd |否 |`string` | `process.cwd()` | 目录 |
@@ -22,6 +20,8 @@
 
 不传递`files`只传`cwd`时，`cwd`目录下所有的包文件夹全部进行发布
 
+**只保留`a``b``c`开头的**
+
 ```yml
 
 - name: 📦  publish to NPM
@@ -33,6 +33,22 @@
       a*
       b*
       c*
+```
+
+**`a``b``c`开头的过滤掉**
+
+```yml
+
+- name: 📦  publish to NPM
+  uses: SunLxy/npm-publish@main
+  with:
+    token: ${{ secrets.NPM_TOKEN }}
+    cwd: packages
+    files: |
+      *
+      !a*
+      !b*
+      !c*
 ```
 
 ## action`package`
