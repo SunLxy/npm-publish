@@ -7,7 +7,7 @@ export interface MainNpmPublishProps extends OptionsProps {
 }
 async function mainNpmPublish(
   props: MainNpmPublishProps
-): Promise<Results | Results[]> {
+): Promise<Results | Results[] | undefined> {
   const {cwd, file, ...rest} = props
   try {
     if (!props.token) {
@@ -19,6 +19,5 @@ async function mainNpmPublish(
   } catch (err) {
     console.log(err)
   }
-  return []
 }
 export default mainNpmPublish
