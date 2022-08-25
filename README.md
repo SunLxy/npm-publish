@@ -14,7 +14,9 @@
 1. `files`不单独使用，配置`cwd`使用
 2. 当`cwd`、`files`、`package`都存在的时候，直接走`package`值进行发布
 
-## action `files`和`cwd`
+## github actions
+
+### action `files`和`cwd`
 
 `cwd`和`files`结合使用，可以匹配`cwd`目录下所有匹配`files`正则的包文件夹进行发布
 
@@ -51,7 +53,7 @@
       !c*
 ```
 
-## action`package`
+### action`package`
 
 ```yml
 
