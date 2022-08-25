@@ -129,9 +129,9 @@ export const getVersion = (paths: string) => {
       const version = data.version
       const priv = data.private
       if (version && !priv) {
-        const bate = /(-|\.)bate(-|\.|$)/.test(version)
-        const alpha = /(-|\.)alpha(-|\.|$)/.test(version)
-        const rc = /(-|\.)rc(-|\.|$)/.test(version)
+        const bate = /(-|\.)bate(-|\.\w|$)/.test(version)
+        const alpha = /(-|\.)alpha(-|\.\w|$)/.test(version)
+        const rc = /(-|\.)rc(-|\.\w|$)/.test(version)
         let tag = 'latest'
         if (alpha) {
           tag = 'alpha'

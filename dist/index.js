@@ -204,9 +204,9 @@ const getVersion = (paths) => {
             const version = data.version;
             const priv = data.private;
             if (version && !priv) {
-                const bate = /(-|\.)bate(-|\.|$)/.test(version);
-                const alpha = /(-|\.)alpha(-|\.|$)/.test(version);
-                const rc = /(-|\.)rc(-|\.|$)/.test(version);
+                const bate = /(-|\.)bate(-|\.\w|$)/.test(version);
+                const alpha = /(-|\.)alpha(-|\.\w|$)/.test(version);
+                const rc = /(-|\.)rc(-|\.\w|$)/.test(version);
                 let tag = 'latest';
                 if (alpha) {
                     tag = 'alpha';
@@ -2861,10 +2861,7 @@ exports.npm = {
             // Get the environment variables to pass to NPM
             let env = (0, npm_env_1.getNpmEnvironment)(options);
             // Run NPM to get the latest published version of the package
-            options.debug(`Running command: npm view ${name} version`, {
-                command,
-                env,
-            });
+            options.debug(`Running command: npm view ${name} version`, { command, env });
             let result;
             try {
                 result = await ezSpawn.async(command, { env });
@@ -2918,17 +2915,7 @@ exports.npm = {
             // Get the environment variables to pass to NPM
             let env = (0, npm_env_1.getNpmEnvironment)(options);
             // Run NPM to publish the package
-            options.debug("Running command: npm publish", {
-                command,
-                stdio,
-                cwd,
-                env,
-            });
-            await ezSpawn.async(["npm", "config", "get", "registry"], {
-                cwd,
-                stdio,
-                env,
-            });
+            options.debug("Running command: npm publish", { command, stdio, cwd, env });
             await ezSpawn.async(command, { cwd, stdio, env });
         }
         catch (error) {
