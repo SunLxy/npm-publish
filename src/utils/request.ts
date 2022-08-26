@@ -12,6 +12,7 @@ export interface Results {
 
 export const request = async (
   options: Options,
+  tag?: string,
   newEntries?: {tag: string; package: string}[]
 ): Promise<Results | Results[]> => {
   if (Array.isArray(newEntries) && newEntries.length) {
@@ -19,7 +20,7 @@ export const request = async (
       newEntries.map(async item => {
         const json = await npmPublish({
           ...options,
-          tag: options.tag || item.tag,
+          tag: tag || item.tag,
           package: item.package
         })
         return json

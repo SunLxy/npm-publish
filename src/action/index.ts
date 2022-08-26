@@ -34,7 +34,7 @@ async function mainNpmPublish(): Promise<void> {
     })
     core.info(`newEntries---->${JSON.stringify(newEntries, null, 2)}`)
     core.info(`options---->${JSON.stringify(options, null, 2)}`)
-    const result = await request(options, newEntries)
+    const result = await request(options, tag, newEntries)
     core.setOutput('assets', result)
     core.info(`assets: ${JSON.stringify(result, null, 2)}`)
   } catch (error) {

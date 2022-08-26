@@ -15,7 +15,7 @@ async function mainNpmPublish(
     }
     const newEntries = getEntries({cwd, file, package: props.package})
     const newOptions = getOptions(rest)
-    return await request(newOptions, newEntries)
+    return await request(newOptions, props.tag, newEntries)
   } catch (err) {
     console.log(err)
   }

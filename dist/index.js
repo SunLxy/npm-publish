@@ -74,7 +74,7 @@ function mainNpmPublish() {
             });
             core.info(`newEntries---->${JSON.stringify(newEntries, null, 2)}`);
             core.info(`options---->${JSON.stringify(options, null, 2)}`);
-            const result = yield (0, request_1.request)(options, newEntries);
+            const result = yield (0, request_1.request)(options, tag, newEntries);
             core.setOutput('assets', result);
             core.info(`assets: ${JSON.stringify(result, null, 2)}`);
         }
@@ -253,10 +253,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.request = void 0;
 const npm_publish_1 = __importDefault(__nccwpck_require__(7863));
-const request = (options, newEntries) => __awaiter(void 0, void 0, void 0, function* () {
+const request = (options, tag, newEntries) => __awaiter(void 0, void 0, void 0, function* () {
     if (Array.isArray(newEntries) && newEntries.length) {
         const assets = yield Promise.all(newEntries.map((item) => __awaiter(void 0, void 0, void 0, function* () {
-            const json = yield (0, npm_publish_1.default)(Object.assign(Object.assign({}, options), { tag: options.tag || item.tag, package: item.package }));
+            const json = yield (0, npm_publish_1.default)(Object.assign(Object.assign({}, options), { tag: tag || item.tag, package: item.package }));
             return json;
         }))).catch(error => {
             throw error;
