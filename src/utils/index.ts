@@ -112,7 +112,9 @@ export const getPackages = async (workspaces: string | string[]) => {
 
     console.log(`workspaces package.json:${JSON.stringify(dirs, null, 2)}`)
 
-    const resultArr = await fastGlob(dirs)
+    const resultArr = await fastGlob(
+      dirs.concat(['!**/node_modules/**', '!node_modules/**'])
+    )
 
     console.log(`RegExp packages:${JSON.stringify(resultArr, null, 2)}`)
 
