@@ -2,10 +2,10 @@
   "name": "npm-publish",
   "version": "1.0.0",
   "description": "npm publish",
-  "main": "lib/main.js",
+  "main": "src/main.ts",
   "scripts": {
     "build": "tsc",
-    "package": "ncc build ./lib/action/index.js --source-map --license licenses.txt",
+    "package": "ncc build ./src/action/index.ts",
     "all": "npm run build &&  npm run package "
   },
   "repository": {
@@ -29,11 +29,9 @@
     "fast-glob": "^3.2.11"
   },
   "devDependencies": {
-    "@types/glob-parent": "^5.1.1",
-    "@types/micromatch": "^4.0.2",
     "@types/semver": "^7.3.12",
     "@types/node": "^18.7.13",
-    "@vercel/ncc": "^0.34.0",
+    "@kkt/ncc": "^1.0.14",
     "js-yaml": "^4.1.0",
     "prettier": "2.7.1",
     "typescript": "^4.8.2"
