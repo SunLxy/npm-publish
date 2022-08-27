@@ -8,14 +8,14 @@ export interface MainNpmPublishProps extends OptionsProps {
 async function mainNpmPublish(
   props: MainNpmPublishProps
 ): Promise<Results | Results[] | undefined> {
-  const {workspaces, file, ...rest} = props
+  const {workspaces, ...rest} = props
   try {
     if (!props.token) {
       throw new Error('token is empty')
     }
     let newEntries: {package: string; tag: string}[] = []
     if (workspaces) {
-      newEntries = await getPackages(workspaces, file)
+      newEntries = await getPackages(workspaces)
     }
     const newOptions = getOptions(rest)
     return await request(newOptions, props.tag, newEntries)

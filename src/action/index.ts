@@ -4,8 +4,6 @@ import {getOptions, getPackages} from '../utils'
 import {request} from './../utils/request'
 async function mainNpmPublish(): Promise<void> {
   try {
-    // 文件正则
-    const file = core.getInput('files')
     // 包目录
     const workspaces = core.getInput('workspaces')
     // token
@@ -24,7 +22,7 @@ async function mainNpmPublish(): Promise<void> {
     // 获取包文件夹
     let newEntries: {package: string; tag: string}[] = []
     if (!packages) {
-      newEntries = await getPackages(workspaces, file)
+      newEntries = await getPackages(workspaces)
     }
     const options: Options = getOptions({
       token,

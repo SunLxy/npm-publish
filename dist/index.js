@@ -45,8 +45,6 @@ const request_1 = __nccwpck_require__(6079);
 function mainNpmPublish() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // 文件正则
-            const file = core.getInput('files');
             // 包目录
             const workspaces = core.getInput('workspaces');
             // token
@@ -64,7 +62,7 @@ function mainNpmPublish() {
             // 获取包文件夹
             let newEntries = [];
             if (!packages) {
-                newEntries = yield (0, utils_1.getPackages)(workspaces, file);
+                newEntries = yield (0, utils_1.getPackages)(workspaces);
             }
             const options = (0, utils_1.getOptions)({
                 token,
@@ -114,7 +112,6 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getPackages = exports.getVersion = exports.getOptions = exports.getBoolenValue = exports.parseInputFiles = void 0;
 const path_1 = __importDefault(__nccwpck_require__(1017));
 const fs_1 = __importDefault(__nccwpck_require__(7147));
-const micromatch_1 = __importDefault(__nccwpck_require__(2240));
 const fast_glob_1 = __importDefault(__nccwpck_require__(5758));
 const parseInputFiles = (files) => {
     return files.split(/\r?\n/).reduce((acc, line) => acc
@@ -203,30 +200,15 @@ const getVersion = (paths) => {
 };
 exports.getVersion = getVersion;
 /** 获取 需要发布的包**/
-const getPackages = (workspaces, files) => __awaiter(void 0, void 0, void 0, function* () {
+const getPackages = (workspaces) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         /** 获取文件 */
         const dirs = (typeof workspaces === 'string' ? (0, exports.parseInputFiles)(workspaces) : workspaces).map(k => k + '/package.json');
         console.log(`workspaces package.json:${JSON.stringify(dirs, null, 2)}`);
         const resultArr = yield (0, fast_glob_1.default)(dirs);
         console.log(`RegExp packages:${JSON.stringify(resultArr, null, 2)}`);
-        let input_files = [];
-        if (files) {
-            if (Array.isArray(files)) {
-                input_files = files;
-            }
-            else {
-                input_files = (0, exports.parseInputFiles)(files);
-            }
-        }
-        console.log(`input_files:${JSON.stringify(input_files, null, 2)}`);
-        let entries = resultArr;
-        if (input_files.length) {
-            entries = (0, micromatch_1.default)(resultArr, input_files);
-        }
-        console.log(`entries:${JSON.stringify(entries, null, 2)}`);
         let packages = [];
-        entries.forEach(packageUrl => {
+        resultArr.forEach(packageUrl => {
             const result = (0, exports.getVersion)(path_1.default.join(process.cwd(), packageUrl));
             if (result)
                 packages.push(result);

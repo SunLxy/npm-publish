@@ -1,7 +1,6 @@
 import {Options} from '@jsdevtools/npm-publish'
 import path from 'path'
 import fs from 'fs'
-import micromatch from 'micromatch'
 import fastGlob from 'fast-glob'
 export const parseInputFiles = (files: string): string[] => {
   return files.split(/\r?\n/).reduce<string[]>(
@@ -104,42 +103,22 @@ export const getVersion = (paths: string) => {
 }
 
 /** 获取 需要发布的包**/
-export const getPackages = async (
-  workspaces: string | string[],
-  files?: string | string[]
-) => {
+export const getPackages = async (workspaces: string | string[]) => {
   try {
     /** 获取文件 */
     const dirs = (
       typeof workspaces === 'string' ? parseInputFiles(workspaces) : workspaces
     ).map(k => k + '/package.json')
+
     console.log(`workspaces package.json:${JSON.stringify(dirs, null, 2)}`)
 
     const resultArr = await fastGlob(dirs)
 
     console.log(`RegExp packages:${JSON.stringify(resultArr, null, 2)}`)
 
-    let input_files: string[] = []
-    if (files) {
-      if (Array.isArray(files)) {
-        input_files = files
-      } else {
-        input_files = parseInputFiles(files)
-      }
-    }
-
-    console.log(`input_files:${JSON.stringify(input_files, null, 2)}`)
-
-    let entries: string[] = resultArr
-    if (input_files.length) {
-      entries = micromatch(resultArr, input_files)
-    }
-
-    console.log(`entries:${JSON.stringify(entries, null, 2)}`)
-
     let packages: {package: string; tag: string}[] = []
 
-    entries.forEach(packageUrl => {
+    resultArr.forEach(packageUrl => {
       const result = getVersion(path.join(process.cwd(), packageUrl))
       if (result) packages.push(result)
     })
