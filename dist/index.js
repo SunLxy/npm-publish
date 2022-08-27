@@ -165,8 +165,10 @@ const getOptions = (props) => {
 };
 exports.getOptions = getOptions;
 /** 读取版本信息 **/
-const getVersion = (paths) => {
-    const json = fs_1.default.readFileSync(paths, { encoding: 'utf-8' });
+const getVersion = (packageUrl) => {
+    const json = fs_1.default.readFileSync(path_1.default.join(process.cwd(), packageUrl), {
+        encoding: 'utf-8'
+    });
     try {
         if (json) {
             const data = JSON.parse(json);
@@ -187,14 +189,13 @@ const getVersion = (paths) => {
                     tag = 'rc';
                 }
                 return {
-                    package: paths,
+                    package: packageUrl,
                     tag
                 };
             }
         }
     }
     catch (err) {
-        console.log(err);
         throw err;
     }
 };
@@ -209,7 +210,7 @@ const getPackages = (workspaces) => __awaiter(void 0, void 0, void 0, function* 
         console.log(`RegExp packages:${JSON.stringify(resultArr, null, 2)}`);
         let packages = [];
         resultArr.forEach(packageUrl => {
-            const result = (0, exports.getVersion)(path_1.default.join(process.cwd(), packageUrl));
+            const result = (0, exports.getVersion)(packageUrl);
             if (result)
                 packages.push(result);
         });

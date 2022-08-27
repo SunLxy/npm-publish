@@ -71,8 +71,10 @@ export const getOptions = (props: OptionsProps) => {
 }
 
 /** 读取版本信息 **/
-export const getVersion = (paths: string) => {
-  const json = fs.readFileSync(paths, {encoding: 'utf-8'})
+export const getVersion = (packageUrl: string) => {
+  const json = fs.readFileSync(path.join(process.cwd(), packageUrl), {
+    encoding: 'utf-8'
+  })
   try {
     if (json) {
       const data = JSON.parse(json)
@@ -91,13 +93,12 @@ export const getVersion = (paths: string) => {
           tag = 'rc'
         }
         return {
-          package: paths,
+          package: packageUrl,
           tag
         }
       }
     }
   } catch (err) {
-    console.log(err)
     throw err
   }
 }
@@ -121,7 +122,7 @@ export const getPackages = async (workspaces: string | string[]) => {
     let packages: {package: string; tag: string}[] = []
 
     resultArr.forEach(packageUrl => {
-      const result = getVersion(path.join(process.cwd(), packageUrl))
+      const result = getVersion(packageUrl)
       if (result) packages.push(result)
     })
 
