@@ -3,7 +3,7 @@ description: '支持目录下所有包进行批量发布和单个发布'
 author: 'SunLxy'
 
 inputs:
-  cwd:
+  workspaces:
     description: 目录
     required: false
 

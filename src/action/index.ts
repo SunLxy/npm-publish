@@ -1,13 +1,13 @@
 import {Options} from '@jsdevtools/npm-publish'
 import * as core from '@actions/core'
-import {getEntries, getOptions} from '../utils'
+import {getOptions, getPackages} from '../utils'
 import {request} from './../utils/request'
 async function mainNpmPublish(): Promise<void> {
   try {
     // 文件正则
     const file = core.getInput('files')
     // 包目录
-    const cwd = core.getInput('cwd')
+    const workspaces = core.getInput('workspaces')
     // token
     const token = core.getInput('token')
     const registry = core.getInput('registry')
@@ -20,9 +20,12 @@ async function mainNpmPublish(): Promise<void> {
     if (!token) {
       throw new Error('token is empty')
     }
+    core.info(`input packages---->${packages}`)
     // 获取包文件夹
-    const newEntries = getEntries({cwd, package: packages, file})
-    core.info(`packages---->${packages}`)
+    let newEntries: {package: string; tag: string}[] = []
+    if (!packages) {
+      newEntries = await getPackages(workspaces, file)
+    }
     const options: Options = getOptions({
       token,
       registry,

@@ -2,7 +2,7 @@ import {Options} from '@jsdevtools/npm-publish'
 import path from 'path'
 import fs from 'fs'
 import micromatch from 'micromatch'
-
+import fastGlob from 'fast-glob'
 export const parseInputFiles = (files: string): string[] => {
   return files.split(/\r?\n/).reduce<string[]>(
     (acc, line) =>
@@ -30,55 +30,6 @@ export const getBoolenValue = (
     options[type] = value
   }
   return options
-}
-
-export interface GetEntriesProps {
-  cwd?: string
-  package?: string
-  file?: string | string[]
-}
-/**
- * @description: 获取输入文件地址
- */
-export const getEntries = (props: GetEntriesProps) => {
-  const newCwd = props.cwd || process.cwd()
-  let input_files: string[] = []
-  if (props.file && !props.package) {
-    if (Array.isArray(props.file)) {
-      input_files = props.file
-    } else {
-      input_files = parseInputFiles(props.file)
-    }
-  }
-  console.log(`input_files:${JSON.stringify(input_files, null, 2)}`)
-
-  let entries: string[] = []
-  if (props.cwd && !props.package) {
-    entries = fs.readdirSync(path.join(process.cwd(), props.cwd))
-  }
-
-  console.log(`readdir:${JSON.stringify(entries, null, 2)}`)
-
-  if (input_files.length) {
-    entries = micromatch(entries, input_files)
-  }
-
-  console.log(`entries:${JSON.stringify(entries, null, 2)}`)
-
-  const newEntries: {tag: string; package: string}[] = []
-  // 判断 package.json文件是否存在存在则进行，不存在则不进行
-  if (entries.length) {
-    entries.forEach(key => {
-      const filePath = path.join(process.cwd(), newCwd, key)
-      const packageJson = path.join(filePath, 'package.json')
-      // 判断 package.json 是否存在
-      if (fs.existsSync(packageJson)) {
-        const result = getVersion(packageJson)
-        if (result) newEntries.push(result)
-      }
-    })
-  }
-  return newEntries
 }
 
 export interface OptionsProps
@@ -148,5 +99,52 @@ export const getVersion = (paths: string) => {
     }
   } catch (err) {
     console.log(err)
+    throw err
+  }
+}
+
+/** 获取 需要发布的包**/
+export const getPackages = async (
+  workspaces: string | string[],
+  files?: string | string[]
+) => {
+  try {
+    /** 获取文件 */
+    const dirs = (
+      typeof workspaces === 'string' ? parseInputFiles(workspaces) : workspaces
+    ).map(k => k + '/package.json')
+
+    const resultArr = await fastGlob(dirs)
+
+    console.log(`RegExp packages:${JSON.stringify(resultArr, null, 2)}`)
+
+    let input_files: string[] = []
+    if (files) {
+      if (Array.isArray(files)) {
+        input_files = files
+      } else {
+        input_files = parseInputFiles(files)
+      }
+    }
+
+    console.log(`input_files:${JSON.stringify(input_files, null, 2)}`)
+
+    let entries: string[] = resultArr
+    if (input_files.length) {
+      entries = micromatch(resultArr, input_files)
+    }
+
+    console.log(`entries:${JSON.stringify(entries, null, 2)}`)
+
+    let packages: {package: string; tag: string}[] = []
+
+    entries.forEach(packageUrl => {
+      const result = getVersion(path.join(process.cwd(), packageUrl))
+      if (result) packages.push(result)
+    })
+
+    return packages
+  } catch (err) {
+    throw err
   }
 }
