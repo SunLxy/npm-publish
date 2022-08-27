@@ -173,8 +173,9 @@ const getVersion = (packageUrl) => {
         if (json) {
             const data = JSON.parse(json);
             const version = data.version;
+            const name = data.name;
             const priv = data.private;
-            if (version && !priv) {
+            if (version && !priv && name) {
                 const bate = /(-|\.)bate(-|\.\w|$)/.test(version);
                 const alpha = /(-|\.)alpha(-|\.\w|$)/.test(version);
                 const rc = /(-|\.)rc(-|\.\w|$)/.test(version);
