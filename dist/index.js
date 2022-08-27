@@ -207,6 +207,7 @@ const getPackages = (workspaces, files) => __awaiter(void 0, void 0, void 0, fun
     try {
         /** 获取文件 */
         const dirs = (typeof workspaces === 'string' ? (0, exports.parseInputFiles)(workspaces) : workspaces).map(k => k + '/package.json');
+        console.log(`workspaces package.json:${JSON.stringify(dirs, null, 2)}`);
         const resultArr = yield (0, fast_glob_1.default)(dirs);
         console.log(`RegExp packages:${JSON.stringify(resultArr, null, 2)}`);
         let input_files = [];

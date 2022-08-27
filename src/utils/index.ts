@@ -113,6 +113,7 @@ export const getPackages = async (
     const dirs = (
       typeof workspaces === 'string' ? parseInputFiles(workspaces) : workspaces
     ).map(k => k + '/package.json')
+    console.log(`workspaces package.json:${JSON.stringify(dirs, null, 2)}`)
 
     const resultArr = await fastGlob(dirs)
 
