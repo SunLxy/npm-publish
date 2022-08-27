@@ -3,7 +3,6 @@ import {request, Results} from './utils/request'
 
 export interface MainNpmPublishProps extends OptionsProps {
   workspaces?: string | string[]
-  file?: string | string[]
 }
 async function mainNpmPublish(
   props: MainNpmPublishProps
