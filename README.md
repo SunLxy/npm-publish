@@ -19,8 +19,6 @@
 
 `workspaces`目录下所有的包文件夹全部进行发布
 
-**`a`、`b`、`c`开头的过滤掉**
-
 ```yml
 
 - name: 📦  publish to NPM

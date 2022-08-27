@@ -56,7 +56,7 @@ export const getOptions = (props: OptionsProps) => {
   if (!options.package) {
     const pg = path.join(process.cwd(), 'package.json')
     if (fs.existsSync(pg)) {
-      const result = getVersion(pg)
+      const result = getVersion('./package.json')
       if (result) {
         options.package = pg
         options.tag = options.tag || result.tag
