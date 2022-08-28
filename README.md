@@ -64,6 +64,16 @@ Upload all packages in the folder to the npm repository.
 
 ```
 
+## Contributors
+
+As always, thanks to our amazing contributors!
+
+<a href="https://github.com/kktjs/npm-publish/graphs/contributors">
+  <img src="https://kktjs.github.io/npm-publish/CONTRIBUTORS.svg" />
+</a>
+
+Made with [github-action](https://github.com/jaywcjlove/github-action-contributors).
+
 ## License
 
 Licensed under the MIT License.
