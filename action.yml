@@ -1,5 +1,5 @@
-name: 'npm publish'
-description: '支持目录下所有包进行批量发布和单个发布'
+name: 'npm publish for github action'
+description: 'Upload all packages in the folder to the npm repository.'
 author: 'SunLxy'
 
 inputs:
@@ -54,3 +54,7 @@ outputs:
 runs:
   using: 'node16'
   main: 'dist/index.js'
+
+branding:
+  icon: 'package'
+  color: 'blue'
