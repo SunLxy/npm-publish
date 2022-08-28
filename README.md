@@ -1,23 +1,31 @@
-使用[JS-DevTools/npm-publish](https://github.com/JS-DevTools/npm-publish)进行包发布，增加某个目录下所有包进行上传
+NPM Publish
+===
 
-## 参数
+Use [`JS-DevTools/npm-publish`](https://github.com/JS-DevTools/npm-publish) for package publishing.
 
-| 参数  |是否必传 | 类型 | 默认值 | 说明  |
+**New features:**
+
+Upload all packages in the folder to the npm repository.
+
+## Input Parameters
+
+| Name  | required | Type | Description  |
 |------|--|-----|-------|------|
-| workspaces |否 |`string\|string[]` |  | 目录[规则参考](https://www.npmjs.com/package/fast-glob) |
-| package | 否 | `string` | | `package.json` 文件的路径|
+| workspaces | No |`string\|string[]` | Folder Matching Rules [Reference](https://www.npmjs.com/package/fast-glob) |
+| package | No | `string` | The path to the `package.json` file |
 
-[其他参数参考](https://github.com/JS-DevTools/npm-publish)
+[Other input parameter](https://github.com/JS-DevTools/npm-publish)
 
-📢:注意
+⚠️ 注意
 
-1. 当`workspaces`、`package`都存在的时候，直接走`package`值进行发布
+参数配置权重：`package` > `workspaces`
 
-## github actions
 
-### action `workspaces`
+## Actions Example
 
-`workspaces`目录下所有的包文件夹全部进行发布
+### Use `workspaces` input
+
+`workspaces` 目录下所有的包文件夹全部进行发布
 
 ```yml
 
@@ -26,13 +34,11 @@
   with:
     token: ${{ secrets.NPM_TOKEN }}
     workspaces: packages/*
-
 ```
 
-**多个`workspaces`**
+**Multiple `workspaces`**
 
 ```yml
-
 - name: 📦  publish to NPM
   uses: SunLxy/npm-publish@main
   with:
@@ -43,13 +49,11 @@
       pack
       !packb
       !pack/a
-
 ```
 
-### action`package`
+### Use `package` input
 
 ```yml
-
 - name: 📦 publish to NPM
   uses: SunLxy/npm-publish@main
   with:
@@ -57,3 +61,7 @@
     package: ./package.json
 
 ```
+
+## License
+
+Licensed under the MIT License.
