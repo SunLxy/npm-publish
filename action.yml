@@ -7,10 +7,6 @@ inputs:
     description: 目录
     required: false
 
-  files:
-    description: 文件夹正则匹配
-    required: false
-
 # 一下参数为[@jsdevtools/npm-publish](https://github.com/JS-DevTools/npm-publish)包参数
   token:
     description: The NPM access token to use when publishing
