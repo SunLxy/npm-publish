@@ -10,7 +10,7 @@ Upload all packages in the folder to the npm repository.
 ## Input Parameters
 
 | Name  | required | Type | Description  |
-|------|--|-----|-------|------|
+|------|---|-----|------|
 | workspaces | No |`string\|string[]` | Folder Matching Rules [Reference](https://www.npmjs.com/package/fast-glob) |
 | package | No | `string` | The path to the `package.json` file |
 
