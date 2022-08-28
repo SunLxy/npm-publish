@@ -4,7 +4,7 @@
 
 | 参数  |是否必传 | 类型 | 默认值 | 说明  |
 |------|--|-----|-------|------|
-| workspaces |否 |`string\|string[` |  | 目录[规则参考](https://www.npmjs.com/package/fast-glob) |
+| workspaces |否 |`string\|string[]` |  | 目录[规则参考](https://www.npmjs.com/package/fast-glob) |
 | package | 否 | `string` | | `package.json` 文件的路径|
 
 [其他参数参考](https://github.com/JS-DevTools/npm-publish)
