@@ -16,9 +16,11 @@ Upload all packages in the folder to the npm repository.
 
 [Other input parameter](https://github.com/JS-DevTools/npm-publish)
 
-⚠️ 注意
 
-参数配置权重：`package` > `workspaces`
+
+> **Warning**
+> 
+> Parameter configuration weight：`package` > `workspaces`
 
 
 ## Actions Example
