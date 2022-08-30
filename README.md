@@ -32,7 +32,7 @@ Upload all packages in the folder to the npm repository.
 ```yml
 
 - name: 📦  publish to NPM
-  uses: SunLxy/npm-publish@main
+  uses: kktjs/npm-publish@main
   with:
     token: ${{ secrets.NPM_TOKEN }}
     workspaces: packages/*
@@ -42,7 +42,7 @@ Upload all packages in the folder to the npm repository.
 
 ```yml
 - name: 📦  publish to NPM
-  uses: SunLxy/npm-publish@main
+  uses: kktjs/npm-publish@main
   with:
     token: ${{ secrets.NPM_TOKEN }}
     workspaces: |
@@ -57,7 +57,7 @@ Upload all packages in the folder to the npm repository.
 
 ```yml
 - name: 📦 publish to NPM
-  uses: SunLxy/npm-publish@main
+  uses: kktjs/npm-publish@main
   with:
     token: ${{ secrets.NPM_TOKEN }}
     package: ./package.json
