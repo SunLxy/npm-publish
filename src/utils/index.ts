@@ -132,3 +132,7 @@ export const getPackages = async (workspaces: string | string[]) => {
     throw err
   }
 }
+export const splitArr = (packageList: {package: string; tag: string}[]) => {
+  //对数据进行长度划分
+  const lg = Math.ceil(packageList.length / 50)
+}

@@ -16,19 +16,22 @@ export const request = async (
   newEntries?: {tag: string; package: string}[]
 ): Promise<Results | Results[]> => {
   if (Array.isArray(newEntries) && newEntries.length) {
-    const assets = await Promise.all(
-      newEntries.map(async item => {
+    const lg = newEntries.length
+    try {
+      const resultArr: Results[] = []
+      for (let index = 0; index < lg; index++) {
+        const item = newEntries[index]
         const json = await npmPublish({
           ...options,
           tag: tag || item.tag,
           package: item.package
         })
-        return json
-      })
-    ).catch(error => {
-      throw error
-    })
-    return assets
+        resultArr.push(json)
+      }
+      return resultArr
+    } catch (err) {
+      throw err
+    }
   } else if (options.package) {
     const json = await npmPublish({
       ...options
