@@ -2,6 +2,8 @@ import {Options} from '@jsdevtools/npm-publish'
 import * as core from '@actions/core'
 import {getOptions, getPackages} from '../utils'
 import {request} from './../utils/request'
+import {EntriesType} from '../utils/interface'
+
 async function mainNpmPublish(): Promise<void> {
   try {
     // 包目录
@@ -20,7 +22,7 @@ async function mainNpmPublish(): Promise<void> {
     }
     core.info(`input packages---->${packages}`)
     // 获取包文件夹
-    let newEntries: {package: string; tag: string}[] = []
+    let newEntries: EntriesType[] = []
     if (!packages) {
       newEntries = await getPackages(workspaces)
     }

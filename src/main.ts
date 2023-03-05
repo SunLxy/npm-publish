@@ -1,5 +1,6 @@
 import {getOptions, OptionsProps, getPackages} from './utils'
-import {request, Results} from './utils/request'
+import {request} from './utils/request'
+import {Results, EntriesType} from './utils/interface'
 
 export interface MainNpmPublishProps extends OptionsProps {
   workspaces?: string | string[]
@@ -12,7 +13,7 @@ async function mainNpmPublish(
     if (!props.token) {
       throw new Error('token is empty')
     }
-    let newEntries: {package: string; tag: string}[] = []
+    let newEntries: EntriesType[] = []
     if (workspaces) {
       newEntries = await getPackages(workspaces)
     }

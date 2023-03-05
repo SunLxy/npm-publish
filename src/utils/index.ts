@@ -2,6 +2,7 @@ import {Options} from '@jsdevtools/npm-publish'
 import path from 'path'
 import fs from 'fs'
 import fastGlob from 'fast-glob'
+import {EntriesType} from './interface'
 export const parseInputFiles = (files: string): string[] => {
   return files.split(/\r?\n/).reduce<string[]>(
     (acc, line) =>
@@ -95,7 +96,9 @@ export const getVersion = (packageUrl: string) => {
         }
         return {
           package: packageUrl,
-          tag
+          tag,
+          version,
+          name
         }
       }
     }
@@ -108,8 +111,9 @@ export const getVersion = (packageUrl: string) => {
 export const getPackages = async (workspaces: string | string[]) => {
   try {
     /** 获取文件 */
-    const dirs = (
-      typeof workspaces === 'string' ? parseInputFiles(workspaces) : workspaces
+    const dirs = (typeof workspaces === 'string'
+      ? parseInputFiles(workspaces)
+      : workspaces
     ).map(k => k + '/package.json')
 
     console.log(`workspaces package.json:${JSON.stringify(dirs, null, 2)}`)
@@ -120,7 +124,7 @@ export const getPackages = async (workspaces: string | string[]) => {
 
     console.log(`RegExp packages:${JSON.stringify(resultArr, null, 2)}`)
 
-    let packages: {package: string; tag: string}[] = []
+    let packages: EntriesType[] = []
 
     resultArr.forEach(packageUrl => {
       const result = getVersion(packageUrl)
@@ -131,8 +135,4 @@ export const getPackages = async (workspaces: string | string[]) => {
   } catch (err) {
     throw err
   }
-}
-export const splitArr = (packageList: {package: string; tag: string}[]) => {
-  //对数据进行长度划分
-  const lg = Math.ceil(packageList.length / 50)
 }
