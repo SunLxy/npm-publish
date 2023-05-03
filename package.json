@@ -25,7 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.9.1",
-    "@jsdevtools/npm-publish": "^1.4.3",
+    "@jsdevtools/npm-publish": "^2.1.0",
     "fast-glob": "^3.2.11",
     "pacote": "^15.1.1"
   },
