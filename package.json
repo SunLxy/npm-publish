@@ -32,7 +32,7 @@
   "devDependencies": {
     "@types/pacote": "^11.1.5",
     "@types/semver": "^7.3.12",
-    "@types/node": "^18.7.13",
+    "@types/node": "^20.3.3",
     "@kkt/ncc": "^1.0.14",
     "js-yaml": "^4.1.0",
     "prettier": "2.7.1",
