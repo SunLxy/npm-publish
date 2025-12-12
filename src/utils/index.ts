@@ -1,8 +1,9 @@
-import {Options} from '@jsdevtools/npm-publish'
+import type { Options } from '@jsdevtools/npm-publish'
 import path from 'path'
 import fs from 'fs'
 import fastGlob from 'fast-glob'
-import {EntriesType} from './interface'
+import type { EntriesType } from './interface.js'
+
 export const parseInputFiles = (files: string): string[] => {
   return files.split(/\r?\n/).reduce<string[]>(
     (acc, line) =>
@@ -16,7 +17,7 @@ export const parseInputFiles = (files: string): string[] => {
 
 export type fieldIdType = 'checkVersion' | 'quiet' | 'dryRun'
 export const getBoolenValue = (
-  options: Options,
+  options: Options & { checkVersion?: boolean | string, dryRun?: boolean | string, quiet?: boolean | string },
   type: fieldIdType,
   value?: string | boolean
 ): Options => {
@@ -39,7 +40,7 @@ export interface OptionsProps
   quiet?: boolean | string
 }
 export const getOptions = (props: OptionsProps) => {
-  const {token, registry, tag, checkVersion, dryRun, quiet} = props
+  const { token, registry, tag, checkVersion, dryRun, quiet } = props
   let options: Options = {
     token,
     registry: registry || 'https://registry.npmjs.org'

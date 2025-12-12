@@ -12,11 +12,11 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      
+
       - run: npm install
       - run: npm run build
-      - run: npm run package 
-      
+      - run: npm run build:dist
+
       - run: mkdir -p www
 
       - name: Generate Contributors Images
@@ -57,7 +57,7 @@ jobs:
           name: ${{ steps.changelog.outputs.tag }}
           tag: ${{ steps.changelog.outputs.tag }}
           body: |
-            
+
             ${{ steps.changelog.outputs.changelog }}
 
             ```yml

@@ -1,8 +1,8 @@
-import {Options} from '@jsdevtools/npm-publish'
+import { Options } from '@jsdevtools/npm-publish'
 import * as core from '@actions/core'
-import {getOptions, getPackages} from '../utils'
-import {request} from './../utils/request'
-import {EntriesType} from '../utils/interface'
+import { getOptions, getPackages } from '../utils/index.js'
+import { request } from './../utils/request.js'
+import type { EntriesType } from '../utils/interface.js'
 
 async function mainNpmPublish(): Promise<void> {
   try {
@@ -17,10 +17,12 @@ async function mainNpmPublish(): Promise<void> {
     const checkVersion = core.getInput('checkVersion')
     const quiet = core.getInput('quiet')
 
-    if (!token) {
-      throw new Error('token is empty')
-    }
+    // if (!token) {
+    //   throw new Error('token is empty')
+    // }
+
     core.info(`input packages---->${packages}`)
+
     // 获取包文件夹
     let newEntries: EntriesType[] = []
     if (!packages) {

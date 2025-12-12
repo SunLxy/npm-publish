@@ -1,6 +1,8 @@
-import npmPublish, {Options} from '@jsdevtools/npm-publish'
-import {EntriesType, Results} from './interface'
-import {checkVersion} from './checkVersion'
+import type { Options } from '@jsdevtools/npm-publish'
+import { npmPublish } from '@jsdevtools/npm-publish'
+import type { EntriesType, Results } from './interface.js'
+import { checkVersion } from './checkVersion.js'
+
 export const request = async (
   options: Options,
   tag?: string,

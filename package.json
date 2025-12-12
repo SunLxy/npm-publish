@@ -3,10 +3,11 @@
   "version": "1.0.3",
   "description": "npm publish",
   "main": "src/main.ts",
+  "type": "module",
   "scripts": {
     "build": "tsc",
-    "package": "ncc build ./src/action/index.ts",
-    "all": "npm run build &&  npm run package "
+    "build:dist": "rolldown ./src/action/index.ts --dir=dist --platform=node --treeshake --sourcemap",
+    "all": "npm run build && build:dist"
   },
   "repository": {
     "type": "git",
@@ -25,17 +26,17 @@
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.9.1",
-    "@jsdevtools/npm-publish": "^1.4.3",
+    "@jsdevtools/npm-publish": "^4.1.1",
     "fast-glob": "^3.2.11",
     "pacote": "^15.1.1"
   },
   "devDependencies": {
+    "rolldown": "1.0.0-beta.54",
     "@types/pacote": "^11.1.5",
-    "@types/semver": "^7.3.12",
-    "@types/node": "^18.7.13",
-    "@kkt/ncc": "^1.0.14",
+    "@types/semver": "^7.7.1",
+    "@types/node": "^25.0.1",
     "js-yaml": "^4.1.0",
     "prettier": "2.7.1",
-    "typescript": "^4.8.2"
+    "typescript": "^5.9.3"
   }
 }

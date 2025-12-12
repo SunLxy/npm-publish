@@ -1,6 +1,6 @@
-import {getOptions, OptionsProps, getPackages} from './utils'
-import {request} from './utils/request'
-import {Results, EntriesType} from './utils/interface'
+import { getOptions, OptionsProps, getPackages } from './utils/index.js'
+import { request } from './utils/request.js'
+import type { Results, EntriesType } from './utils/interface.js'
 
 export interface MainNpmPublishProps extends OptionsProps {
   workspaces?: string | string[]
@@ -8,7 +8,7 @@ export interface MainNpmPublishProps extends OptionsProps {
 async function mainNpmPublish(
   props: MainNpmPublishProps
 ): Promise<Results | Results[] | undefined> {
-  const {workspaces, ...rest} = props
+  const { workspaces, ...rest } = props
   try {
     if (!props.token) {
       throw new Error('token is empty')
