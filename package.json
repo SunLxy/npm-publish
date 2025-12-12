@@ -2,12 +2,13 @@
   "name": "npm-publish",
   "version": "1.0.3",
   "description": "npm publish",
-  "main": "src/main.ts",
+  "main": "lib/main.js",
+  "types": "lib/main.d.ts",
   "type": "module",
   "scripts": {
     "build": "tsc",
-    "build:dist": "rolldown ./src/action/index.ts --dir=dist --platform=node --treeshake --sourcemap",
-    "all": "npm run build && npm run build:dist"
+    "package": "ncc build ./lib/action/index.js",
+    "all": "npm run build &&  npm run package"
   },
   "repository": {
     "type": "git",
@@ -25,18 +26,18 @@
   "author": "SunLxy <1011771396@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.9.1",
+    "@actions/core": "^2.0.1",
     "@jsdevtools/npm-publish": "^4.1.1",
-    "fast-glob": "^3.2.11",
-    "pacote": "^15.1.1"
+    "fast-glob": "^3.3.3",
+    "pacote": "^21.0.4"
   },
   "devDependencies": {
-    "rolldown": "1.0.0-beta.54",
-    "@types/pacote": "^11.1.5",
+    "@types/pacote": "^11.1.8",
     "@types/semver": "^7.7.1",
     "@types/node": "^25.0.1",
-    "js-yaml": "^4.1.0",
-    "prettier": "2.7.1",
+    "js-yaml": "^4.1.1",
+    "@kkt/ncc": "^1.1.2",
+    "prettier": "3.7.4",
     "typescript": "^5.9.3"
   }
 }

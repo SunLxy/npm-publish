@@ -4,7 +4,6 @@ import { getOptions, getPackages } from '../utils/index.js'
 import { request } from './../utils/request.js'
 import type { EntriesType } from '../utils/interface.js'
 
-
 async function mainNpmPublish(): Promise<void> {
   try {
     // 包目录
