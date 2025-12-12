@@ -17,9 +17,9 @@ async function mainNpmPublish(): Promise<void> {
     const checkVersion = core.getInput('checkVersion')
     const quiet = core.getInput('quiet')
 
-    // if (!token) {
-    //   throw new Error('token is empty')
-    // }
+    if (!token) {
+      throw new Error('token is empty')
+    }
 
     core.info(`input packages---->${packages}`)
 
