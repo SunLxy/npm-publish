@@ -1,4 +1,4 @@
-import { Options } from '@jsdevtools/npm-publish'
+import type { Options } from '@jsdevtools/npm-publish'
 import * as core from '@actions/core'
 import { getOptions, getPackages } from '../utils/index.js'
 import { request } from './../utils/request.js'

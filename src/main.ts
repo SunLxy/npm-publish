@@ -1,4 +1,5 @@
-import { getOptions, OptionsProps, getPackages } from './utils/index.js'
+import { getOptions, getPackages } from './utils/index.js'
+import type { OptionsProps } from './utils/index.js'
 import { request } from './utils/request.js'
 import type { Results, EntriesType } from './utils/interface.js'
 
@@ -22,5 +23,6 @@ async function mainNpmPublish(
   } catch (err) {
     console.log(err)
   }
+  return undefined
 }
 export default mainNpmPublish

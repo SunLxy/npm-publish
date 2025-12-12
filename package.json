@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "build:dist": "rolldown ./src/action/index.ts --dir=dist --platform=node --treeshake --sourcemap",
-    "all": "npm run build && build:dist"
+    "all": "npm run build && npm run build:dist"
   },
   "repository": {
     "type": "git",

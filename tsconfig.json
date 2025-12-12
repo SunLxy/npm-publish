@@ -1,22 +1,41 @@
 {
   "compilerOptions": {
+    // allow importing JSON files
+    "resolveJsonModule": true,
+    // Bundler compatibility
+    "jsx": "preserve",
+    "verbatimModuleSyntax": true,
+    // Interoperability with CommonJS modules
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    // JS support
+    "allowJs": true,
+    "checkJs": true,
+    // Do not automatically use types in node_modules to prevent conflicts
+    // Do not error out for errors in third-party modules
     "skipLibCheck": true,
+    // Type-checking options
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    // target Node v20 / ES2023
+    "target": "es2023",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "declaration": true,
-    "target": "es6", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */
-    "module": "NodeNext", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
-    "outDir": "./lib", /* Redirect output structure to the directory. */
-    "rootDir": "./src", /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
-    "strict": true, /* Enable all strict type-checking options. */
-    "noImplicitAny": true, /* Raise error on expressions and declarations with an implied 'any' type. */
-    "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
-    "moduleResolution": "nodenext" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    "sourceMap": true,
+    "rootDir": "src",
+    "outDir": "lib",
+    "types": [
+      "node"
+    ]
   },
   "include": [
     "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "**/*.test.ts",
-    "lib/*"
   ]
 }

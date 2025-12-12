@@ -1,7 +1,7 @@
 /**
  * 检测版本是否存在
  */
-import {packument} from 'pacote'
+import { packument } from 'pacote'
 export const checkVersion = async (packageName: string, version: string) => {
   try {
     const pckmnt = await packument(packageName, {

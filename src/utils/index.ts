@@ -106,6 +106,7 @@ export const getVersion = (packageUrl: string) => {
   } catch (err) {
     throw err
   }
+  return undefined
 }
 
 /** 获取 需要发布的包**/
