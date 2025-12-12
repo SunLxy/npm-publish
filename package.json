@@ -26,18 +26,18 @@
   "author": "SunLxy <1011771396@qq.com>",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.9.1",
-    "@jsdevtools/npm-publish": "^1.4.3",
-    "fast-glob": "^3.2.11",
-    "pacote": "^15.1.1"
+    "@actions/core": "^2.0.1",
+    "@jsdevtools/npm-publish": "^4.1.1",
+    "fast-glob": "^3.3.3",
+    "pacote": "^21.0.4"
   },
   "devDependencies": {
-    "@types/pacote": "^11.1.5",
-    "@types/semver": "^7.3.12",
-    "@types/node": "^18.7.13",
-    "@kkt/ncc": "^1.0.14",
-    "js-yaml": "^4.1.0",
-    "prettier": "2.7.1",
+    "@types/pacote": "^11.1.8",
+    "@types/semver": "^7.7.1",
+    "@types/node": "^25.0.1",
+    "js-yaml": "^4.1.1",
+    "@kkt/ncc": "^1.1.2",
+    "prettier": "3.7.4",
     "typescript": "^5.9.3"
   }
 }
