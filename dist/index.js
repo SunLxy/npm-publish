@@ -135934,25 +135934,21 @@ function _mainNpmPublish() {
           tag = core.getInput('tag');
           dryRun = core.getInput('dryRun');
           checkVersion = core.getInput('checkVersion');
-          quiet = core.getInput('quiet');
-          if (token) {
-            _context.n = 1;
-            break;
-          }
-          throw new Error('token is empty');
-        case 1:
+          quiet = core.getInput('quiet'); // if (!token) {
+          //   throw new Error('token is empty')
+          // }
           core.info("input packages---->".concat(packages));
           // 获取包文件夹
           newEntries = [];
           if (packages) {
-            _context.n = 3;
+            _context.n = 2;
             break;
           }
-          _context.n = 2;
+          _context.n = 1;
           return getPackages(workspaces);
-        case 2:
+        case 1:
           newEntries = _context.v;
-        case 3:
+        case 2:
           options = getOptions({
             token: token,
             registry: registry,
@@ -135964,22 +135960,22 @@ function _mainNpmPublish() {
           });
           core.info("newEntries---->".concat(JSON.stringify(newEntries, null, 2)));
           core.info("registry---->".concat(options.registry));
-          _context.n = 4;
+          _context.n = 3;
           return request(options, tag, newEntries);
-        case 4:
+        case 3:
           result = _context.v;
           core.setOutput('assets', result);
           core.info("assets: ".concat(JSON.stringify(result, null, 2)));
-          _context.n = 6;
+          _context.n = 5;
           break;
-        case 5:
-          _context.p = 5;
+        case 4:
+          _context.p = 4;
           _t = _context.v;
           if (_t instanceof Error) core.setFailed(_t.message);
-        case 6:
+        case 5:
           return _context.a(2);
       }
-    }, _callee, null, [[0, 5]]);
+    }, _callee, null, [[0, 4]]);
   }));
   return _mainNpmPublish.apply(this, arguments);
 }
