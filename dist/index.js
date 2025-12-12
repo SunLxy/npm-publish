@@ -15,6 +15,11 @@ import path$1, { basename, posix } from "node:path";
 import { StringDecoder } from "node:string_decoder";
 import fs$2 from "node:fs";
 
+import { fileURLToPath } from "node:url";
+// 转换成 __filename 和 __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 //#region rolldown:runtime
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -81,29 +86,29 @@ var require_utils$8 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/core/lib/command.js
 var require_command = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -172,29 +177,29 @@ var require_command = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/core/lib/file-command.js
 var require_file_command = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -348,7 +353,7 @@ var require_tunnel$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			self$1.requests.push(options);
 			return;
 		}
-		self$1.createSocket(options, function(socket) {
+		self$1.createSocket(options, function (socket) {
 			socket.on("free", onFree);
 			socket.on("close", onCloseOrRemove);
 			socket.on("agentRemove", onCloseOrRemove);
@@ -391,7 +396,7 @@ var require_tunnel$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			res.upgrade = true;
 		}
 		function onUpgrade(res, socket, head) {
-			process.nextTick(function() {
+			process.nextTick(function () {
 				onConnect(res, socket, head);
 			});
 		}
@@ -434,13 +439,13 @@ var require_tunnel$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		if (pos$1 === -1) return;
 		this.sockets.splice(pos$1, 1);
 		var pending = this.requests.shift();
-		if (pending) this.createSocket(pending, function(socket$1) {
+		if (pending) this.createSocket(pending, function (socket$1) {
 			pending.request.onSocket(socket$1);
 		});
 	};
 	function createSecureSocket(options, cb) {
 		var self$1 = this;
-		TunnelingAgent.prototype.createSocket.call(self$1, options, function(socket) {
+		TunnelingAgent.prototype.createSocket.call(self$1, options, function (socket) {
 			var hostHeader = options.request.getHeader("host");
 			var tlsOptions = mergeOptions({}, self$1.options, {
 				socket,
@@ -473,13 +478,13 @@ var require_tunnel$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		return target;
 	}
 	var debug;
-	if (process.env.NODE_DEBUG && /\btunnel\b/.test(process.env.NODE_DEBUG)) debug = function() {
+	if (process.env.NODE_DEBUG && /\btunnel\b/.test(process.env.NODE_DEBUG)) debug = function () {
 		var args = Array.prototype.slice.call(arguments);
 		if (typeof args[0] === "string") args[0] = "TUNNEL: " + args[0];
 		else args.unshift("TUNNEL:");
 		console.error.apply(console, args);
 	};
-	else debug = function() {};
+	else debug = function () { };
 	exports.debug = debug;
 }));
 
@@ -898,7 +903,7 @@ var require_util$9 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const { stringify } = __require("querystring");
 	const { headerNameLowerCasedRecord } = require_constants$14();
 	const [nodeMajor, nodeMinor] = process.versions.node.split(".").map((v) => Number(v));
-	function nop() {}
+	function nop() { }
 	function isStream(obj) {
 		return obj && typeof obj === "object" && typeof obj.pipe === "function" && typeof obj.on === "function";
 	}
@@ -1302,12 +1307,12 @@ var require_sbmh = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		for (var i = 0; i < needleLength - 1; ++i) this._occ[needle[i]] = needleLength - 1 - i;
 	}
 	inherits$5(SBMH, EventEmitter$4);
-	SBMH.prototype.reset = function() {
+	SBMH.prototype.reset = function () {
 		this._lookbehind_size = 0;
 		this.matches = 0;
 		this._bufpos = 0;
 	};
-	SBMH.prototype.push = function(chunk, pos$1) {
+	SBMH.prototype.push = function (chunk, pos$1) {
 		if (!Buffer.isBuffer(chunk)) chunk = Buffer.from(chunk, "binary");
 		const chlen = chunk.length;
 		this._bufpos = pos$1 || 0;
@@ -1315,7 +1320,7 @@ var require_sbmh = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		while (r !== chlen && this.matches < this.maxMatches) r = this._sbmh_feed(chunk);
 		return r;
 	};
-	SBMH.prototype._sbmh_feed = function(data) {
+	SBMH.prototype._sbmh_feed = function (data) {
 		const len = data.length;
 		const needle = this._needle;
 		const needleLength = needle.length;
@@ -1365,10 +1370,10 @@ var require_sbmh = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this._bufpos = len;
 		return len;
 	};
-	SBMH.prototype._sbmh_lookup_char = function(data, pos$1) {
+	SBMH.prototype._sbmh_lookup_char = function (data, pos$1) {
 		return pos$1 < 0 ? this._lookbehind[this._lookbehind_size + pos$1] : data[pos$1];
 	};
-	SBMH.prototype._sbmh_memcmp = function(data, pos$1, len) {
+	SBMH.prototype._sbmh_memcmp = function (data, pos$1, len) {
 		for (var i = 0; i < len; ++i) if (this._sbmh_lookup_char(data, pos$1 + i) !== this._needle[i]) return false;
 		return true;
 	};
@@ -1384,7 +1389,7 @@ var require_PartStream = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		ReadableStream$1.call(this, opts);
 	}
 	inherits$4(PartStream, ReadableStream$1);
-	PartStream.prototype._read = function(n) {};
+	PartStream.prototype._read = function (n) { };
 	module.exports = PartStream;
 }));
 
@@ -1421,7 +1426,7 @@ var require_HeaderParser = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this.header = {};
 		this.finished = false;
 		this.ss = new StreamSearch(B_DCRLF);
-		this.ss.on("info", function(isMatch, data, start, end) {
+		this.ss.on("info", function (isMatch, data, start, end) {
 			if (data && !self$1.maxed) {
 				if (self$1.nread + end - start >= self$1.maxHeaderSize) {
 					end = self$1.maxHeaderSize - self$1.nread + start;
@@ -1434,17 +1439,17 @@ var require_HeaderParser = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		});
 	}
 	inherits$3(HeaderParser, EventEmitter$3);
-	HeaderParser.prototype.push = function(data) {
+	HeaderParser.prototype.push = function (data) {
 		const r = this.ss.push(data);
 		if (this.finished) return r;
 	};
-	HeaderParser.prototype.reset = function() {
+	HeaderParser.prototype.reset = function () {
 		this.finished = false;
 		this.buffer = "";
 		this.header = {};
 		this.ss.reset();
 	};
-	HeaderParser.prototype._finish = function() {
+	HeaderParser.prototype._finish = function () {
 		if (this.buffer) this._parseHeader();
 		this.ss.matches = this.ss.maxMatches;
 		const header = this.header;
@@ -1455,7 +1460,7 @@ var require_HeaderParser = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this.maxed = false;
 		this.emit("header", header);
 	};
-	HeaderParser.prototype._parseHeader = function() {
+	HeaderParser.prototype._parseHeader = function () {
 		if (this.npairs === this.maxHeaderPairs) return;
 		const lines = this.buffer.split(RE_CRLF);
 		const len = lines.length;
@@ -1491,7 +1496,7 @@ var require_Dicer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const DASH = 45;
 	const B_ONEDASH = Buffer.from("-");
 	const B_CRLF = Buffer.from("\r\n");
-	const EMPTY_FN = function() {};
+	const EMPTY_FN = function () { };
 	function Dicer(cfg) {
 		if (!(this instanceof Dicer)) return new Dicer(cfg);
 		WritableStream$1.call(this, cfg);
@@ -1514,23 +1519,23 @@ var require_Dicer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this._pause = false;
 		const self$1 = this;
 		this._hparser = new HeaderParser(cfg);
-		this._hparser.on("header", function(header) {
+		this._hparser.on("header", function (header) {
 			self$1._inHeader = false;
 			self$1._part.emit("header", header);
 		});
 	}
 	inherits$2(Dicer, WritableStream$1);
-	Dicer.prototype.emit = function(ev) {
+	Dicer.prototype.emit = function (ev) {
 		if (ev === "finish" && !this._realFinish) {
 			if (!this._finished) {
 				const self$1 = this;
-				process.nextTick(function() {
+				process.nextTick(function () {
 					self$1.emit("error", /* @__PURE__ */ new Error("Unexpected end of multipart data"));
 					if (self$1._part && !self$1._ignoreData) {
 						const type = self$1._isPreamble ? "Preamble" : "Part";
 						self$1._part.emit("error", /* @__PURE__ */ new Error(type + " terminated early due to unexpected end of multipart data"));
 						self$1._part.push(null);
-						process.nextTick(function() {
+						process.nextTick(function () {
 							self$1._realFinish = true;
 							self$1.emit("finish");
 							self$1._realFinish = false;
@@ -1544,7 +1549,7 @@ var require_Dicer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			}
 		} else WritableStream$1.prototype.emit.apply(this, arguments);
 	};
-	Dicer.prototype._write = function(data, encoding, cb) {
+	Dicer.prototype._write = function (data, encoding, cb) {
 		if (!this._hparser && !this._bparser) return cb();
 		if (this._headerFirst && this._isPreamble) {
 			if (!this._part) {
@@ -1564,26 +1569,26 @@ var require_Dicer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (this._pause) this._cb = cb;
 		else cb();
 	};
-	Dicer.prototype.reset = function() {
+	Dicer.prototype.reset = function () {
 		this._part = void 0;
 		this._bparser = void 0;
 		this._hparser = void 0;
 	};
-	Dicer.prototype.setBoundary = function(boundary) {
+	Dicer.prototype.setBoundary = function (boundary) {
 		const self$1 = this;
 		this._bparser = new StreamSearch("\r\n--" + boundary);
-		this._bparser.on("info", function(isMatch, data, start, end) {
+		this._bparser.on("info", function (isMatch, data, start, end) {
 			self$1._oninfo(isMatch, data, start, end);
 		});
 	};
-	Dicer.prototype._ignore = function() {
+	Dicer.prototype._ignore = function () {
 		if (this._part && !this._ignoreData) {
 			this._ignoreData = true;
 			this._part.on("error", EMPTY_FN);
 			this._part.resume();
 		}
 	};
-	Dicer.prototype._oninfo = function(isMatch, data, start, end) {
+	Dicer.prototype._oninfo = function (isMatch, data, start, end) {
 		let buf;
 		const self$1 = this;
 		let i = 0;
@@ -1613,7 +1618,7 @@ var require_Dicer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (this._justMatched) this._justMatched = false;
 		if (!this._part) {
 			this._part = new PartStream(this._partOpts);
-			this._part._read = function(n) {
+			this._part._read = function (n) {
 				self$1._unpause();
 			};
 			if (this._isPreamble && this.listenerCount("preamble") !== 0) this.emit("preamble", this._part);
@@ -1637,7 +1642,7 @@ var require_Dicer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			if (this._isPreamble) this._isPreamble = false;
 			else if (start !== end) {
 				++this._parts;
-				this._part.on("end", function() {
+				this._part.on("end", function () {
 					if (--self$1._parts === 0) if (self$1._finished) {
 						self$1._realFinish = true;
 						self$1.emit("finish");
@@ -1652,7 +1657,7 @@ var require_Dicer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			this._dashes = 0;
 		}
 	};
-	Dicer.prototype._unpause = function() {
+	Dicer.prototype._unpause = function () {
 		if (!this._pause) return;
 		this._pause = false;
 		if (this._cb) {
@@ -1725,7 +1730,7 @@ var require_decodeText = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			if (typeof data === "string") data = Buffer.from(data, sourceEncoding);
 			if (textDecoders.has(exports.toString())) try {
 				return textDecoders.get(exports).decode(data);
-			} catch {}
+			} catch { }
 			return typeof data === "string" ? data : data.toString();
 		}
 	};
@@ -2375,7 +2380,7 @@ var require_multipart = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			partHwm: fileOpts.highWaterMark,
 			highWaterMark: cfg.highWaterMark
 		});
-		this.parser.on("drain", function() {
+		this.parser.on("drain", function () {
 			self$1._needDrain = false;
 			if (self$1._cb && !self$1._pause) {
 				const cb = self$1._cb;
@@ -2395,7 +2400,7 @@ var require_multipart = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				field.emit("end");
 				field.removeAllListeners("end");
 			}
-			part.on("header", function(header) {
+			part.on("header", function (header) {
 				let contype;
 				let fieldname;
 				let parsed;
@@ -2443,7 +2448,7 @@ var require_multipart = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 					++nends;
 					const file = new FileStream(fileOpts);
 					curFile = file;
-					file.on("end", function() {
+					file.on("end", function () {
 						--nends;
 						self$1._pause = false;
 						checkFinished();
@@ -2453,7 +2458,7 @@ var require_multipart = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 							cb();
 						}
 					});
-					file._read = function(n) {
+					file._read = function (n) {
 						if (!self$1._pause) return;
 						self$1._pause = false;
 						if (self$1._cb && !self$1._needDrain) {
@@ -2463,7 +2468,7 @@ var require_multipart = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 						}
 					};
 					boy.emit("file", fieldname, file, filename, encoding, contype);
-					onData = function(data) {
+					onData = function (data) {
 						if ((nsize += data.length) > fileSizeLimit) {
 							const extralen = fileSizeLimit - nsize + data.length;
 							if (extralen > 0) file.push(data.slice(0, extralen));
@@ -2475,7 +2480,7 @@ var require_multipart = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 						} else if (!file.push(data)) self$1._pause = true;
 						file.bytesRead = nsize;
 					};
-					onEnd = function() {
+					onEnd = function () {
 						curFile = void 0;
 						file.push(null);
 					};
@@ -2492,7 +2497,7 @@ var require_multipart = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 					let buffer$1 = "";
 					let truncated = false;
 					curField = part;
-					onData = function(data) {
+					onData = function (data) {
 						if ((nsize += data.length) > fieldSizeLimit) {
 							const extralen = fieldSizeLimit - (nsize - data.length);
 							buffer$1 += data.toString("binary", 0, extralen);
@@ -2500,7 +2505,7 @@ var require_multipart = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 							part.removeAllListeners("data");
 						} else buffer$1 += data.toString("binary");
 					};
-					onEnd = function() {
+					onEnd = function () {
 						curField = void 0;
 						if (buffer$1.length) buffer$1 = decodeText(buffer$1, "binary", charset);
 						boy.emit("field", fieldname, buffer$1, false, truncated, encoding, contype);
@@ -2511,17 +2516,17 @@ var require_multipart = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				part._readableState.sync = false;
 				part.on("data", onData);
 				part.on("end", onEnd);
-			}).on("error", function(err) {
+			}).on("error", function (err) {
 				if (curFile) curFile.emit("error", err);
 			});
-		}).on("error", function(err) {
+		}).on("error", function (err) {
 			boy.emit("error", err);
-		}).on("finish", function() {
+		}).on("finish", function () {
 			finished$1 = true;
 			checkFinished();
 		});
 	}
-	Multipart.prototype.write = function(chunk, cb) {
+	Multipart.prototype.write = function (chunk, cb) {
 		const r = this.parser.write(chunk);
 		if (r && !this._pause) cb();
 		else {
@@ -2529,10 +2534,10 @@ var require_multipart = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			this._cb = cb;
 		}
 	};
-	Multipart.prototype.end = function() {
+	Multipart.prototype.end = function () {
 		const self$1 = this;
 		if (self$1.parser.writable) self$1.parser.end();
-		else if (!self$1._boy._done) process.nextTick(function() {
+		else if (!self$1._boy._done) process.nextTick(function () {
 			self$1._boy._done = true;
 			self$1._boy.emit("finish");
 		});
@@ -2546,7 +2551,7 @@ var require_multipart = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this.truncated = false;
 	}
 	inherits$1(FileStream, Readable$3);
-	FileStream.prototype._read = function(n) {};
+	FileStream.prototype._read = function (n) { };
 	module.exports = Multipart;
 }));
 
@@ -2687,7 +2692,7 @@ var require_Decoder = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	function Decoder() {
 		this.buffer = void 0;
 	}
-	Decoder.prototype.write = function(str) {
+	Decoder.prototype.write = function (str) {
 		str = str.replace(RE_PLUS, " ");
 		let res = "";
 		let i = 0;
@@ -2716,7 +2721,7 @@ var require_Decoder = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (p < len && this.buffer === void 0) res += str.substring(p);
 		return res;
 	};
-	Decoder.prototype.reset = function() {
+	Decoder.prototype.reset = function () {
 		this.buffer = void 0;
 	};
 	module.exports = Decoder;
@@ -2756,7 +2761,7 @@ var require_urlencoded = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this._valTrunc = false;
 		this._hitLimit = false;
 	}
-	UrlEncoded.prototype.write = function(data, cb) {
+	UrlEncoded.prototype.write = function (data, cb) {
 		if (this._fields === this.fieldsLimit) {
 			if (!this.boy.hitFieldsLimit) {
 				this.boy.hitFieldsLimit = true;
@@ -2861,7 +2866,7 @@ var require_urlencoded = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		cb();
 	};
-	UrlEncoded.prototype.end = function() {
+	UrlEncoded.prototype.end = function () {
 		if (this.boy._done) return;
 		if (this._state === "key" && this._key.length > 0) this.boy.emit("field", decodeText(this._key, "binary", this.charset), "", this._keyTrunc, false);
 		else if (this._state === "val") this.boy.emit("field", decodeText(this._key, "binary", this.charset), decodeText(this._val, "binary", this.charset), this._keyTrunc, this._valTrunc);
@@ -2896,7 +2901,7 @@ var require_main = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this._finished = false;
 	}
 	inherits(Busboy, WritableStream);
-	Busboy.prototype.emit = function(ev) {
+	Busboy.prototype.emit = function (ev) {
 		if (ev === "finish") {
 			if (!this._done) {
 				this._parser?.end();
@@ -2906,7 +2911,7 @@ var require_main = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		WritableStream.prototype.emit.apply(this, arguments);
 	};
-	Busboy.prototype.getParserByHeaders = function(headers) {
+	Busboy.prototype.getParserByHeaders = function (headers) {
 		const parsed = parseParams(headers["content-type"]);
 		const cfg = {
 			defCharset: this.opts.defCharset,
@@ -2922,7 +2927,7 @@ var require_main = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (UrlencodedParser.detect.test(parsed[0])) return new UrlencodedParser(this, cfg);
 		throw new Error("Unsupported Content-Type.");
 	};
-	Busboy.prototype._write = function(chunk, encoding, cb) {
+	Busboy.prototype._write = function (chunk, encoding, cb) {
 		this._parser.write(chunk, cb);
 	};
 	module.exports = Busboy;
@@ -3207,7 +3212,7 @@ var require_util$8 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			"sha512"
 		];
 		supportedHashes = crypto.getHashes().filter((hash) => possibleRelevantHashes.includes(hash));
-	} catch {}
+	} catch { }
 	function responseURL(response) {
 		const urlList = response.urlList;
 		const length = urlList.length;
@@ -3503,7 +3508,7 @@ var require_util$8 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return true;
 	}
-	function tryUpgradeRequestToAPotentiallyTrustworthyURL(request$1) {}
+	function tryUpgradeRequestToAPotentiallyTrustworthyURL(request$1) { }
 	/**
 	* @link {https://html.spec.whatwg.org/multipage/origin.html#same-origin}
 	* @param {URL} A
@@ -3778,10 +3783,10 @@ var require_webidl = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	webidl.converters = {};
 	webidl.util = {};
 	webidl.errors = {};
-	webidl.errors.exception = function(message) {
+	webidl.errors.exception = function (message) {
 		return /* @__PURE__ */ new TypeError(`${message.header}: ${message.message}`);
 	};
-	webidl.errors.conversionFailed = function(context) {
+	webidl.errors.conversionFailed = function (context) {
 		const plural = context.types.length === 1 ? "" : " one of";
 		const message = `${context.argument} could not be converted to${plural}: ${context.types.join(", ")}.`;
 		return webidl.errors.exception({
@@ -3789,29 +3794,29 @@ var require_webidl = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			message
 		});
 	};
-	webidl.errors.invalidArgument = function(context) {
+	webidl.errors.invalidArgument = function (context) {
 		return webidl.errors.exception({
 			header: context.prefix,
 			message: `"${context.value}" is an invalid ${context.type}.`
 		});
 	};
-	webidl.brandCheck = function(V, I, opts = void 0) {
+	webidl.brandCheck = function (V, I, opts = void 0) {
 		if (opts?.strict !== false && !(V instanceof I)) throw new TypeError("Illegal invocation");
 		else return V?.[Symbol.toStringTag] === I.prototype[Symbol.toStringTag];
 	};
-	webidl.argumentLengthCheck = function({ length }, min, ctx) {
+	webidl.argumentLengthCheck = function ({ length }, min, ctx) {
 		if (length < min) throw webidl.errors.exception({
 			message: `${min} argument${min !== 1 ? "s" : ""} required, but${length ? " only" : ""} ${length} found.`,
 			...ctx
 		});
 	};
-	webidl.illegalConstructor = function() {
+	webidl.illegalConstructor = function () {
 		throw webidl.errors.exception({
 			header: "TypeError",
 			message: "Illegal constructor"
 		});
 	};
-	webidl.util.Type = function(V) {
+	webidl.util.Type = function (V) {
 		switch (typeof V) {
 			case "undefined": return "Undefined";
 			case "boolean": return "Boolean";
@@ -3825,7 +3830,7 @@ var require_webidl = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				return "Object";
 		}
 	};
-	webidl.util.ConvertToInt = function(V, bitLength, signedness, opts = {}) {
+	webidl.util.ConvertToInt = function (V, bitLength, signedness, opts = {}) {
 		let upperBound;
 		let lowerBound;
 		if (bitLength === 64) {
@@ -3865,12 +3870,12 @@ var require_webidl = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (signedness === "signed" && x >= Math.pow(2, bitLength) - 1) return x - Math.pow(2, bitLength);
 		return x;
 	};
-	webidl.util.IntegerPart = function(n) {
+	webidl.util.IntegerPart = function (n) {
 		const r = Math.floor(Math.abs(n));
 		if (n < 0) return -1 * r;
 		return r;
 	};
-	webidl.sequenceConverter = function(converter) {
+	webidl.sequenceConverter = function (converter) {
 		return (V) => {
 			if (webidl.util.Type(V) !== "Object") throw webidl.errors.exception({
 				header: "Sequence",
@@ -3891,7 +3896,7 @@ var require_webidl = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			return seq;
 		};
 	};
-	webidl.recordConverter = function(keyConverter, valueConverter) {
+	webidl.recordConverter = function (keyConverter, valueConverter) {
 		return (O) => {
 			if (webidl.util.Type(O) !== "Object") throw webidl.errors.exception({
 				header: "Record",
@@ -3914,7 +3919,7 @@ var require_webidl = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			return result;
 		};
 	};
-	webidl.interfaceConverter = function(i) {
+	webidl.interfaceConverter = function (i) {
 		return (V, opts = {}) => {
 			if (opts.strict !== false && !(V instanceof i)) throw webidl.errors.exception({
 				header: i.name,
@@ -3923,7 +3928,7 @@ var require_webidl = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			return V;
 		};
 	};
-	webidl.dictionaryConverter = function(converters) {
+	webidl.dictionaryConverter = function (converters) {
 		return (dictionary) => {
 			const type = webidl.util.Type(dictionary);
 			const dict = {};
@@ -3955,42 +3960,42 @@ var require_webidl = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			return dict;
 		};
 	};
-	webidl.nullableConverter = function(converter) {
+	webidl.nullableConverter = function (converter) {
 		return (V) => {
 			if (V === null) return V;
 			return converter(V);
 		};
 	};
-	webidl.converters.DOMString = function(V, opts = {}) {
+	webidl.converters.DOMString = function (V, opts = {}) {
 		if (V === null && opts.legacyNullToEmptyString) return "";
 		if (typeof V === "symbol") throw new TypeError("Could not convert argument of type symbol to string.");
 		return String(V);
 	};
-	webidl.converters.ByteString = function(V) {
+	webidl.converters.ByteString = function (V) {
 		const x = webidl.converters.DOMString(V);
 		for (let index = 0; index < x.length; index++) if (x.charCodeAt(index) > 255) throw new TypeError(`Cannot convert argument to a ByteString because the character at index ${index} has a value of ${x.charCodeAt(index)} which is greater than 255.`);
 		return x;
 	};
 	webidl.converters.USVString = toUSVString;
-	webidl.converters.boolean = function(V) {
+	webidl.converters.boolean = function (V) {
 		return Boolean(V);
 	};
-	webidl.converters.any = function(V) {
+	webidl.converters.any = function (V) {
 		return V;
 	};
-	webidl.converters["long long"] = function(V) {
+	webidl.converters["long long"] = function (V) {
 		return webidl.util.ConvertToInt(V, 64, "signed");
 	};
-	webidl.converters["unsigned long long"] = function(V) {
+	webidl.converters["unsigned long long"] = function (V) {
 		return webidl.util.ConvertToInt(V, 64, "unsigned");
 	};
-	webidl.converters["unsigned long"] = function(V) {
+	webidl.converters["unsigned long"] = function (V) {
 		return webidl.util.ConvertToInt(V, 32, "unsigned");
 	};
-	webidl.converters["unsigned short"] = function(V, opts) {
+	webidl.converters["unsigned short"] = function (V, opts) {
 		return webidl.util.ConvertToInt(V, 16, "unsigned", opts);
 	};
-	webidl.converters.ArrayBuffer = function(V, opts = {}) {
+	webidl.converters.ArrayBuffer = function (V, opts = {}) {
 		if (webidl.util.Type(V) !== "Object" || !types$4.isAnyArrayBuffer(V)) throw webidl.errors.conversionFailed({
 			prefix: `${V}`,
 			argument: `${V}`,
@@ -4002,7 +4007,7 @@ var require_webidl = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		});
 		return V;
 	};
-	webidl.converters.TypedArray = function(V, T, opts = {}) {
+	webidl.converters.TypedArray = function (V, T, opts = {}) {
 		if (webidl.util.Type(V) !== "Object" || !types$4.isTypedArray(V) || V.constructor.name !== T.name) throw webidl.errors.conversionFailed({
 			prefix: `${T.name}`,
 			argument: `${V}`,
@@ -4014,7 +4019,7 @@ var require_webidl = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		});
 		return V;
 	};
-	webidl.converters.DataView = function(V, opts = {}) {
+	webidl.converters.DataView = function (V, opts = {}) {
 		if (webidl.util.Type(V) !== "Object" || !types$4.isDataView(V)) throw webidl.errors.exception({
 			header: "DataView",
 			message: "Object is not a DataView."
@@ -4025,7 +4030,7 @@ var require_webidl = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		});
 		return V;
 	};
-	webidl.converters.BufferSource = function(V, opts = {}) {
+	webidl.converters.BufferSource = function (V, opts = {}) {
 		if (types$4.isAnyArrayBuffer(V)) return webidl.converters.ArrayBuffer(V, opts);
 		if (types$4.isTypedArray(V)) return webidl.converters.TypedArray(V, V.constructor);
 		if (types$4.isDataView(V)) return webidl.converters.DataView(V, opts);
@@ -4395,7 +4400,7 @@ var require_file$2 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		lastModified: kEnumerableProperty
 	});
 	webidl.converters.Blob = webidl.interfaceConverter(Blob$3);
-	webidl.converters.BlobPart = function(V, opts) {
+	webidl.converters.BlobPart = function (V, opts) {
 		if (webidl.util.Type(V) === "Object") {
 			if (isBlobLike(V)) return webidl.converters.Blob(V, { strict: false });
 			if (ArrayBuffer.isView(V) || types$3.isAnyArrayBuffer(V)) return webidl.converters.BufferSource(V, opts);
@@ -4562,10 +4567,12 @@ var require_formdata = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 	};
 	FormData.prototype[Symbol.iterator] = FormData.prototype.entries;
-	Object.defineProperties(FormData.prototype, { [Symbol.toStringTag]: {
-		value: "FormData",
-		configurable: true
-	} });
+	Object.defineProperties(FormData.prototype, {
+		[Symbol.toStringTag]: {
+			value: "FormData",
+			configurable: true
+		}
+	});
 	/**
 	* @see https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#create-an-entry
 	* @param {string} name
@@ -4634,7 +4641,7 @@ var require_body$2 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				controller.enqueue(typeof source === "string" ? textEncoder.encode(source) : source);
 				queueMicrotask(() => readableStreamClose(controller));
 			},
-			start() {},
+			start() { },
 			type: void 0
 		});
 		assert$20(isReadableStreamLike(stream$2));
@@ -4719,8 +4726,8 @@ Content-Type: ${value.type || "application/octet-stream"}\r\n\r\n`);
 	}
 	function safelyExtractBody(object, keepalive = false) {
 		if (!ReadableStream)
- // istanbul ignore next
-		ReadableStream = __require("stream/web").ReadableStream;
+			// istanbul ignore next
+			ReadableStream = __require("stream/web").ReadableStream;
 		if (object instanceof ReadableStream) {
 			// istanbul ignore next
 			assert$20(!util.isDisturbed(object), "The body has already been consumed.");
@@ -5412,7 +5419,7 @@ var require_connect = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 					port: port || 443,
 					host: hostname
 				});
-				socket.on("session", function(session$1) {
+				socket.on("session", function (session$1) {
 					sessionCache.set(sessionKey, session$1);
 				});
 			} else {
@@ -5430,14 +5437,14 @@ var require_connect = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				socket.setKeepAlive(true, keepAliveInitialDelay);
 			}
 			const cancelTimeout = setupTimeout(() => onConnectTimeout(socket), timeout);
-			socket.setNoDelay(true).once(protocol === "https:" ? "secureConnect" : "connect", function() {
+			socket.setNoDelay(true).once(protocol === "https:" ? "secureConnect" : "connect", function () {
 				cancelTimeout();
 				if (callback) {
 					const cb = callback;
 					callback = null;
 					cb(null, this);
 				}
-			}).on("error", function(err) {
+			}).on("error", function (err) {
 				cancelTimeout();
 				if (callback) {
 					const cb = callback;
@@ -5449,7 +5456,7 @@ var require_connect = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		};
 	}
 	function setupTimeout(onConnectTimeout, timeout) {
-		if (!timeout) return () => {};
+		if (!timeout) return () => { };
 		let s1 = null;
 		let s2 = null;
 		const timeoutId = setTimeout(() => {
@@ -5492,7 +5499,7 @@ var require_constants$12 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.SPECIAL_HEADERS = exports.HEADER_STATE = exports.MINOR = exports.MAJOR = exports.CONNECTION_TOKEN_CHARS = exports.HEADER_CHARS = exports.TOKEN = exports.STRICT_TOKEN = exports.HEX = exports.URL_CHAR = exports.STRICT_URL_CHAR = exports.USERINFO_CHARS = exports.MARK = exports.ALPHANUM = exports.NUM = exports.HEX_MAP = exports.NUM_MAP = exports.ALPHA = exports.FINISH = exports.H_METHOD_MAP = exports.METHOD_MAP = exports.METHODS_RTSP = exports.METHODS_ICE = exports.METHODS_HTTP = exports.METHODS = exports.LENIENT_FLAGS = exports.FLAGS = exports.TYPE = exports.ERROR = void 0;
 	const utils_1 = require_utils$7();
-	(function(ERROR$2) {
+	(function (ERROR$2) {
 		ERROR$2[ERROR$2["OK"] = 0] = "OK";
 		ERROR$2[ERROR$2["INTERNAL"] = 1] = "INTERNAL";
 		ERROR$2[ERROR$2["STRICT"] = 2] = "STRICT";
@@ -5519,12 +5526,12 @@ var require_constants$12 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		ERROR$2[ERROR$2["PAUSED_H2_UPGRADE"] = 23] = "PAUSED_H2_UPGRADE";
 		ERROR$2[ERROR$2["USER"] = 24] = "USER";
 	})(exports.ERROR || (exports.ERROR = {}));
-	(function(TYPE) {
+	(function (TYPE) {
 		TYPE[TYPE["BOTH"] = 0] = "BOTH";
 		TYPE[TYPE["REQUEST"] = 1] = "REQUEST";
 		TYPE[TYPE["RESPONSE"] = 2] = "RESPONSE";
 	})(exports.TYPE || (exports.TYPE = {}));
-	(function(FLAGS) {
+	(function (FLAGS) {
 		FLAGS[FLAGS["CONNECTION_KEEP_ALIVE"] = 1] = "CONNECTION_KEEP_ALIVE";
 		FLAGS[FLAGS["CONNECTION_CLOSE"] = 2] = "CONNECTION_CLOSE";
 		FLAGS[FLAGS["CONNECTION_UPGRADE"] = 4] = "CONNECTION_UPGRADE";
@@ -5535,13 +5542,13 @@ var require_constants$12 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		FLAGS[FLAGS["TRAILING"] = 128] = "TRAILING";
 		FLAGS[FLAGS["TRANSFER_ENCODING"] = 512] = "TRANSFER_ENCODING";
 	})(exports.FLAGS || (exports.FLAGS = {}));
-	(function(LENIENT_FLAGS) {
+	(function (LENIENT_FLAGS) {
 		LENIENT_FLAGS[LENIENT_FLAGS["HEADERS"] = 1] = "HEADERS";
 		LENIENT_FLAGS[LENIENT_FLAGS["CHUNKED_LENGTH"] = 2] = "CHUNKED_LENGTH";
 		LENIENT_FLAGS[LENIENT_FLAGS["KEEP_ALIVE"] = 4] = "KEEP_ALIVE";
 	})(exports.LENIENT_FLAGS || (exports.LENIENT_FLAGS = {}));
 	var METHODS;
-	(function(METHODS) {
+	(function (METHODS) {
 		METHODS[METHODS["DELETE"] = 0] = "DELETE";
 		METHODS[METHODS["GET"] = 1] = "GET";
 		METHODS[METHODS["HEAD"] = 2] = "HEAD";
@@ -5648,7 +5655,7 @@ var require_constants$12 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	Object.keys(exports.METHOD_MAP).forEach((key) => {
 		if (/^H/.test(key)) exports.H_METHOD_MAP[key] = exports.METHOD_MAP[key];
 	});
-	(function(FINISH) {
+	(function (FINISH) {
 		FINISH[FINISH["SAFE"] = 0] = "SAFE";
 		FINISH[FINISH["SAFE_WITH_CB"] = 1] = "SAFE_WITH_CB";
 		FINISH[FINISH["UNSAFE"] = 2] = "UNSAFE";
@@ -5800,7 +5807,7 @@ var require_constants$12 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	exports.MAJOR = exports.NUM_MAP;
 	exports.MINOR = exports.MAJOR;
 	var HEADER_STATE;
-	(function(HEADER_STATE) {
+	(function (HEADER_STATE) {
 		HEADER_STATE[HEADER_STATE["GENERAL"] = 0] = "GENERAL";
 		HEADER_STATE[HEADER_STATE["CONNECTION"] = 1] = "CONNECTION";
 		HEADER_STATE[HEADER_STATE["CONTENT_LENGTH"] = 2] = "CONTENT_LENGTH";
@@ -5863,12 +5870,12 @@ var require_RedirectHandler = /* @__PURE__ */ __commonJSMin(((exports, module) =
 			this.handler = handler;
 			this.history = [];
 			if (util.isStream(this.opts.body)) {
-				if (util.bodyLength(this.opts.body) === 0) this.opts.body.on("data", function() {
+				if (util.bodyLength(this.opts.body) === 0) this.opts.body.on("data", function () {
 					assert$17(false);
 				});
 				if (typeof this.opts.body.readableDidRead !== "boolean") {
 					this.opts.body[kBodyUsed] = false;
-					EE$14.prototype.on.call(this.opts.body, "data", function() {
+					EE$14.prototype.on.call(this.opts.body, "data", function () {
 						this[kBodyUsed] = true;
 					});
 				}
@@ -5902,7 +5909,7 @@ var require_RedirectHandler = /* @__PURE__ */ __commonJSMin(((exports, module) =
 			}
 		}
 		onData(chunk) {
-			if (this.location) {} else return this.handler.onData(chunk);
+			if (this.location) { } else return this.handler.onData(chunk);
 		}
 		onComplete(trailers) {
 			if (this.location) {
@@ -6120,7 +6127,7 @@ var require_client$3 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			const origin = opts.origin || this[kUrl].origin;
 			const request$1 = this[kHTTPConnVersion] === "h2" ? Request[kHTTP2BuildRequest](origin, opts, handler) : Request[kHTTP1BuildRequest](origin, opts, handler);
 			this[kQueue].push(request$1);
-			if (this[kResuming]) {} else if (util.bodyLength(request$1.body) == null && util.isIterable(request$1.body)) {
+			if (this[kResuming]) { } else if (util.bodyLength(request$1.body) == null && util.isIterable(request$1.body)) {
 				this[kResuming] = 1;
 				process.nextTick(resume, this);
 			} else resume(this, true);
@@ -6208,44 +6215,46 @@ var require_client$3 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			/* istanbul ignore next */
 			mod = await WebAssembly.compile(Buffer.from(llhttpWasmData || require_llhttp_wasm(), "base64"));
 		}
-		return await WebAssembly.instantiate(mod, { env: {
-			wasm_on_url: (p, at, len) => {
-				/* istanbul ignore next */
-				return 0;
-			},
-			wasm_on_status: (p, at, len) => {
-				assert$16.strictEqual(currentParser.ptr, p);
-				const start = at - currentBufferPtr + currentBufferRef.byteOffset;
-				return currentParser.onStatus(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
-			},
-			wasm_on_message_begin: (p) => {
-				assert$16.strictEqual(currentParser.ptr, p);
-				return currentParser.onMessageBegin() || 0;
-			},
-			wasm_on_header_field: (p, at, len) => {
-				assert$16.strictEqual(currentParser.ptr, p);
-				const start = at - currentBufferPtr + currentBufferRef.byteOffset;
-				return currentParser.onHeaderField(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
-			},
-			wasm_on_header_value: (p, at, len) => {
-				assert$16.strictEqual(currentParser.ptr, p);
-				const start = at - currentBufferPtr + currentBufferRef.byteOffset;
-				return currentParser.onHeaderValue(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
-			},
-			wasm_on_headers_complete: (p, statusCode, upgrade, shouldKeepAlive) => {
-				assert$16.strictEqual(currentParser.ptr, p);
-				return currentParser.onHeadersComplete(statusCode, Boolean(upgrade), Boolean(shouldKeepAlive)) || 0;
-			},
-			wasm_on_body: (p, at, len) => {
-				assert$16.strictEqual(currentParser.ptr, p);
-				const start = at - currentBufferPtr + currentBufferRef.byteOffset;
-				return currentParser.onBody(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
-			},
-			wasm_on_message_complete: (p) => {
-				assert$16.strictEqual(currentParser.ptr, p);
-				return currentParser.onMessageComplete() || 0;
+		return await WebAssembly.instantiate(mod, {
+			env: {
+				wasm_on_url: (p, at, len) => {
+					/* istanbul ignore next */
+					return 0;
+				},
+				wasm_on_status: (p, at, len) => {
+					assert$16.strictEqual(currentParser.ptr, p);
+					const start = at - currentBufferPtr + currentBufferRef.byteOffset;
+					return currentParser.onStatus(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
+				},
+				wasm_on_message_begin: (p) => {
+					assert$16.strictEqual(currentParser.ptr, p);
+					return currentParser.onMessageBegin() || 0;
+				},
+				wasm_on_header_field: (p, at, len) => {
+					assert$16.strictEqual(currentParser.ptr, p);
+					const start = at - currentBufferPtr + currentBufferRef.byteOffset;
+					return currentParser.onHeaderField(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
+				},
+				wasm_on_header_value: (p, at, len) => {
+					assert$16.strictEqual(currentParser.ptr, p);
+					const start = at - currentBufferPtr + currentBufferRef.byteOffset;
+					return currentParser.onHeaderValue(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
+				},
+				wasm_on_headers_complete: (p, statusCode, upgrade, shouldKeepAlive) => {
+					assert$16.strictEqual(currentParser.ptr, p);
+					return currentParser.onHeadersComplete(statusCode, Boolean(upgrade), Boolean(shouldKeepAlive)) || 0;
+				},
+				wasm_on_body: (p, at, len) => {
+					assert$16.strictEqual(currentParser.ptr, p);
+					const start = at - currentBufferPtr + currentBufferRef.byteOffset;
+					return currentParser.onBody(new FastBuffer(currentBufferRef.buffer, start, len)) || 0;
+				},
+				wasm_on_message_complete: (p) => {
+					assert$16.strictEqual(currentParser.ptr, p);
+					return currentParser.onMessageComplete() || 0;
+				}
 			}
-		} });
+		});
 	}
 	let llhttpInstance = null;
 	let llhttpPromise = lazyllhttp();
@@ -6664,7 +6673,7 @@ var require_client$3 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				});
 			});
 			if (client.destroyed) {
-				util.destroy(socket.on("error", () => {}), new ClientDestroyedError());
+				util.destroy(socket.on("error", () => { }), new ClientDestroyedError());
 				return;
 			}
 			client[kConnecting] = false;
@@ -7021,7 +7030,7 @@ var require_client$3 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			h2State.openStreams -= 1;
 			if (h2State.openStreams === 0) session.unref();
 		});
-		stream$2.once("error", function(err) {
+		stream$2.once("error", function (err) {
 			if (client[kHTTP2Session] && !client[kHTTP2Session].destroyed && !this.closed && !this.destroyed) {
 				h2State.streams -= 1;
 				util.destroy(stream$2, err);
@@ -7118,7 +7127,7 @@ var require_client$3 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			expectsPayload,
 			header
 		});
-		const onData = function(chunk) {
+		const onData = function (chunk) {
 			if (finished$1) return;
 			try {
 				if (!writer.write(chunk) && this.pause) this.pause();
@@ -7126,16 +7135,16 @@ var require_client$3 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				util.destroy(this, err);
 			}
 		};
-		const onDrain = function() {
+		const onDrain = function () {
 			if (finished$1) return;
 			if (body.resume) body.resume();
 		};
-		const onAbort = function() {
+		const onAbort = function () {
 			if (finished$1) return;
 			const err = new RequestAbortedError();
 			queueMicrotask(() => onFinished(err));
 		};
-		const onFinished = function(err) {
+		const onFinished = function (err) {
 			if (finished$1) return;
 			finished$1 = true;
 			assert$16(socket.destroyed || socket[kWriting] && client[kRunning] <= 1);
@@ -7708,7 +7717,7 @@ var require_dispatcher_weakref = /* @__PURE__ */ __commonJSMin(((exports, module
 			});
 		}
 	};
-	module.exports = function() {
+	module.exports = function () {
 		if (process.env.NODE_V8_COVERAGE) return {
 			WeakRef: CompatWeakRef,
 			FinalizationRegistry: CompatFinalizer
@@ -7837,7 +7846,7 @@ var require_readable = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const kBody = Symbol("kBody");
 	const kAbort = Symbol("abort");
 	const kContentType = Symbol("kContentType");
-	const noop = () => {};
+	const noop = () => { };
 	module.exports = class BodyReadable extends Readable$2 {
 		constructor({ resume, abort, contentType = "", highWaterMark = 64 * 1024 }) {
 			super({
@@ -7927,11 +7936,11 @@ var require_readable = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				const signalListenerCleanup = signal ? util.addAbortListener(signal, () => {
 					this.destroy();
 				}) : noop;
-				this.on("close", function() {
+				this.on("close", function () {
 					signalListenerCleanup();
 					if (signal && signal.aborted) reject(signal.reason || Object.assign(/* @__PURE__ */ new Error("The operation was aborted"), { name: "AbortError" }));
 					else resolve$12(null);
-				}).on("error", noop).on("data", function(chunk) {
+				}).on("error", noop).on("data", function (chunk) {
 					limit -= chunk.length;
 					if (limit <= 0) this.destroy();
 				}).resume();
@@ -7956,9 +7965,9 @@ var require_readable = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				length: 0,
 				body: []
 			};
-			stream$2.on("error", function(err) {
+			stream$2.on("error", function (err) {
 				consumeFinish(this[kConsume], err);
-			}).on("close", function() {
+			}).on("close", function () {
 				if (this[kConsume].body !== null) consumeFinish(this[kConsume], new RequestAbortedError());
 			});
 			process.nextTick(consumeStart, stream$2[kConsume]);
@@ -7969,7 +7978,7 @@ var require_readable = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		const { _readableState: state } = consume.stream;
 		for (const chunk of state.buffer) consumePush(consume, chunk);
 		if (state.endEmitted) consumeEnd(this[kConsume]);
-		else consume.stream.on("end", function() {
+		else consume.stream.on("end", function () {
 			consumeEnd(this[kConsume]);
 		});
 		consume.stream.resume();
@@ -8047,7 +8056,7 @@ var require_util$7 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				process.nextTick(callback, new ResponseStatusCodeError(`Response status code ${statusCode}${statusMessage ? `: ${statusMessage}` : ""}`, statusCode, headers, payload));
 				return;
 			}
-		} catch (err) {}
+		} catch (err) { }
 		process.nextTick(callback, new ResponseStatusCodeError(`Response status code ${statusCode}${statusMessage ? `: ${statusMessage}` : ""}`, statusCode, headers));
 	}
 	module.exports = { getResolveErrorBodyCallback };
@@ -8908,7 +8917,7 @@ var require_mock_utils = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			handler.onComplete(responseTrailers);
 			deleteMockDispatch(mockDispatches, key);
 		}
-		function resume() {}
+		function resume() { }
 		return true;
 	}
 	function buildMockDispatch() {
@@ -9224,9 +9233,11 @@ var require_pending_interceptors_formatter = /* @__PURE__ */ __commonJSMin(((exp
 	*/
 	module.exports = class PendingInterceptorsFormatter {
 		constructor({ disableColors } = {}) {
-			this.transform = new Transform({ transform(chunk, _enc, cb) {
-				cb(null, chunk);
-			} });
+			this.transform = new Transform({
+				transform(chunk, _enc, cb) {
+					cb(null, chunk);
+				}
+			});
 			this.logger = new Console({
 				stdout: this.transform,
 				inspectOptions: { colors: !disableColors && !process.env.CI }
@@ -9432,7 +9443,7 @@ var require_proxy_agent = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 							}
 						});
 						if (statusCode !== 200) {
-							socket.on("error", () => {}).destroy();
+							socket.on("error", () => { }).destroy();
 							callback(new RequestAbortedError(`Proxy response (${statusCode}) !== 200 when HTTP Tunneling`));
 						}
 						if (opts$1.protocol !== "https:") {
@@ -9830,7 +9841,7 @@ var require_headers$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			type: "header value"
 		});
 		if (headers[kGuard] === "immutable") throw new TypeError("immutable");
-		else if (headers[kGuard] === "request-no-cors") {}
+		else if (headers[kGuard] === "request-no-cors") { }
 		return headers[kHeadersList].append(name$1, value);
 	}
 	var HeadersList = class HeadersList {
@@ -9929,7 +9940,7 @@ var require_headers$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				type: "header name"
 			});
 			if (this[kGuard] === "immutable") throw new TypeError("immutable");
-			else if (this[kGuard] === "request-no-cors") {}
+			else if (this[kGuard] === "request-no-cors") { }
 			if (!this[kHeadersList].contains(name$1)) return;
 			this[kHeadersList].delete(name$1);
 		}
@@ -9972,7 +9983,7 @@ var require_headers$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				type: "header value"
 			});
 			if (this[kGuard] === "immutable") throw new TypeError("immutable");
-			else if (this[kGuard] === "request-no-cors") {}
+			else if (this[kGuard] === "request-no-cors") { }
 			this[kHeadersList].set(name$1, value);
 		}
 		getSetCookie() {
@@ -10059,7 +10070,7 @@ var require_headers$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		},
 		[util$8.inspect.custom]: { enumerable: false }
 	});
-	webidl.converters.HeadersInit = function(V) {
+	webidl.converters.HeadersInit = function (V) {
 		if (webidl.util.Type(V) === "Object") {
 			if (V[Symbol.iterator]) return webidl.converters["sequence<sequence<ByteString>>"](V);
 			return webidl.converters["record<ByteString, ByteString>"](V);
@@ -10337,7 +10348,7 @@ var require_response$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	webidl.converters.ReadableStream = webidl.interfaceConverter(ReadableStream);
 	webidl.converters.FormData = webidl.interfaceConverter(FormData);
 	webidl.converters.URLSearchParams = webidl.interfaceConverter(URLSearchParams);
-	webidl.converters.XMLHttpRequestBodyInit = function(V) {
+	webidl.converters.XMLHttpRequestBodyInit = function (V) {
 		if (typeof V === "string") return webidl.converters.USVString(V);
 		if (isBlobLike(V)) return webidl.converters.Blob(V, { strict: false });
 		if (types$2.isArrayBuffer(V) || types$2.isTypedArray(V) || types$2.isDataView(V)) return webidl.converters.BufferSource(V);
@@ -10345,7 +10356,7 @@ var require_response$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (V instanceof URLSearchParams) return webidl.converters.URLSearchParams(V);
 		return webidl.converters.DOMString(V);
 	};
-	webidl.converters.BodyInit = function(V) {
+	webidl.converters.BodyInit = function (V) {
 		if (V instanceof ReadableStream) return webidl.converters.ReadableStream(V);
 		if (V?.[Symbol.asyncIterator]) return V;
 		return webidl.converters.XMLHttpRequestBodyInit(V);
@@ -10404,13 +10415,15 @@ var require_request$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			webidl.argumentLengthCheck(arguments, 1, { header: "Request constructor" });
 			input = webidl.converters.RequestInfo(input);
 			init = webidl.converters.RequestInit(init);
-			this[kRealm] = { settingsObject: {
-				baseUrl: getGlobalOrigin(),
-				get origin() {
-					return this.baseUrl?.origin;
-				},
-				policyContainer: makePolicyContainer()
-			} };
+			this[kRealm] = {
+				settingsObject: {
+					baseUrl: getGlobalOrigin(),
+					get origin() {
+						return this.baseUrl?.origin;
+					},
+					policyContainer: makePolicyContainer()
+				}
+			};
 			let request$1 = null;
 			let fallbackMode = null;
 			const baseUrl = this[kRealm].settingsObject.baseUrl;
@@ -10513,14 +10526,14 @@ var require_request$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				else {
 					this[kAbortController] = ac;
 					const acRef = new WeakRef(ac);
-					const abort = function() {
+					const abort = function () {
 						const ac$1 = acRef.deref();
 						if (ac$1 !== void 0) ac$1.abort(this.reason);
 					};
 					try {
 						if (typeof getMaxListeners === "function" && getMaxListeners(signal) === defaultMaxListeners) setMaxListeners(100, signal);
 						else if (getEventListeners(signal, "abort").length >= defaultMaxListeners) setMaxListeners(100, signal);
-					} catch {}
+					} catch { }
 					util.addAbortListener(signal, abort);
 					requestFinalizer.register(ac, {
 						signal,
@@ -10746,7 +10759,7 @@ var require_request$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 	});
 	webidl.converters.Request = webidl.interfaceConverter(Request);
-	webidl.converters.RequestInfo = function(V) {
+	webidl.converters.RequestInfo = function (V) {
 		if (typeof V === "string") return webidl.converters.USVString(V);
 		if (V instanceof Request) return webidl.converters.Request(V);
 		return webidl.converters.USVString(V);
@@ -10984,8 +10997,8 @@ var require_fetch$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		else request$1.policyContainer = makePolicyContainer();
 		if (!request$1.headersList.contains("accept")) request$1.headersList.append("accept", "*/*");
 		if (!request$1.headersList.contains("accept-language")) request$1.headersList.append("accept-language", "*");
-		if (request$1.priority === null) {}
-		if (subresourceSet.has(request$1.destination)) {}
+		if (request$1.priority === null) { }
+		if (subresourceSet.has(request$1.destination)) { }
 		mainFetch(fetchParams).catch((err) => {
 			fetchParams.controller.terminate(err);
 		});
@@ -11017,7 +11030,7 @@ var require_fetch$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		})();
 		if (recursive) return response;
 		if (response.status !== 0 && !response.internalResponse) {
-			if (request$1.responseTainting === "cors") {}
+			if (request$1.responseTainting === "cors") { }
 			if (request$1.responseTainting === "basic") response = filterResponse(response, "basic");
 			else if (request$1.responseTainting === "cors") response = filterResponse(response, "cors");
 			else if (request$1.responseTainting === "opaque") response = filterResponse(response, "opaque");
@@ -11116,14 +11129,18 @@ var require_fetch$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				controller.enqueue(chunk);
 			};
 			const transformStream = new TransformStream({
-				start() {},
+				start() { },
 				transform: identityTransformAlgorithm,
 				flush: processResponseEndOfBody
-			}, { size() {
-				return 1;
-			} }, { size() {
-				return 1;
-			} });
+			}, {
+				size() {
+					return 1;
+				}
+			}, {
+				size() {
+					return 1;
+				}
+			});
 			response.body = { stream: response.body.stream.pipeThrough(transformStream) };
 		}
 		if (fetchParams.processResponseConsumeBody != null) {
@@ -11139,7 +11156,7 @@ var require_fetch$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		let response = null;
 		let actualResponse = null;
 		const timingInfo = fetchParams.timingInfo;
-		if (request$1.serviceWorkers === "all") {}
+		if (request$1.serviceWorkers === "all") { }
 		if (response === null) {
 			if (request$1.redirect === "follow") request$1.serviceWorkers = "none";
 			actualResponse = response = await httpNetworkOrCacheFetch(fetchParams);
@@ -11215,7 +11232,7 @@ var require_fetch$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (httpRequest.body == null && ["POST", "PUT"].includes(httpRequest.method)) contentLengthHeaderValue = "0";
 		if (contentLength != null) contentLengthHeaderValue = isomorphicEncode(`${contentLength}`);
 		if (contentLengthHeaderValue != null) httpRequest.headersList.append("content-length", contentLengthHeaderValue);
-		if (contentLength != null && httpRequest.keepalive) {}
+		if (contentLength != null && httpRequest.keepalive) { }
 		if (httpRequest.referrer instanceof URL) httpRequest.headersList.append("referer", isomorphicEncode(httpRequest.referrer.href));
 		appendRequestOriginHeader(httpRequest);
 		appendFetchMetadata(httpRequest);
@@ -11230,13 +11247,13 @@ var require_fetch$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (!httpRequest.headersList.contains("accept-encoding")) if (urlHasHttpsScheme(requestCurrentURL(httpRequest))) httpRequest.headersList.append("accept-encoding", "br, gzip, deflate");
 		else httpRequest.headersList.append("accept-encoding", "gzip, deflate");
 		httpRequest.headersList.delete("host");
-		if (includeCredentials) {}
+		if (includeCredentials) { }
 		if (httpCache == null) httpRequest.cache = "no-store";
-		if (httpRequest.mode !== "no-store" && httpRequest.mode !== "reload") {}
+		if (httpRequest.mode !== "no-store" && httpRequest.mode !== "reload") { }
 		if (response == null) {
 			if (httpRequest.mode === "only-if-cached") return makeNetworkError("only if cached");
 			const forwardResponse = await httpNetworkFetch(httpFetchParams, includeCredentials, isNewConnectionFetch);
-			if (!safeMethodsSet.has(httpRequest.method) && forwardResponse.status >= 200 && forwardResponse.status <= 399) {}
+			if (!safeMethodsSet.has(httpRequest.method) && forwardResponse.status >= 200 && forwardResponse.status <= 399) { }
 			if (response == null) response = forwardResponse;
 		}
 		response.urlList = [...httpRequest.urlList];
@@ -11252,7 +11269,7 @@ var require_fetch$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			fetchParams.controller.connection.destroy();
 			response = await httpNetworkOrCacheFetch(fetchParams, isAuthenticationFetch, true);
 		}
-		if (isAuthenticationFetch) {}
+		if (isAuthenticationFetch) { }
 		return response;
 	}
 	async function httpNetworkFetch(fetchParams, includeCredentials = false, forceNewConnection = false) {
@@ -11271,7 +11288,7 @@ var require_fetch$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		let response = null;
 		const timingInfo = fetchParams.timingInfo;
 		request$1.cache = "no-store";
-		if (request$1.mode === "websocket") {}
+		if (request$1.mode === "websocket") { }
 		let requestBody = null;
 		if (request$1.body == null && fetchParams.processRequestEndOfBody) queueMicrotask(() => fetchParams.processRequestEndOfBody());
 		else if (request$1.body != null) {
@@ -11449,7 +11466,7 @@ var require_fetch$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 						status,
 						statusText,
 						headersList: headers[kHeadersList],
-						body: decoders.length ? pipeline(this.body, ...decoders, () => {}) : this.body.on("error", () => {})
+						body: decoders.length ? pipeline(this.body, ...decoders, () => { }) : this.body.on("error", () => { })
 					});
 					return true;
 				},
@@ -13655,7 +13672,7 @@ var require_connection = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	let crypto;
 	try {
 		crypto = __require("crypto");
-	} catch {}
+	} catch { }
 	/**
 	* @see https://websockets.spec.whatwg.org/#concept-websocket-establish
 	* @param {URL} url
@@ -13778,7 +13795,7 @@ var require_frame = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	let crypto;
 	try {
 		crypto = __require("crypto");
-	} catch {}
+	} catch { }
 	var WebsocketFrameSend = class {
 		/**
 		* @param {Buffer|undefined} data
@@ -14099,7 +14116,7 @@ var require_websocket = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				reasonByteLength = Buffer.byteLength(reason);
 				if (reasonByteLength > 123) throw new DOMException(`Reason must be less than 123 bytes; received ${reasonByteLength}`, "SyntaxError");
 			}
-			if (this[kReadyState] === WebSocket.CLOSING || this[kReadyState] === WebSocket.CLOSED) {} else if (!isEstablished(this)) {
+			if (this[kReadyState] === WebSocket.CLOSING || this[kReadyState] === WebSocket.CLOSED) { } else if (!isEstablished(this)) {
 				failWebsocketConnection(this, "Connection was closed before it was established.");
 				this[kReadyState] = WebSocket.CLOSING;
 			} else if (!isClosing(this)) {
@@ -14295,7 +14312,7 @@ var require_websocket = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		CLOSED: staticPropertyDescriptors
 	});
 	webidl.converters["sequence<DOMString>"] = webidl.sequenceConverter(webidl.converters.DOMString);
-	webidl.converters["DOMString or sequence<DOMString>"] = function(V) {
+	webidl.converters["DOMString or sequence<DOMString>"] = function (V) {
 		if (webidl.util.Type(V) === "Object" && Symbol.iterator in V) return webidl.converters["sequence<DOMString>"](V);
 		return webidl.converters.DOMString(V);
 	};
@@ -14319,11 +14336,11 @@ var require_websocket = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			converter: webidl.nullableConverter(webidl.converters.HeadersInit)
 		}
 	]);
-	webidl.converters["DOMString or sequence<DOMString> or WebSocketInit"] = function(V) {
+	webidl.converters["DOMString or sequence<DOMString> or WebSocketInit"] = function (V) {
 		if (webidl.util.Type(V) === "Object" && !(Symbol.iterator in V)) return webidl.converters.WebSocketInit(V);
 		return { protocols: webidl.converters["DOMString or sequence<DOMString>"](V) };
 	};
-	webidl.converters.WebSocketSendData = function(V) {
+	webidl.converters.WebSocketSendData = function (V) {
 		if (webidl.util.Type(V) === "Object") {
 			if (isBlobLike(V)) return webidl.converters.Blob(V, { strict: false });
 			if (ArrayBuffer.isView(V) || types.isAnyArrayBuffer(V)) return webidl.converters.BufferSource(V);
@@ -14457,29 +14474,29 @@ var require_undici = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region node_modules/@actions/http-client/lib/index.js
 var require_lib$30 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -14488,13 +14505,13 @@ var require_lib$30 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		__setModuleDefault(result, mod);
 		return result;
 	};
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -14523,7 +14540,7 @@ var require_lib$30 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	const tunnel = __importStar(require_tunnel());
 	const undici_1 = require_undici();
 	var HttpCodes;
-	(function(HttpCodes) {
+	(function (HttpCodes) {
 		HttpCodes[HttpCodes["OK"] = 200] = "OK";
 		HttpCodes[HttpCodes["MultipleChoices"] = 300] = "MultipleChoices";
 		HttpCodes[HttpCodes["MovedPermanently"] = 301] = "MovedPermanently";
@@ -14553,12 +14570,12 @@ var require_lib$30 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		HttpCodes[HttpCodes["GatewayTimeout"] = 504] = "GatewayTimeout";
 	})(HttpCodes || (exports.HttpCodes = HttpCodes = {}));
 	var Headers;
-	(function(Headers) {
+	(function (Headers) {
 		Headers["Accept"] = "accept";
 		Headers["ContentType"] = "content-type";
 	})(Headers || (exports.Headers = Headers = {}));
 	var MediaTypes;
-	(function(MediaTypes) {
+	(function (MediaTypes) {
 		MediaTypes["ApplicationJson"] = "application/json";
 	})(MediaTypes || (exports.MediaTypes = MediaTypes = {}));
 	/**
@@ -14838,12 +14855,12 @@ var require_lib$30 = /* @__PURE__ */ __commonJSMin(((exports) => {
 				if (socket) socket.end();
 				handleResult(/* @__PURE__ */ new Error(`Request timeout: ${info.options.path}`));
 			});
-			req.on("error", function(err) {
+			req.on("error", function (err) {
 				handleResult(err);
 			});
 			if (data && typeof data === "string") req.write(data, "utf8");
 			if (data && typeof data !== "string") {
-				data.on("close", function() {
+				data.on("close", function () {
 					req.end();
 				});
 				data.pipe(req);
@@ -14974,7 +14991,7 @@ var require_lib$30 = /* @__PURE__ */ __commonJSMin(((exports) => {
 							response.result = obj;
 						}
 						response.headers = res.message.headers;
-					} catch (err) {}
+					} catch (err) { }
 					if (statusCode > 299) {
 						let msg;
 						if (obj && obj.message) msg = obj.message;
@@ -14995,13 +15012,13 @@ var require_lib$30 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/http-client/lib/auth.js
 var require_auth$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -15084,13 +15101,13 @@ var require_auth$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/core/lib/oidc-utils.js
 var require_oidc_utils = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -15167,13 +15184,13 @@ var require_oidc_utils = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/core/lib/summary.js
 var require_summary = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -15463,29 +15480,29 @@ var require_summary = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/core/lib/path-utils.js
 var require_path_utils = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -15536,27 +15553,27 @@ var require_path_utils = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/io/lib/io-util.js
 var require_io_util = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		Object.defineProperty(o, k2, {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		});
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -15565,13 +15582,13 @@ var require_io_util = /* @__PURE__ */ __commonJSMin(((exports) => {
 		__setModuleDefault(result, mod);
 		return result;
 	};
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -15700,27 +15717,27 @@ var require_io_util = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/io/lib/io.js
 var require_io = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		Object.defineProperty(o, k2, {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		});
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -15729,13 +15746,13 @@ var require_io = /* @__PURE__ */ __commonJSMin(((exports) => {
 		__setModuleDefault(result, mod);
 		return result;
 	};
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -15943,27 +15960,27 @@ var require_io = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/exec/lib/toolrunner.js
 var require_toolrunner = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		Object.defineProperty(o, k2, {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		});
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -15972,13 +15989,13 @@ var require_toolrunner = /* @__PURE__ */ __commonJSMin(((exports) => {
 		__setModuleDefault(result, mod);
 		return result;
 	};
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -16343,27 +16360,27 @@ var require_toolrunner = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/exec/lib/exec.js
 var require_exec = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		Object.defineProperty(o, k2, {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		});
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -16372,13 +16389,13 @@ var require_exec = /* @__PURE__ */ __commonJSMin(((exports) => {
 		__setModuleDefault(result, mod);
 		return result;
 	};
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -16470,29 +16487,29 @@ var require_exec = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/core/lib/platform.js
 var require_platform = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -16501,13 +16518,13 @@ var require_platform = /* @__PURE__ */ __commonJSMin(((exports) => {
 		__setModuleDefault(result, mod);
 		return result;
 	};
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -16528,7 +16545,7 @@ var require_platform = /* @__PURE__ */ __commonJSMin(((exports) => {
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
 	};
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -16586,29 +16603,29 @@ var require_platform = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@actions/core/lib/core.js
 var require_core$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -16617,13 +16634,13 @@ var require_core$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		__setModuleDefault(result, mod);
 		return result;
 	};
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -16656,7 +16673,7 @@ var require_core$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	* The code to exit an action
 	*/
 	var ExitCode;
-	(function(ExitCode) {
+	(function (ExitCode) {
 		/**
 		* A code indicating that the action was successful
 		*/
@@ -16906,7 +16923,7 @@ var require_core$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var summary_1 = require_summary();
 	Object.defineProperty(exports, "summary", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return summary_1.summary;
 		}
 	});
@@ -16916,7 +16933,7 @@ var require_core$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var summary_2 = require_summary();
 	Object.defineProperty(exports, "markdownSummary", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return summary_2.markdownSummary;
 		}
 	});
@@ -16926,19 +16943,19 @@ var require_core$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var path_utils_1 = require_path_utils();
 	Object.defineProperty(exports, "toPosixPath", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return path_utils_1.toPosixPath;
 		}
 	});
 	Object.defineProperty(exports, "toWin32Path", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return path_utils_1.toWin32Path;
 		}
 	});
 	Object.defineProperty(exports, "toPlatformPath", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return path_utils_1.toPlatformPath;
 		}
 	});
@@ -17104,7 +17121,7 @@ var require_is_glob = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		"(": ")",
 		"[": "]"
 	};
-	var strictCheck = function(str) {
+	var strictCheck = function (str) {
 		if (str[0] === "!") return true;
 		var index = 0;
 		var pipeIndex = -2;
@@ -17160,7 +17177,7 @@ var require_is_glob = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return false;
 	};
-	var relaxedCheck = function(str) {
+	var relaxedCheck = function (str) {
 		if (str[0] === "!") return true;
 		var index = 0;
 		while (index < str.length) {
@@ -17341,7 +17358,7 @@ var require_stringify = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 * Released under the MIT License.
 */
 var require_is_number = /* @__PURE__ */ __commonJSMin(((exports, module) => {
-	module.exports = function(num) {
+	module.exports = function (num) {
 		if (typeof num === "number") return num - num === 0;
 		if (typeof num === "string" && num.trim() !== "") return Number.isFinite ? Number.isFinite(+num) : isFinite(+num);
 		return false;
@@ -20613,7 +20630,7 @@ var require_merge2 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		mergedStream.setMaxListeners(0);
 		mergedStream.add = addStream;
-		mergedStream.on("unpipe", function(stream$2) {
+		mergedStream.on("unpipe", function (stream$2) {
 			stream$2.emit("merge2UnpipeEnd");
 		});
 		if (args.length) addStream.apply(null, args);
@@ -20946,13 +20963,13 @@ var require_run_parallel = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			if (--pending === 0 || err) done(err);
 		}
 		if (!pending) done(null);
-		else if (keys) keys.forEach(function(key) {
-			tasks[key](function(err, result) {
+		else if (keys) keys.forEach(function (key) {
+			tasks[key](function (err, result) {
 				each(key, err, result);
 			});
 		});
-		else tasks.forEach(function(task, i) {
-			task(function(err, result) {
+		else tasks.forEach(function (task, i) {
+			task(function (err, result) {
 				each(i, err, result);
 			});
 		});
@@ -21435,7 +21452,7 @@ var require_queue = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			errorHandler = handler;
 		}
 	}
-	function noop() {}
+	function noop() { }
 	function Task() {
 		this.value = null;
 		this.callback = noop;
@@ -21462,7 +21479,7 @@ var require_queue = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			context = null;
 		}
 		function asyncWrapper(arg, cb) {
-			worker.call(this, arg).then(function(res) {
+			worker.call(this, arg).then(function (res) {
 				cb(null, res);
 			}, cb);
 		}
@@ -21474,8 +21491,8 @@ var require_queue = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		queue.drained = drained;
 		return queue;
 		function push(value) {
-			var p = new Promise(function(resolve$12, reject) {
-				pushCb(value, function(err, result) {
+			var p = new Promise(function (resolve$12, reject) {
+				pushCb(value, function (err, result) {
 					if (err) {
 						reject(err);
 						return;
@@ -21487,8 +21504,8 @@ var require_queue = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			return p;
 		}
 		function unshift(value) {
-			var p = new Promise(function(resolve$12, reject) {
-				unshiftCb(value, function(err, result) {
+			var p = new Promise(function (resolve$12, reject) {
+				unshiftCb(value, function (err, result) {
 					if (err) {
 						reject(err);
 						return;
@@ -21500,12 +21517,12 @@ var require_queue = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			return p;
 		}
 		function drained() {
-			return new Promise(function(resolve$12) {
-				process.nextTick(function() {
+			return new Promise(function (resolve$12) {
+				process.nextTick(function () {
 					if (queue.idle()) resolve$12();
 					else {
 						var previousDrain = queue.drain;
-						queue.drain = function() {
+						queue.drain = function () {
 							if (typeof previousDrain === "function") previousDrain();
 							resolve$12();
 							queue.drain = previousDrain;
@@ -21696,7 +21713,7 @@ var require_stream$3 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this._reader = new async_1.default(this._root, this._settings);
 			this._stream = new stream_1$2.Readable({
 				objectMode: true,
-				read: () => {},
+				read: () => { },
 				destroy: () => {
 					if (!this._reader.isDestroyed) this._reader.destroy();
 				}
@@ -22305,7 +22322,7 @@ var require_stream$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			const source = this.api(root, task, options);
 			const destination = new stream_1.Readable({
 				objectMode: true,
-				read: () => {}
+				read: () => { }
 			});
 			source.once("error", (error) => destination.emit("error", error)).on("data", (entry) => destination.emit("data", options.transform(entry))).once("end", () => destination.emit("end"));
 			destination.once("close", () => source.destroy());
@@ -22458,7 +22475,7 @@ var require_out = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		const result = await Promise.all(works);
 		return utils.array.flatten(result);
 	}
-	(function(FastGlob) {
+	(function (FastGlob) {
 		FastGlob.glob = FastGlob;
 		FastGlob.globSync = sync;
 		FastGlob.globStream = stream$2;
@@ -22503,7 +22520,7 @@ var require_out = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			return utils.path.convertPathToPattern(source);
 		}
 		FastGlob.convertPathToPattern = convertPathToPattern;
-		(function(posix$2) {
+		(function (posix$2) {
 			function escapePath$1(source) {
 				assertPatternsInput(source);
 				return utils.path.escapePosixPath(source);
@@ -22515,7 +22532,7 @@ var require_out = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			}
 			posix$2.convertPathToPattern = convertPathToPattern$1;
 		})(FastGlob.posix || (FastGlob.posix = {}));
-		(function(win32) {
+		(function (win32) {
 			function escapePath$1(source) {
 				assertPatternsInput(source);
 				return utils.path.escapeWindowsPath(source);
@@ -22856,7 +22873,7 @@ async function useNpmEnvironment(manifest, options, task) {
 //#endregion
 //#region node_modules/@jsdevtools/npm-publish/node_modules/semver/internal/debug.js
 var require_debug$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
-	const debug = typeof process === "object" && process.env && process.env.NODE_DEBUG && /\bsemver\b/i.test(process.env.NODE_DEBUG) ? (...args) => console.error("SEMVER", ...args) : () => {};
+	const debug = typeof process === "object" && process.env && process.env.NODE_DEBUG && /\bsemver\b/i.test(process.env.NODE_DEBUG) ? (...args) => console.error("SEMVER", ...args) : () => { };
 	module.exports = debug;
 }));
 
@@ -23523,7 +23540,7 @@ var Pipe$1 = class {
 		this.dest.removeListener("drain", this.ondrain);
 	}
 	/* c8 ignore start */
-	proxyErrors(_er) {}
+	proxyErrors(_er) { }
 	/* c8 ignore stop */
 	end() {
 		this.unpipe();
@@ -23692,7 +23709,7 @@ var Minipass$1 = class extends EventEmitter$1 {
 	* No-op setter. Stream aborted status is set via the AbortSignal provided
 	* in the constructor options.
 	*/
-	set aborted(_) {}
+	set aborted(_) { }
 	write(chunk, encoding, cb) {
 		if (this[ABORTED$2]) return false;
 		if (this[EOF$1]) throw new Error("write after end");
@@ -23856,8 +23873,8 @@ var Minipass$1 = class extends EventEmitter$1 {
 		return this[BUFFER$2].shift();
 	}
 	[FLUSH$1](noDrain = false) {
-		do		;
-while (this[FLUSHCHUNK$1](this[BUFFERSHIFT$1]()) && this[BUFFER$2].length);
+		do;
+		while (this[FLUSHCHUNK$1](this[BUFFERSHIFT$1]()) && this[BUFFER$2].length);
 		if (!noDrain && !this[BUFFER$2].length && !this[EOF$1]) this.emit("drain");
 	}
 	[FLUSHCHUNK$1](chunk) {
@@ -24590,7 +24607,7 @@ var WriteStreamSync = class extends WriteStream {
 		} finally {
 			if (threw) try {
 				this[_close]();
-			} catch {}
+			} catch { }
 		}
 	}
 };
@@ -24756,7 +24773,7 @@ var Pipe = class {
 		this.dest.removeListener("drain", this.ondrain);
 	}
 	/* c8 ignore start */
-	proxyErrors(_er) {}
+	proxyErrors(_er) { }
 	/* c8 ignore stop */
 	end() {
 		this.unpipe();
@@ -24925,7 +24942,7 @@ var Minipass = class extends EventEmitter$1 {
 	* No-op setter. Stream aborted status is set via the AbortSignal provided
 	* in the constructor options.
 	*/
-	set aborted(_) {}
+	set aborted(_) { }
 	write(chunk, encoding, cb) {
 		if (this[ABORTED$1]) return false;
 		if (this[EOF]) throw new Error("write after end");
@@ -25089,8 +25106,8 @@ var Minipass = class extends EventEmitter$1 {
 		return this[BUFFER$1].shift();
 	}
 	[FLUSH](noDrain = false) {
-		do		;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER$1].length);
+		do;
+		while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER$1].length);
 		if (!noDrain && !this[BUFFER$1].length && !this[EOF]) this.emit("drain");
 	}
 	[FLUSHCHUNK](chunk) {
@@ -25619,7 +25636,7 @@ const desc = Object.getOwnPropertyDescriptor(Buffer$1, "concat");
 const noop$1 = (args) => args;
 const passthroughBufferConcat = desc?.writable === true || desc?.set !== void 0 ? (makeNoOp) => {
 	Buffer$1.concat = makeNoOp ? noop$1 : OriginalBufferConcat;
-} : (_) => {};
+} : (_) => { };
 const _superWrite = Symbol("_superWrite");
 var ZlibError = class extends Error {
 	code;
@@ -25729,9 +25746,9 @@ var ZlibBase = class extends Minipass {
 		assert(this.#handle, "zlib binding closed");
 		const nativeHandle = this.#handle._handle;
 		const originalNativeClose = nativeHandle.close;
-		nativeHandle.close = () => {};
+		nativeHandle.close = () => { };
 		const originalClose = this.#handle.close;
-		this.#handle.close = () => {};
+		this.#handle.close = () => { };
 		passthroughBufferConcat(true);
 		let result = void 0;
 		try {
@@ -26528,8 +26545,8 @@ var Parser = class extends EventEmitter {
 		return go;
 	}
 	[NEXTENTRY]() {
-		do		;
-while (this[PROCESSENTRY](this[QUEUE].shift()));
+		do;
+		while (this[PROCESSENTRY](this[QUEUE].shift()));
 		if (!this[QUEUE].length) {
 			const re = this[READENTRY];
 			if (!re || re.flowing || re.size === re.remain) {
@@ -26820,7 +26837,7 @@ const listFileSync = (opt) => {
 	} finally {
 		if (typeof fd === "number") try {
 			fs$2.closeSync(fd);
-		} catch (er) {}
+		} catch (er) { }
 	}
 };
 const listFile = (opt, _files) => {
@@ -26873,7 +26890,7 @@ var require_lib$29 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (name$1.startsWith(".")) errors.push("name cannot start with a period");
 		if (name$1.match(/^_/)) errors.push("name cannot start with an underscore");
 		if (name$1.trim() !== name$1) errors.push("name cannot contain leading or trailing spaces");
-		exclusionList.forEach(function(excludedName) {
+		exclusionList.forEach(function (excludedName) {
 			if (name$1.toLowerCase() === excludedName) errors.push(excludedName + " is not a valid package name");
 		});
 		if (builtins$1.includes(name$1.toLowerCase())) warnings.push(name$1 + " is a core module name");
@@ -26892,7 +26909,7 @@ var require_lib$29 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return done(warnings, errors);
 	}
-	var done = function(warnings, errors) {
+	var done = function (warnings, errors) {
 		var result = {
 			validForNewPackages: errors.length === 0 && warnings.length === 0,
 			validForOldPackages: errors.length === 0,
@@ -27057,7 +27074,7 @@ var require_lru_cache = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				this._listeners.forEach((f) => f(e), this);
 			}
 		}
-		onabort() {}
+		onabort() { }
 		addEventListener(ev, fn) {
 			if (ev === "abort") this._listeners.push(fn);
 		}
@@ -27244,9 +27261,9 @@ var require_lru_cache = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				return this.ttls[index] !== 0 && this.starts[index] !== 0 && (cachedNow || getNow()) - this.starts[index] > this.ttls[index];
 			};
 		}
-		updateItemAge(_index) {}
-		statusTTL(_status, _index) {}
-		setItemTTL(_index, _ttl, _start) {}
+		updateItemAge(_index) { }
+		statusTTL(_status, _index) { }
+		setItemTTL(_index, _ttl, _start) { }
 		isStale(_index) {
 			return false;
 		}
@@ -27279,13 +27296,13 @@ var require_lru_cache = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				}
 			};
 		}
-		removeItemSize(_index) {}
-		addItemSize(_index, _size$1) {}
+		removeItemSize(_index) { }
+		addItemSize(_index, _size$1) { }
 		requireSize(_k, _v, size, sizeCalculation) {
 			if (size || sizeCalculation) throw new TypeError("cannot set size without setting maxSize or maxEntrySize on cache");
 		}
 		*indexes({ allowStale = this.allowStale } = {}) {
-			if (this.size) for (let i = this.tail;;) {
+			if (this.size) for (let i = this.tail; ;) {
 				if (!this.isValidIndex(i)) break;
 				if (allowStale || !this.isStale(i)) yield i;
 				if (i === this.head) break;
@@ -27293,7 +27310,7 @@ var require_lru_cache = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			}
 		}
 		*rindexes({ allowStale = this.allowStale } = {}) {
-			if (this.size) for (let i = this.head;;) {
+			if (this.size) for (let i = this.head; ;) {
 				if (!this.isValidIndex(i)) break;
 				if (allowStale || !this.isStale(i)) yield i;
 				if (i === this.tail) break;
@@ -27388,7 +27405,7 @@ var require_lru_cache = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				this.set(key, entry.value, entry);
 			}
 		}
-		dispose(_v, _k, _reason) {}
+		dispose(_v, _k, _reason) { }
 		set(k, v, { ttl = this.ttl, start, noDisposeOnSet = this.noDisposeOnSet, size = 0, sizeCalculation = this.sizeCalculation, noUpdateTTL = this.noUpdateTTL, status } = {}) {
 			size = this.requireSize(k, v, size, sizeCalculation);
 			if (this.maxEntrySize && size > this.maxEntrySize) {
@@ -27901,7 +27918,7 @@ var require_hosts = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				committish: url$8.hash.slice(1)
 			};
 		},
-		hashformat: function(fragment) {
+		hashformat: function (fragment) {
 			return fragment && "file-" + formatHashFragment(fragment);
 		}
 	};
@@ -27941,7 +27958,7 @@ var require_parse_url = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const safeUrl = (u) => {
 		try {
 			return new url$7.URL(u);
-		} catch {}
+		} catch { }
 	};
 	const correctProtocol = (arg, protocols) => {
 		const firstColon = arg.indexOf(":");
@@ -28223,7 +28240,7 @@ var require_constants$5 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region node_modules/semver/internal/debug.js
 var require_debug = /* @__PURE__ */ __commonJSMin(((exports, module) => {
-	const debug = typeof process === "object" && process.env && process.env.NODE_DEBUG && /\bsemver\b/i.test(process.env.NODE_DEBUG) ? (...args) => console.error("SEMVER", ...args) : () => {};
+	const debug = typeof process === "object" && process.env && process.env.NODE_DEBUG && /\bsemver\b/i.test(process.env.NODE_DEBUG) ? (...args) => console.error("SEMVER", ...args) : () => { };
 	module.exports = debug;
 }));
 
@@ -29642,7 +29659,7 @@ var require_lib$27 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (name$1.match(/^\./)) errors.push("name cannot start with a period");
 		if (name$1.match(/^_/)) errors.push("name cannot start with an underscore");
 		if (name$1.trim() !== name$1) errors.push("name cannot contain leading or trailing spaces");
-		blacklist.forEach(function(blacklistedName) {
+		blacklist.forEach(function (blacklistedName) {
 			if (name$1.toLowerCase() === blacklistedName) errors.push(blacklistedName + " is a blacklisted name");
 		});
 		if (builtins.includes(name$1.toLowerCase())) warnings.push(name$1 + " is a core module name");
@@ -29660,7 +29677,7 @@ var require_lib$27 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return done(warnings, errors);
 	}
-	var done = function(warnings, errors) {
+	var done = function (warnings, errors) {
 		var result = {
 			validForNewPackages: errors.length === 0 && warnings.length === 0,
 			validForOldPackages: errors.length === 0,
@@ -29795,7 +29812,7 @@ var require_npa = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this.gitSubdir = opts.gitSubdir;
 		this.hosted = opts.hosted;
 	}
-	Result.prototype.setName = function(name$1) {
+	Result.prototype.setName = function (name$1) {
 		const valid = validatePackageName(name$1);
 		if (!valid.validForOldPackages) throw invalidPackageName(name$1, valid, this.raw);
 		this.name = name$1;
@@ -29803,14 +29820,14 @@ var require_npa = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this.escapedName = name$1.replace("/", "%2f");
 		return this;
 	};
-	Result.prototype.toString = function() {
+	Result.prototype.toString = function () {
 		const full = [];
 		if (this.name != null && this.name !== "") full.push(this.name);
 		const spec = this.saveSpec || this.fetchSpec || this.rawSpec;
 		if (spec != null && spec !== "") full.push(spec);
 		return full.length ? full.join("@") : this.raw;
 	};
-	Result.prototype.toJSON = function() {
+	Result.prototype.toJSON = function () {
 		const result = Object.assign({}, this);
 		delete result.hosted;
 		return result;
@@ -29985,7 +30002,7 @@ var require_npa = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region node_modules/ssri/node_modules/minipass/dist/commonjs/index.js
 var require_commonjs$9 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -30070,7 +30087,7 @@ var require_commonjs$9 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this.dest.removeListener("drain", this.ondrain);
 		}
 		/* c8 ignore start */
-		proxyErrors(_er) {}
+		proxyErrors(_er) { }
 		/* c8 ignore stop */
 		end() {
 			this.unpipe();
@@ -30239,7 +30256,7 @@ var require_commonjs$9 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		* No-op setter. Stream aborted status is set via the AbortSignal provided
 		* in the constructor options.
 		*/
-		set aborted(_) {}
+		set aborted(_) { }
 		write(chunk, encoding, cb) {
 			if (this[ABORTED]) return false;
 			if (this[EOF]) throw new Error("write after end");
@@ -30403,8 +30420,8 @@ var require_commonjs$9 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			return this[BUFFER].shift();
 		}
 		[FLUSH](noDrain = false) {
-			do			;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
+			do;
+			while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
 			if (!noDrain && !this[BUFFER].length && !this[EOF]) this.emit("drain");
 		}
 		[FLUSHCHUNK](chunk) {
@@ -31143,11 +31160,11 @@ var require_lib$25 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		const optString = getOptString(opts?.options);
 		const hashes = algorithms.map(crypto$3.createHash);
 		return {
-			update: function(chunk, enc) {
+			update: function (chunk, enc) {
 				hashes.forEach((h) => h.update(chunk, enc));
 				return this;
 			},
-			digest: function() {
+			digest: function () {
 				return algorithms.reduce((acc, algo) => {
 					const hash = new Hash(`${algo}-${hashes.shift().digest("base64")}${optString}`, opts);
 					/* istanbul ignore else - it would be VERY strange if the hash we
@@ -31270,7 +31287,7 @@ var require_minipass$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this.dest.removeListener("drain", this.ondrain);
 		}
 		// istanbul ignore next - only here for the prototype
-		proxyErrors() {}
+		proxyErrors() { }
 		end() {
 			this.unpipe();
 			if (this.opts.end) this.dest.end();
@@ -31356,7 +31373,7 @@ var require_minipass$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		get aborted() {
 			return this[ABORTED];
 		}
-		set aborted(_) {}
+		set aborted(_) { }
 		write(chunk, encoding, cb) {
 			if (this[ABORTED]) return false;
 			if (this[EOF]) throw new Error("write after end");
@@ -31465,8 +31482,8 @@ var require_minipass$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			return this[BUFFER].shift();
 		}
 		[FLUSH](noDrain) {
-			do			;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
+			do;
+			while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
 			if (!noDrain && !this[BUFFER].length && !this[EOF]) this.emit("drain");
 		}
 		[FLUSHCHUNK](chunk) {
@@ -31873,7 +31890,7 @@ var require_minipass$3 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			this.dest.removeListener("drain", this.ondrain);
 		}
 		// istanbul ignore next - only here for the prototype
-		proxyErrors() {}
+		proxyErrors() { }
 		end() {
 			this.unpipe();
 			if (this.opts.end) this.dest.end();
@@ -32050,8 +32067,8 @@ var require_minipass$3 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			return this.buffer.shift();
 		}
 		[FLUSH](noDrain) {
-			do			;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()));
+			do;
+			while (this[FLUSHCHUNK](this[BUFFERSHIFT]()));
 			if (!noDrain && !this.buffer.length && !this[EOF]) this.emit("drain");
 		}
 		[FLUSHCHUNK](chunk) {
@@ -32343,9 +32360,9 @@ var require_minizlib = /* @__PURE__ */ __commonJSMin(((exports) => {
 			assert$3(this[_handle], "zlib binding closed");
 			const nativeHandle = this[_handle]._handle;
 			const originalNativeClose = nativeHandle.close;
-			nativeHandle.close = () => {};
+			nativeHandle.close = () => { };
 			const originalClose = this[_handle].close;
-			this[_handle].close = () => {};
+			this[_handle].close = () => { };
 			Buffer$2.concat = (args) => args;
 			let result;
 			try {
@@ -33313,8 +33330,8 @@ var require_write_entry = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				threw = false;
 			} finally {
 				if (threw) try {
-					this[CLOSE](() => {});
-				} catch (er) {}
+					this[CLOSE](() => { });
+				} catch (er) { }
 			}
 		}
 		[AWAITDRAIN](cb) {
@@ -33420,7 +33437,7 @@ var require_write_entry = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region node_modules/yallist/iterator.js
 var require_iterator = /* @__PURE__ */ __commonJSMin(((exports, module) => {
-	module.exports = function(Yallist) {
+	module.exports = function (Yallist) {
 		Yallist.prototype[Symbol.iterator] = function* () {
 			for (let walker = this.head; walker; walker = walker.next) yield walker.value;
 		};
@@ -33439,13 +33456,13 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		self$1.tail = null;
 		self$1.head = null;
 		self$1.length = 0;
-		if (list$1 && typeof list$1.forEach === "function") list$1.forEach(function(item) {
+		if (list$1 && typeof list$1.forEach === "function") list$1.forEach(function (item) {
 			self$1.push(item);
 		});
 		else if (arguments.length > 0) for (var i = 0, l = arguments.length; i < l; i++) self$1.push(arguments[i]);
 		return self$1;
 	}
-	Yallist.prototype.removeNode = function(node) {
+	Yallist.prototype.removeNode = function (node) {
 		if (node.list !== this) throw new Error("removing node which does not belong to this list");
 		var next = node.next;
 		var prev = node.prev;
@@ -33459,7 +33476,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		node.list = null;
 		return next;
 	};
-	Yallist.prototype.unshiftNode = function(node) {
+	Yallist.prototype.unshiftNode = function (node) {
 		if (node === this.head) return;
 		if (node.list) node.list.removeNode(node);
 		var head = this.head;
@@ -33470,7 +33487,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (!this.tail) this.tail = node;
 		this.length++;
 	};
-	Yallist.prototype.pushNode = function(node) {
+	Yallist.prototype.pushNode = function (node) {
 		if (node === this.tail) return;
 		if (node.list) node.list.removeNode(node);
 		var tail = this.tail;
@@ -33481,15 +33498,15 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (!this.head) this.head = node;
 		this.length++;
 	};
-	Yallist.prototype.push = function() {
+	Yallist.prototype.push = function () {
 		for (var i = 0, l = arguments.length; i < l; i++) push(this, arguments[i]);
 		return this.length;
 	};
-	Yallist.prototype.unshift = function() {
+	Yallist.prototype.unshift = function () {
 		for (var i = 0, l = arguments.length; i < l; i++) unshift(this, arguments[i]);
 		return this.length;
 	};
-	Yallist.prototype.pop = function() {
+	Yallist.prototype.pop = function () {
 		if (!this.tail) return;
 		var res = this.tail.value;
 		this.tail = this.tail.prev;
@@ -33498,7 +33515,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this.length--;
 		return res;
 	};
-	Yallist.prototype.shift = function() {
+	Yallist.prototype.shift = function () {
 		if (!this.head) return;
 		var res = this.head.value;
 		this.head = this.head.next;
@@ -33507,29 +33524,29 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this.length--;
 		return res;
 	};
-	Yallist.prototype.forEach = function(fn, thisp) {
+	Yallist.prototype.forEach = function (fn, thisp) {
 		thisp = thisp || this;
 		for (var walker = this.head, i = 0; walker !== null; i++) {
 			fn.call(thisp, walker.value, i, this);
 			walker = walker.next;
 		}
 	};
-	Yallist.prototype.forEachReverse = function(fn, thisp) {
+	Yallist.prototype.forEachReverse = function (fn, thisp) {
 		thisp = thisp || this;
 		for (var walker = this.tail, i = this.length - 1; walker !== null; i--) {
 			fn.call(thisp, walker.value, i, this);
 			walker = walker.prev;
 		}
 	};
-	Yallist.prototype.get = function(n) {
+	Yallist.prototype.get = function (n) {
 		for (var i = 0, walker = this.head; walker !== null && i < n; i++) walker = walker.next;
 		if (i === n && walker !== null) return walker.value;
 	};
-	Yallist.prototype.getReverse = function(n) {
+	Yallist.prototype.getReverse = function (n) {
 		for (var i = 0, walker = this.tail; walker !== null && i < n; i++) walker = walker.prev;
 		if (i === n && walker !== null) return walker.value;
 	};
-	Yallist.prototype.map = function(fn, thisp) {
+	Yallist.prototype.map = function (fn, thisp) {
 		thisp = thisp || this;
 		var res = new Yallist();
 		for (var walker = this.head; walker !== null;) {
@@ -33538,7 +33555,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return res;
 	};
-	Yallist.prototype.mapReverse = function(fn, thisp) {
+	Yallist.prototype.mapReverse = function (fn, thisp) {
 		thisp = thisp || this;
 		var res = new Yallist();
 		for (var walker = this.tail; walker !== null;) {
@@ -33547,7 +33564,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return res;
 	};
-	Yallist.prototype.reduce = function(fn, initial) {
+	Yallist.prototype.reduce = function (fn, initial) {
 		var acc;
 		var walker = this.head;
 		if (arguments.length > 1) acc = initial;
@@ -33561,7 +33578,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return acc;
 	};
-	Yallist.prototype.reduceReverse = function(fn, initial) {
+	Yallist.prototype.reduceReverse = function (fn, initial) {
 		var acc;
 		var walker = this.tail;
 		if (arguments.length > 1) acc = initial;
@@ -33575,7 +33592,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return acc;
 	};
-	Yallist.prototype.toArray = function() {
+	Yallist.prototype.toArray = function () {
 		var arr = new Array(this.length);
 		for (var i = 0, walker = this.head; walker !== null; i++) {
 			arr[i] = walker.value;
@@ -33583,7 +33600,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return arr;
 	};
-	Yallist.prototype.toArrayReverse = function() {
+	Yallist.prototype.toArrayReverse = function () {
 		var arr = new Array(this.length);
 		for (var i = 0, walker = this.tail; walker !== null; i++) {
 			arr[i] = walker.value;
@@ -33591,7 +33608,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return arr;
 	};
-	Yallist.prototype.slice = function(from, to) {
+	Yallist.prototype.slice = function (from, to) {
 		to = to || this.length;
 		if (to < 0) to += this.length;
 		from = from || 0;
@@ -33604,7 +33621,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		for (; walker !== null && i < to; i++, walker = walker.next) ret.push(walker.value);
 		return ret;
 	};
-	Yallist.prototype.sliceReverse = function(from, to) {
+	Yallist.prototype.sliceReverse = function (from, to) {
 		to = to || this.length;
 		if (to < 0) to += this.length;
 		from = from || 0;
@@ -33617,7 +33634,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		for (; walker !== null && i > from; i--, walker = walker.prev) ret.push(walker.value);
 		return ret;
 	};
-	Yallist.prototype.splice = function(start, deleteCount, ...nodes) {
+	Yallist.prototype.splice = function (start, deleteCount, ...nodes) {
 		if (start > this.length) start = this.length - 1;
 		if (start < 0) start = this.length + start;
 		for (var i = 0, walker = this.head; walker !== null && i < start; i++) walker = walker.next;
@@ -33631,7 +33648,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		for (var i = 0; i < nodes.length; i++) walker = insert(this, walker, nodes[i]);
 		return ret;
 	};
-	Yallist.prototype.reverse = function() {
+	Yallist.prototype.reverse = function () {
 		var head = this.head;
 		var tail = this.tail;
 		for (var walker = head; walker !== null; walker = walker.prev) {
@@ -33675,7 +33692,7 @@ var require_yallist = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	}
 	try {
 		require_iterator()(Yallist);
-	} catch (er) {}
+	} catch (er) { }
 }));
 
 //#endregion
@@ -33940,8 +33957,8 @@ var require_pack = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			super(opt);
 			this[WRITEENTRYCLASS] = WriteEntrySync;
 		}
-		pause() {}
-		resume() {}
+		pause() { }
+		resume() { }
 		[STAT](job) {
 			const stat$4 = this.follow ? "statSync" : "lstatSync";
 			this[ONSTAT](job, fs$32[stat$4](job.absolute));
@@ -34291,7 +34308,7 @@ var require_fs_minipass = /* @__PURE__ */ __commonJSMin(((exports) => {
 			} finally {
 				if (threw) try {
 					this[_close]();
-				} catch (_) {}
+				} catch (_) { }
 			}
 		}
 	};
@@ -34470,8 +34487,8 @@ var require_parse$2 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			return go;
 		}
 		[NEXTENTRY]() {
-			do			;
-while (this[PROCESSENTRY](this[QUEUE].shift()));
+			do;
+			while (this[PROCESSENTRY](this[QUEUE].shift()));
 			if (!this[QUEUE].length) {
 				const re = this[READENTRY];
 				if (!re || re.flowing || re.size === re.remain) {
@@ -34712,7 +34729,7 @@ var require_list = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		} finally {
 			if (threw && fd) try {
 				fs$30.closeSync(fd);
-			} catch (er) {}
+			} catch (er) { }
 		}
 	};
 	const listFile = (opt, cb) => {
@@ -34861,7 +34878,7 @@ var require_replace = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		} finally {
 			if (threw) try {
 				fs$29.closeSync(fd);
-			} catch (er) {}
+			} catch (er) { }
 		}
 	};
 	const streamSync = (opt, p, position, fd, files) => {
@@ -35798,7 +35815,7 @@ var require_unpack = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				autoClose: false
 			});
 			stream$2.on("error", (er) => {
-				if (stream$2.fd) fs$24.close(stream$2.fd, () => {});
+				if (stream$2.fd) fs$24.close(stream$2.fd, () => { });
 				stream$2.write = () => true;
 				this[ONERROR](er, entry);
 				fullyDone();
@@ -35807,7 +35824,7 @@ var require_unpack = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			const done = (er) => {
 				if (er) {
 					/* istanbul ignore else - we should always have a fd by now */
-					if (stream$2.fd) fs$24.close(stream$2.fd, () => {});
+					if (stream$2.fd) fs$24.close(stream$2.fd, () => { });
 					this[ONERROR](er, entry);
 					fullyDone();
 					return;
@@ -35999,7 +36016,7 @@ var require_unpack = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	};
 	var UnpackSync = class extends Unpack {
 		[MAKEFS](er, entry) {
-			return super[MAKEFS](er, entry, () => {});
+			return super[MAKEFS](er, entry, () => { });
 		}
 		[CHECKFS](entry) {
 			this[PRUNECACHE](entry);
@@ -36102,10 +36119,10 @@ var require_unpack = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			}
 			if (entry.mtime && !this.noMtime) try {
 				fs$24.utimesSync(entry.absolute, entry.atime || /* @__PURE__ */ new Date(), entry.mtime);
-			} catch (er$1) {}
+			} catch (er$1) { }
 			if (this[DOCHOWN](entry)) try {
 				fs$24.chownSync(entry.absolute, this[UID](entry), this[GID](entry));
-			} catch (er$1) {}
+			} catch (er$1) { }
 			done();
 			entry.resume();
 		}
@@ -36250,7 +36267,7 @@ var require_err_code = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		} catch (_) {
 			props.message = err.message;
 			props.stack = err.stack;
-			const ErrClass = function() {};
+			const ErrClass = function () { };
 			ErrClass.prototype = Object.create(Object.getPrototypeOf(err));
 			return assign(new ErrClass(), props);
 		}
@@ -36277,16 +36294,16 @@ var require_retry_operation = /* @__PURE__ */ __commonJSMin(((exports, module) =
 		if (this._options.forever) this._cachedTimeouts = this._timeouts.slice(0);
 	}
 	module.exports = RetryOperation;
-	RetryOperation.prototype.reset = function() {
+	RetryOperation.prototype.reset = function () {
 		this._attempts = 1;
 		this._timeouts = this._originalTimeouts;
 	};
-	RetryOperation.prototype.stop = function() {
+	RetryOperation.prototype.stop = function () {
 		if (this._timeout) clearTimeout(this._timeout);
 		this._timeouts = [];
 		this._cachedTimeouts = null;
 	};
-	RetryOperation.prototype.retry = function(err) {
+	RetryOperation.prototype.retry = function (err) {
 		if (this._timeout) clearTimeout(this._timeout);
 		if (!err) return false;
 		var currentTime = (/* @__PURE__ */ new Date()).getTime();
@@ -36302,10 +36319,10 @@ var require_retry_operation = /* @__PURE__ */ __commonJSMin(((exports, module) =
 			timeout = this._timeouts.shift();
 		} else return false;
 		var self$1 = this;
-		var timer = setTimeout(function() {
+		var timer = setTimeout(function () {
 			self$1._attempts++;
 			if (self$1._operationTimeoutCb) {
-				self$1._timeout = setTimeout(function() {
+				self$1._timeout = setTimeout(function () {
 					self$1._operationTimeoutCb(self$1._attempts);
 				}, self$1._operationTimeout);
 				if (self$1._options.unref) self$1._timeout.unref();
@@ -36315,35 +36332,35 @@ var require_retry_operation = /* @__PURE__ */ __commonJSMin(((exports, module) =
 		if (this._options.unref) timer.unref();
 		return true;
 	};
-	RetryOperation.prototype.attempt = function(fn, timeoutOps) {
+	RetryOperation.prototype.attempt = function (fn, timeoutOps) {
 		this._fn = fn;
 		if (timeoutOps) {
 			if (timeoutOps.timeout) this._operationTimeout = timeoutOps.timeout;
 			if (timeoutOps.cb) this._operationTimeoutCb = timeoutOps.cb;
 		}
 		var self$1 = this;
-		if (this._operationTimeoutCb) this._timeout = setTimeout(function() {
+		if (this._operationTimeoutCb) this._timeout = setTimeout(function () {
 			self$1._operationTimeoutCb();
 		}, self$1._operationTimeout);
 		this._operationStart = (/* @__PURE__ */ new Date()).getTime();
 		this._fn(this._attempts);
 	};
-	RetryOperation.prototype.try = function(fn) {
+	RetryOperation.prototype.try = function (fn) {
 		console.log("Using RetryOperation.try() is deprecated");
 		this.attempt(fn);
 	};
-	RetryOperation.prototype.start = function(fn) {
+	RetryOperation.prototype.start = function (fn) {
 		console.log("Using RetryOperation.start() is deprecated");
 		this.attempt(fn);
 	};
 	RetryOperation.prototype.start = RetryOperation.prototype.try;
-	RetryOperation.prototype.errors = function() {
+	RetryOperation.prototype.errors = function () {
 		return this._errors;
 	};
-	RetryOperation.prototype.attempts = function() {
+	RetryOperation.prototype.attempts = function () {
 		return this._attempts;
 	};
-	RetryOperation.prototype.mainError = function() {
+	RetryOperation.prototype.mainError = function () {
 		if (this._errors.length === 0) return null;
 		var counts = {};
 		var mainError = null;
@@ -36366,14 +36383,14 @@ var require_retry_operation = /* @__PURE__ */ __commonJSMin(((exports, module) =
 //#region node_modules/retry/lib/retry.js
 var require_retry$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var RetryOperation = require_retry_operation();
-	exports.operation = function(options) {
+	exports.operation = function (options) {
 		return new RetryOperation(exports.timeouts(options), {
 			forever: options && options.forever,
 			unref: options && options.unref,
 			maxRetryTime: options && options.maxRetryTime
 		});
 	};
-	exports.timeouts = function(options) {
+	exports.timeouts = function (options) {
 		if (options instanceof Array) return [].concat(options);
 		var opts = {
 			retries: 10,
@@ -36387,18 +36404,18 @@ var require_retry$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		var timeouts = [];
 		for (var i = 0; i < opts.retries; i++) timeouts.push(this.createTimeout(i, opts));
 		if (options && options.forever && !timeouts.length) timeouts.push(this.createTimeout(i, opts));
-		timeouts.sort(function(a, b) {
+		timeouts.sort(function (a, b) {
 			return a - b;
 		});
 		return timeouts;
 	};
-	exports.createTimeout = function(attempt, opts) {
+	exports.createTimeout = function (attempt, opts) {
 		var random = opts.randomize ? Math.random() + 1 : 1;
 		var timeout = Math.round(random * opts.minTimeout * Math.pow(opts.factor, attempt));
 		timeout = Math.min(timeout, opts.maxTimeout);
 		return timeout;
 	};
-	exports.wrap = function(obj, options, methods) {
+	exports.wrap = function (obj, options, methods) {
 		if (options instanceof Array) {
 			methods = options;
 			options = null;
@@ -36414,12 +36431,12 @@ var require_retry$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 				var op = exports.operation(options);
 				var args = Array.prototype.slice.call(arguments, 1);
 				var callback = args.pop();
-				args.push(function(err) {
+				args.push(function (err) {
 					if (op.retry(err)) return;
 					if (err) arguments[0] = op.mainError();
 					callback.apply(this, arguments);
 				});
-				op.attempt(function() {
+				op.attempt(function () {
 					original$1.apply(obj, args);
 				});
 			}.bind(obj, original);
@@ -36452,14 +36469,14 @@ var require_promise_retry = /* @__PURE__ */ __commonJSMin(((exports, module) => 
 			fn = temp;
 		}
 		operation = retry.operation(options);
-		return new Promise(function(resolve$12, reject) {
-			operation.attempt(function(number) {
-				Promise.resolve().then(function() {
-					return fn(function(err) {
+		return new Promise(function (resolve$12, reject) {
+			operation.attempt(function (number) {
+				Promise.resolve().then(function () {
+					return fn(function (err) {
 						if (isRetryError(err)) err = err.retried;
 						throw errcode(/* @__PURE__ */ new Error("Retrying"), "EPROMISERETRY", { retried: err });
 					}, number);
-				}).then(resolve$12, function(err) {
+				}).then(resolve$12, function (err) {
 					if (isRetryError(err)) {
 						err = err.retried;
 						if (operation.retry(err || /* @__PURE__ */ new Error())) return;
@@ -36475,7 +36492,7 @@ var require_promise_retry = /* @__PURE__ */ __commonJSMin(((exports, module) => 
 //#endregion
 //#region node_modules/pacote/node_modules/fs-minipass/node_modules/minipass/dist/commonjs/index.js
 var require_commonjs$8 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -36560,7 +36577,7 @@ var require_commonjs$8 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this.dest.removeListener("drain", this.ondrain);
 		}
 		/* c8 ignore start */
-		proxyErrors(_er) {}
+		proxyErrors(_er) { }
 		/* c8 ignore stop */
 		end() {
 			this.unpipe();
@@ -36729,7 +36746,7 @@ var require_commonjs$8 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		* No-op setter. Stream aborted status is set via the AbortSignal provided
 		* in the constructor options.
 		*/
-		set aborted(_) {}
+		set aborted(_) { }
 		write(chunk, encoding, cb) {
 			if (this[ABORTED]) return false;
 			if (this[EOF]) throw new Error("write after end");
@@ -36893,8 +36910,8 @@ var require_commonjs$8 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			return this[BUFFER].shift();
 		}
 		[FLUSH](noDrain = false) {
-			do			;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
+			do;
+			while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
 			if (!noDrain && !this[BUFFER].length && !this[EOF]) this.emit("drain");
 		}
 		[FLUSHCHUNK](chunk) {
@@ -37615,7 +37632,7 @@ var require_lib$24 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			} finally {
 				if (threw) try {
 					this[_close]();
-				} catch {}
+				} catch { }
 			}
 		}
 	};
@@ -37685,7 +37702,7 @@ var require_minipass_collect = /* @__PURE__ */ __commonJSMin(((exports, module) 
 //#endregion
 //#region node_modules/cacache/node_modules/minipass/dist/commonjs/index.js
 var require_commonjs$7 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -37770,7 +37787,7 @@ var require_commonjs$7 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this.dest.removeListener("drain", this.ondrain);
 		}
 		/* c8 ignore start */
-		proxyErrors(_er) {}
+		proxyErrors(_er) { }
 		/* c8 ignore stop */
 		end() {
 			this.unpipe();
@@ -37939,7 +37956,7 @@ var require_commonjs$7 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		* No-op setter. Stream aborted status is set via the AbortSignal provided
 		* in the constructor options.
 		*/
-		set aborted(_) {}
+		set aborted(_) { }
 		write(chunk, encoding, cb) {
 			if (this[ABORTED]) return false;
 			if (this[EOF]) throw new Error("write after end");
@@ -38103,8 +38120,8 @@ var require_commonjs$7 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			return this[BUFFER].shift();
 		}
 		[FLUSH](noDrain = false) {
-			do			;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
+			do;
+			while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
 			if (!noDrain && !this[BUFFER].length && !this[EOF]) this.emit("drain");
 		}
 		[FLUSHCHUNK](chunk) {
@@ -38621,7 +38638,7 @@ var require_imurmurhash = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	* @author <a href="mailto:aappleby@gmail.com">Austin Appleby</a>
 	* @see http://sites.google.com/site/murmurhash/
 	*/
-	(function() {
+	(function () {
 		var cache;
 		function MurmurHash3(key, seed) {
 			var m = this instanceof MurmurHash3 ? this : cache;
@@ -38629,7 +38646,7 @@ var require_imurmurhash = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			if (typeof key === "string" && key.length > 0) m.hash(key);
 			if (m !== this) return m;
 		}
-		MurmurHash3.prototype.hash = function(key) {
+		MurmurHash3.prototype.hash = function (key) {
 			var h1, k1, i, top, len = key.length;
 			this.len += len;
 			k1 = this.k1;
@@ -38669,7 +38686,7 @@ var require_imurmurhash = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			this.k1 = k1;
 			return this;
 		};
-		MurmurHash3.prototype.result = function() {
+		MurmurHash3.prototype.result = function () {
 			var k1 = this.k1, h1 = this.h1;
 			if (k1 > 0) {
 				k1 = k1 * 11601 + (k1 & 65535) * 3432906752 & 4294967295;
@@ -38685,7 +38702,7 @@ var require_imurmurhash = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			h1 ^= h1 >>> 16;
 			return h1 >>> 0;
 		};
-		MurmurHash3.prototype.reset = function(seed) {
+		MurmurHash3.prototype.reset = function (seed) {
 			this.h1 = typeof seed === "number" ? seed : 0;
 			this.rem = this.k1 = this.len = 0;
 			return this;
@@ -38700,7 +38717,7 @@ var require_imurmurhash = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#region node_modules/unique-slug/lib/index.js
 var require_lib$23 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var MurmurHash3 = require_imurmurhash();
-	module.exports = function(uniq) {
+	module.exports = function (uniq) {
 		if (uniq) return ("00000000" + new MurmurHash3(uniq).result().toString(16)).slice(-8);
 		else return (Math.random().toString(16) + "0000000").slice(2, 10);
 	};
@@ -38711,7 +38728,7 @@ var require_lib$23 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 var require_lib$22 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var path$14 = __require("path");
 	var uniqueSlug = require_lib$23();
-	module.exports = function(filepath, prefix, uniq) {
+	module.exports = function (filepath, prefix, uniq) {
 		return path$14.join(filepath, (prefix ? prefix + "-" : "") + uniqueSlug(uniq));
 	};
 }));
@@ -39219,14 +39236,16 @@ var require_cp = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const polyfill = require_polyfill();
 	const useNative = node.satisfies(">=16.7.0");
 	const cp = async (src, dest, opts) => {
-		const options = getOptions(opts, { copy: [
-			"dereference",
-			"errorOnExist",
-			"filter",
-			"force",
-			"preserveTimestamps",
-			"recursive"
-		] });
+		const options = getOptions(opts, {
+			copy: [
+				"dereference",
+				"errorOnExist",
+				"filter",
+				"force",
+				"preserveTimestamps",
+				"recursive"
+			]
+		});
 		// istanbul ignore next
 		return useNative ? fs$21.cp(src, dest, options) : polyfill(src, dest, options);
 	};
@@ -39255,7 +39274,7 @@ var require_with_temp_dir = /* @__PURE__ */ __commonJSMin(((exports, module) => 
 				force: true,
 				recursive: true
 			});
-		} catch {}
+		} catch { }
 		if (err) throw err;
 		return result;
 	};
@@ -39320,7 +39339,7 @@ var require_move_file = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				try {
 					targetStat = await fs$20.stat(resolve$9(dirname$7(symSource), target));
 					if (targetStat.isDirectory()) targetStat = "junction";
-				} catch {}
+				} catch { }
 				await fs$20.symlink(target, symDestination, targetStat);
 			}));
 			await fs$20.rm(source, {
@@ -39507,7 +39526,7 @@ var require_entry_index = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			let obj;
 			try {
 				obj = JSON.parse(pieces[1]);
-			} catch (_) {}
+			} catch (_) { }
 			// istanbul ignore else
 			if (obj) entries.push(obj);
 		});
@@ -39920,7 +39939,7 @@ var require_lib$20 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			} finally {
 				if (threw) try {
 					this[_close]();
-				} catch {}
+				} catch { }
 			}
 		}
 	};
@@ -40004,9 +40023,9 @@ var require_read = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		} catch (err) {
 			if (err.code === "ENOENT") return false;
 			if (err.code === "EPERM")
- /* istanbul ignore else */
-			if (process.platform !== "win32") throw err;
-			else return false;
+				/* istanbul ignore else */
+				if (process.platform !== "win32") throw err;
+				else return false;
 		}
 	}
 	async function withContentSri(cache, integrity, fn) {
@@ -40092,7 +40111,7 @@ var require_get = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports.byDigest = getDataByDigest;
 	const getMemoizedStream = (memoized) => {
 		const stream$2 = new Minipass();
-		stream$2.on("newListener", function(ev, cb) {
+		stream$2.on("newListener", function (ev, cb) {
 			ev === "metadata" && cb(memoized.entry.metadata);
 			ev === "integrity" && cb(memoized.entry.integrity);
 			ev === "size" && cb(memoized.entry.size);
@@ -40111,7 +40130,7 @@ var require_get = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			stream$2.emit("metadata", entry.metadata);
 			stream$2.emit("integrity", entry.integrity);
 			stream$2.emit("size", entry.size);
-			stream$2.on("newListener", function(ev, cb) {
+			stream$2.on("newListener", function (ev, cb) {
 				ev === "metadata" && cb(entry.metadata);
 				ev === "integrity" && cb(entry.integrity);
 				ev === "size" && cb(entry.size);
@@ -40408,17 +40427,19 @@ var require_put = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			error = err;
 		});
 		pipeline$2.push(contentStream);
-		pipeline$2.push(new Flush({ async flush() {
-			if (!error) {
-				const entry = await index.insert(cache, key, integrity, {
-					...opts,
-					size
-				});
-				if (memoize && memoData) memo.put(cache, entry, memoData, opts);
-				pipeline$2.emit("integrity", integrity);
-				pipeline$2.emit("size", size);
+		pipeline$2.push(new Flush({
+			async flush() {
+				if (!error) {
+					const entry = await index.insert(cache, key, integrity, {
+						...opts,
+						size
+					});
+					if (memoize && memoData) memo.put(cache, entry, memoData, opts);
+					pipeline$2.emit("integrity", integrity);
+					pipeline$2.emit("size", size);
+				}
 			}
-		} }));
+		}));
 		return pipeline$2;
 	}
 }));
@@ -40556,7 +40577,7 @@ var require_brace_expansion = /* @__PURE__ */ __commonJSMin(((exports, module) =
 				n = parseCommaParts(m.body);
 				if (n.length === 1) {
 					n = expand(n[0], false).map(embrace);
-					if (n.length === 1) return post.map(function(p) {
+					if (n.length === 1) return post.map(function (p) {
 						return m.pre + n[0] + p;
 					});
 				}
@@ -41162,7 +41183,7 @@ var require_escape$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/minimatch/dist/commonjs/index.js
 var require_commonjs$6 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -41346,7 +41367,7 @@ var require_commonjs$6 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			for (const pattern of this.set) for (const part of pattern) if (typeof part !== "string") return true;
 			return false;
 		}
-		debug(..._) {}
+		debug(..._) { }
 		make() {
 			const pattern = this.pattern;
 			const options = this.options;
@@ -41742,21 +41763,21 @@ var require_commonjs$6 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var ast_js_2 = require_ast();
 	Object.defineProperty(exports, "AST", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return ast_js_2.AST;
 		}
 	});
 	var escape_js_2 = require_escape$1();
 	Object.defineProperty(exports, "escape", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return escape_js_2.escape;
 		}
 	});
 	var unescape_js_2 = require_unescape();
 	Object.defineProperty(exports, "unescape", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return unescape_js_2.unescape;
 		}
 	});
@@ -42166,9 +42187,9 @@ var require_commonjs$5 = /* @__PURE__ */ __commonJSMin(((exports) => {
 				return !!t && !!s && (cachedNow || getNow()) - s > t;
 			};
 		}
-		#updateItemAge = () => {};
-		#statusTTL = () => {};
-		#setItemTTL = () => {};
+		#updateItemAge = () => { };
+		#statusTTL = () => { };
+		#setItemTTL = () => { };
 		/* c8 ignore stop */
 		#isStale = () => false;
 		#initializeSizeTracking() {
@@ -42201,14 +42222,14 @@ var require_commonjs$5 = /* @__PURE__ */ __commonJSMin(((exports) => {
 				}
 			};
 		}
-		#removeItemSize = (_i) => {};
-		#addItemSize = (_i, _s, _st) => {};
+		#removeItemSize = (_i) => { };
+		#addItemSize = (_i, _s, _st) => { };
 		#requireSize = (_k, _v, size, sizeCalculation) => {
 			if (size || sizeCalculation) throw new TypeError("cannot set size without setting maxSize or maxEntrySize on cache");
 			return 0;
 		};
 		*#indexes({ allowStale = this.allowStale } = {}) {
-			if (this.#size) for (let i = this.#tail;;) {
+			if (this.#size) for (let i = this.#tail; ;) {
 				if (!this.#isValidIndex(i)) break;
 				if (allowStale || !this.#isStale(i)) yield i;
 				if (i === this.#head) break;
@@ -42216,7 +42237,7 @@ var require_commonjs$5 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			}
 		}
 		*#rindexes({ allowStale = this.allowStale } = {}) {
-			if (this.#size) for (let i = this.#head;;) {
+			if (this.#size) for (let i = this.#head; ;) {
 				if (!this.#isValidIndex(i)) break;
 				if (allowStale || !this.#isStale(i)) yield i;
 				if (i === this.#tail) break;
@@ -42929,7 +42950,7 @@ var require_commonjs$5 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/path-scurry/node_modules/minipass/dist/commonjs/index.js
 var require_commonjs$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -43014,7 +43035,7 @@ var require_commonjs$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this.dest.removeListener("drain", this.ondrain);
 		}
 		/* c8 ignore start */
-		proxyErrors(_er) {}
+		proxyErrors(_er) { }
 		/* c8 ignore stop */
 		end() {
 			this.unpipe();
@@ -43183,7 +43204,7 @@ var require_commonjs$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		* No-op setter. Stream aborted status is set via the AbortSignal provided
 		* in the constructor options.
 		*/
-		set aborted(_) {}
+		set aborted(_) { }
 		write(chunk, encoding, cb) {
 			if (this[ABORTED]) return false;
 			if (this[EOF]) throw new Error("write after end");
@@ -43347,8 +43368,8 @@ var require_commonjs$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			return this[BUFFER].shift();
 		}
 		[FLUSH](noDrain = false) {
-			do			;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
+			do;
+			while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
 			if (!noDrain && !this[BUFFER].length && !this[EOF]) this.emit("drain");
 		}
 		[FLUSHCHUNK](chunk) {
@@ -43761,29 +43782,29 @@ while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
 //#endregion
 //#region node_modules/path-scurry/dist/commonjs/index.js
 var require_commonjs$3 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -44417,8 +44438,8 @@ var require_commonjs$3 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			/* c8 ignore start */
 			if (code$1 === "ENOTDIR") this.parent.#markENOTDIR();
 			else if (code$1 === "ENOENT")
- /* c8 ignore stop */
-			this.#markENOENT();
+				/* c8 ignore stop */
+				this.#markENOENT();
 		}
 		#readlinkFail(code$1 = "") {
 			let ter = this.#type;
@@ -44589,7 +44610,7 @@ var require_commonjs$3 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			if (this.#asyncReaddirInFlight) await this.#asyncReaddirInFlight;
 			else {
 				/* c8 ignore start */
-				let resolve$12 = () => {};
+				let resolve$12 = () => { };
 				/* c8 ignore stop */
 				this.#asyncReaddirInFlight = new Promise((res) => resolve$12 = res);
 				try {
@@ -45543,7 +45564,7 @@ var require_pattern = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/glob/node_modules/minipass/dist/commonjs/index.js
 var require_commonjs$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -45628,7 +45649,7 @@ var require_commonjs$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this.dest.removeListener("drain", this.ondrain);
 		}
 		/* c8 ignore start */
-		proxyErrors(_er) {}
+		proxyErrors(_er) { }
 		/* c8 ignore stop */
 		end() {
 			this.unpipe();
@@ -45797,7 +45818,7 @@ var require_commonjs$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		* No-op setter. Stream aborted status is set via the AbortSignal provided
 		* in the constructor options.
 		*/
-		set aborted(_) {}
+		set aborted(_) { }
 		write(chunk, encoding, cb) {
 			if (this[ABORTED]) return false;
 			if (this[EOF]) throw new Error("write after end");
@@ -45961,8 +45982,8 @@ var require_commonjs$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			return this[BUFFER].shift();
 		}
 		[FLUSH](noDrain = false) {
-			do			;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
+			do;
+			while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
 			if (!noDrain && !this[BUFFER].length && !this[EOF]) this.emit("drain");
 		}
 		[FLUSHCHUNK](chunk) {
@@ -46726,8 +46747,8 @@ var require_walker = /* @__PURE__ */ __commonJSMin(((exports) => {
 			/* c8 ignore start */
 			if (!this.paused) fn();
 			else
- /* c8 ignore stop */
-			this.#onResume.push(fn);
+				/* c8 ignore stop */
+				this.#onResume.push(fn);
 		}
 		async matchCheck(e, ifDir) {
 			if (ifDir && this.opts.nodir) return void 0;
@@ -47186,34 +47207,34 @@ var require_commonjs$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var minimatch_2 = require_commonjs$6();
 	Object.defineProperty(exports, "escape", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return minimatch_2.escape;
 		}
 	});
 	Object.defineProperty(exports, "unescape", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return minimatch_2.unescape;
 		}
 	});
 	var glob_js_2 = require_glob$1();
 	Object.defineProperty(exports, "Glob", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return glob_js_2.Glob;
 		}
 	});
 	var has_magic_js_2 = require_has_magic();
 	Object.defineProperty(exports, "hasMagic", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return has_magic_js_2.hasMagic;
 		}
 	});
 	var ignore_js_1 = require_ignore();
 	Object.defineProperty(exports, "Ignore", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return ignore_js_1.Ignore;
 		}
 	});
@@ -47460,7 +47481,7 @@ var require_verify$5 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const hasOwnProperty = (obj, key) => Object.prototype.hasOwnProperty.call(obj, key);
 	const verifyOpts = (opts) => ({
 		concurrency: 20,
-		log: { silly() {} },
+		log: { silly() { } },
 		...opts
 	});
 	module.exports = verify;
@@ -47587,21 +47608,21 @@ var require_verify$5 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		};
 		const buckets = {};
 		for (const k in entries)
- /* istanbul ignore else */
-		if (hasOwnProperty(entries, k)) {
-			const hashed = index.hashKey(k);
-			const entry = entries[k];
-			const excluded = opts.filter && !opts.filter(entry);
-			excluded && stats.rejectedEntries++;
-			if (buckets[hashed] && !excluded) buckets[hashed].push(entry);
-			else if (buckets[hashed] && excluded) {} else if (excluded) {
-				buckets[hashed] = [];
-				buckets[hashed]._path = index.bucketPath(cache, k);
-			} else {
-				buckets[hashed] = [entry];
-				buckets[hashed]._path = index.bucketPath(cache, k);
+			/* istanbul ignore else */
+			if (hasOwnProperty(entries, k)) {
+				const hashed = index.hashKey(k);
+				const entry = entries[k];
+				const excluded = opts.filter && !opts.filter(entry);
+				excluded && stats.rejectedEntries++;
+				if (buckets[hashed] && !excluded) buckets[hashed].push(entry);
+				else if (buckets[hashed] && excluded) { } else if (excluded) {
+					buckets[hashed] = [];
+					buckets[hashed]._path = index.bucketPath(cache, k);
+				} else {
+					buckets[hashed] = [entry];
+					buckets[hashed]._path = index.bucketPath(cache, k);
+				}
 			}
-		}
 		await pMap(Object.keys(buckets), (key) => {
 			return rebuildBucket(cache, buckets[key], stats, opts);
 		}, { concurrency: opts.concurrency });
@@ -47892,7 +47913,7 @@ var require_lib$17 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		readPackageJson(pj) {
 			try {
 				this.onPackageJson(pj, fs$14.readFileSync(pj));
-			} catch {}
+			} catch { }
 			return this;
 		}
 		readModules() {
@@ -48111,7 +48132,7 @@ var require_lib$15 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		get name() {
 			return this.constructor.name;
 		}
-		set name(n) {}
+		set name(n) { }
 		get [Symbol.toStringTag]() {
 			return this.constructor.name;
 		}
@@ -48149,7 +48170,7 @@ var require_lib$15 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	parseJsonError.noExceptions = (raw, reviver) => {
 		try {
 			return parseJson(stripBOM(raw), reviver);
-		} catch {}
+		} catch { }
 	};
 }));
 
@@ -49019,7 +49040,7 @@ var require_spdx_exceptions = /* @__PURE__ */ __commonJSMin(((exports, module) =
 var require_scan = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var licenses = [].concat(require_spdx_license_ids()).concat(require_deprecated());
 	var exceptions = require_spdx_exceptions();
-	module.exports = function(source) {
+	module.exports = function (source) {
 		var index = 0;
 		function hasMore() {
 			return index < source.length;
@@ -49111,7 +49132,7 @@ var require_scan = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region node_modules/spdx-expression-parse/parse.js
 var require_parse$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
-	module.exports = function(tokens) {
+	module.exports = function (tokens) {
 		var index = 0;
 		function hasMore() {
 			return index < tokens.length;
@@ -49203,7 +49224,7 @@ var require_parse$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 var require_spdx_expression_parse = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var scan = require_scan();
 	var parse = require_parse$1();
-	module.exports = function(source) {
+	module.exports = function (source) {
 		return parse(scan(source));
 	};
 }));
@@ -49266,93 +49287,93 @@ var require_spdx_correct = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var TRANSPOSED = 0;
 	var CORRECT = 1;
 	var transforms = [
-		function(argument) {
+		function (argument) {
 			return argument.toUpperCase();
 		},
-		function(argument) {
+		function (argument) {
 			return argument.trim();
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/\./g, "");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/\s+/g, "");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/\s+/g, "-");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace("v", "-");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/,?\s*(\d)/, "-$1");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/,?\s*(\d)/, "-$1.0");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/,?\s*(V\.|v\.|V|v|Version|version)\s*(\d)/, "-$2");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/,?\s*(V\.|v\.|V|v|Version|version)\s*(\d)/, "-$2.0");
 		},
-		function(argument) {
+		function (argument) {
 			return argument[0].toUpperCase() + argument.slice(1);
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace("/", "-");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/\s*V\s*(\d)/, "-$1").replace(/(\d)$/, "$1.0");
 		},
-		function(argument) {
+		function (argument) {
 			if (argument.indexOf("3.0") !== -1) return argument + "-or-later";
 			else return argument + "-only";
 		},
-		function(argument) {
+		function (argument) {
 			return argument + "only";
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/(\d)$/, "-$1.0");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/(-| )?(\d)$/, "-$2-Clause");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/(-| )clause(-| )(\d)/, "-$3-Clause");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/\b(Modified|New|Revised)(-| )?BSD((-| )License)?/i, "BSD-3-Clause");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/\bSimplified(-| )?BSD((-| )License)?/i, "BSD-2-Clause");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/\b(Free|Net)(-| )?BSD((-| )License)?/i, "BSD-2-Clause-$1BSD");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/\bClear(-| )?BSD((-| )License)?/i, "BSD-3-Clause-Clear");
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace(/\b(Old|Original)(-| )?BSD((-| )License)?/i, "BSD-4-Clause");
 		},
-		function(argument) {
+		function (argument) {
 			return "CC-" + argument;
 		},
-		function(argument) {
+		function (argument) {
 			return "CC-" + argument + "-4.0";
 		},
-		function(argument) {
+		function (argument) {
 			return argument.replace("Attribution", "BY").replace("NonCommercial", "NC").replace("NoDerivatives", "ND").replace(/ (\d)/, "-$1").replace(/ ?International/, "");
 		},
-		function(argument) {
+		function (argument) {
 			return "CC-" + argument.replace("Attribution", "BY").replace("NonCommercial", "NC").replace("NoDerivatives", "ND").replace(/ (\d)/, "-$1").replace(/ ?International/, "") + "-4.0";
 		}
 	];
-	var licensesWithVersions = spdxLicenseIds.map(function(id) {
+	var licensesWithVersions = spdxLicenseIds.map(function (id) {
 		var match = /^(.*)-\d+\.\d+$/.exec(id);
 		return match ? [match[0], match[1]] : [id, null];
-	}).reduce(function(objectMap, item) {
+	}).reduce(function (objectMap, item) {
 		var key = item[1];
 		objectMap[key] = objectMap[key] || [];
 		objectMap[key].push(item[0]);
@@ -49399,14 +49420,14 @@ var require_spdx_correct = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	].concat(licensesWithOneVersion).sort(sortTranspositions);
 	var SUBSTRING = 0;
 	var IDENTIFIER = 1;
-	var validTransformation = function(identifier) {
+	var validTransformation = function (identifier) {
 		for (var i = 0; i < transforms.length; i++) {
 			var transformed = transforms[i](identifier).trim();
 			if (transformed !== identifier && valid(transformed)) return transformed;
 		}
 		return null;
 	};
-	var validLastResort = function(identifier) {
+	var validLastResort = function (identifier) {
 		var upperCased = identifier.toUpperCase();
 		for (var i = 0; i < lastResorts.length; i++) {
 			var lastResort = lastResorts[i];
@@ -49414,7 +49435,7 @@ var require_spdx_correct = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return null;
 	};
-	var anyCorrection = function(identifier, check) {
+	var anyCorrection = function (identifier, check) {
 		for (var i = 0; i < transpositions.length; i++) {
 			var transposition = transpositions[i];
 			var transposed = transposition[TRANSPOSED];
@@ -49425,7 +49446,7 @@ var require_spdx_correct = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return null;
 	};
-	module.exports = function(identifier, options) {
+	module.exports = function (identifier, options) {
 		options = options || {};
 		var upgrade = options.upgrade === void 0 ? true : !!options.upgrade;
 		function postprocess(value) {
@@ -49438,7 +49459,7 @@ var require_spdx_correct = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (valid(noPlus)) return postprocess(noPlus);
 		var transformed = validTransformation(identifier);
 		if (transformed !== null) return postprocess(transformed);
-		transformed = anyCorrection(identifier, function(argument) {
+		transformed = anyCorrection(identifier, function (argument) {
 			if (valid(argument)) return argument;
 			return validTransformation(argument);
 		});
@@ -49494,7 +49515,7 @@ var require_validate_npm_package_license = /* @__PURE__ */ __commonJSMin(((expor
 			return startsWith("LicenseRef", license) || startsWith("DocumentRef", license);
 		} else return usesLicenseRef(ast.left) || usesLicenseRef(ast.right);
 	}
-	module.exports = function(argument) {
+	module.exports = function (argument) {
 		var ast;
 		try {
 			ast = parse(argument);
@@ -49555,7 +49576,7 @@ var require_implementation = /* @__PURE__ */ __commonJSMin(((exports, module) =>
 		for (var i = offset || 0, j = 0; i < arrLike.length; i += 1, j += 1) arr[j] = arrLike[i];
 		return arr;
 	};
-	var joiny = function(arr, joiner) {
+	var joiny = function (arr, joiner) {
 		var str = "";
 		for (var i = 0; i < arr.length; i += 1) {
 			str += arr[i];
@@ -49568,7 +49589,7 @@ var require_implementation = /* @__PURE__ */ __commonJSMin(((exports, module) =>
 		if (typeof target !== "function" || toStr.apply(target) !== funcType) throw new TypeError(ERROR_MESSAGE + target);
 		var args = slicy(arguments, 1);
 		var bound;
-		var binder = function() {
+		var binder = function () {
 			if (this instanceof bound) {
 				var result = target.apply(this, concatty(args, arguments));
 				if (Object(result) === result) return result;
@@ -49581,7 +49602,7 @@ var require_implementation = /* @__PURE__ */ __commonJSMin(((exports, module) =>
 		for (var i = 0; i < boundLength; i++) boundArgs[i] = "$" + i;
 		bound = Function("binder", "return function (" + joiny(boundArgs, ",") + "){ return binder.apply(this,arguments); }")(binder);
 		if (target.prototype) {
-			var Empty = function Empty$1() {};
+			var Empty = function Empty$1() { };
 			Empty.prototype = target.prototype;
 			bound.prototype = new Empty();
 			Empty.prototype = null;
@@ -49894,8 +49915,8 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var typos = require_typos();
 	var isEmail = (str) => str.includes("@") && str.indexOf("@") < str.lastIndexOf(".");
 	module.exports = {
-		warn: function() {},
-		fixRepositoryField: function(data) {
+		warn: function () { },
+		fixRepositoryField: function (data) {
 			if (data.repositories) {
 				this.warn("repositories");
 				data.repository = data.repositories[0];
@@ -49912,38 +49933,38 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			}
 			if (r.match(/github.com\/[^/]+\/[^/]+\.git\.git$/)) this.warn("brokenGitUrl", r);
 		},
-		fixTypos: function(data) {
-			Object.keys(typos.topLevel).forEach(function(d) {
+		fixTypos: function (data) {
+			Object.keys(typos.topLevel).forEach(function (d) {
 				if (Object.prototype.hasOwnProperty.call(data, d)) this.warn("typo", d, typos.topLevel[d]);
 			}, this);
 		},
-		fixScriptsField: function(data) {
+		fixScriptsField: function (data) {
 			if (!data.scripts) return;
 			if (typeof data.scripts !== "object") {
 				this.warn("nonObjectScripts");
 				delete data.scripts;
 				return;
 			}
-			Object.keys(data.scripts).forEach(function(k) {
+			Object.keys(data.scripts).forEach(function (k) {
 				if (typeof data.scripts[k] !== "string") {
 					this.warn("nonStringScript");
 					delete data.scripts[k];
 				} else if (typos.script[k] && !data.scripts[typos.script[k]]) this.warn("typo", k, typos.script[k], "scripts");
 			}, this);
 		},
-		fixFilesField: function(data) {
+		fixFilesField: function (data) {
 			var files = data.files;
 			if (files && !Array.isArray(files)) {
 				this.warn("nonArrayFiles");
 				delete data.files;
-			} else if (data.files) data.files = data.files.filter(function(file) {
+			} else if (data.files) data.files = data.files.filter(function (file) {
 				if (!file || typeof file !== "string") {
 					this.warn("invalidFilename", file);
 					return false;
 				} else return true;
 			}, this);
 		},
-		fixBinField: function(data) {
+		fixBinField: function (data) {
 			if (!data.bin) return;
 			if (typeof data.bin === "string") {
 				var b = {};
@@ -49953,11 +49974,11 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				data.bin = b;
 			}
 		},
-		fixManField: function(data) {
+		fixManField: function (data) {
 			if (!data.man) return;
 			if (typeof data.man === "string") data.man = [data.man];
 		},
-		fixBundleDependenciesField: function(data) {
+		fixBundleDependenciesField: function (data) {
 			var bdd = "bundledDependencies";
 			var bd = "bundleDependencies";
 			if (data[bdd] && !data[bd]) {
@@ -49967,7 +49988,7 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			if (data[bd] && !Array.isArray(data[bd])) {
 				this.warn("nonArrayBundleDependencies");
 				delete data[bd];
-			} else if (data[bd]) data[bd] = data[bd].filter(function(filtered) {
+			} else if (data[bd]) data[bd] = data[bd].filter(function (filtered) {
 				if (!filtered || typeof filtered !== "string") {
 					this.warn("nonStringBundleDependency", filtered);
 					return false;
@@ -49981,18 +50002,18 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				}
 			}, this);
 		},
-		fixDependencies: function(data, strict) {
+		fixDependencies: function (data, strict) {
 			objectifyDeps(data, this.warn);
 			addOptionalDepsToDeps(data, this.warn);
 			this.fixBundleDependenciesField(data);
-			["dependencies", "devDependencies"].forEach(function(deps) {
+			["dependencies", "devDependencies"].forEach(function (deps) {
 				if (!(deps in data)) return;
 				if (!data[deps] || typeof data[deps] !== "object") {
 					this.warn("nonObjectDependencies", deps);
 					delete data[deps];
 					return;
 				}
-				Object.keys(data[deps]).forEach(function(d) {
+				Object.keys(data[deps]).forEach(function (d) {
 					var r = data[deps][d];
 					if (typeof r !== "string") {
 						this.warn("nonStringDependency", d, JSON.stringify(r));
@@ -50003,25 +50024,25 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				}, this);
 			}, this);
 		},
-		fixModulesField: function(data) {
+		fixModulesField: function (data) {
 			if (data.modules) {
 				this.warn("deprecatedModules");
 				delete data.modules;
 			}
 		},
-		fixKeywordsField: function(data) {
+		fixKeywordsField: function (data) {
 			if (typeof data.keywords === "string") data.keywords = data.keywords.split(/,\s+/);
 			if (data.keywords && !Array.isArray(data.keywords)) {
 				delete data.keywords;
 				this.warn("nonArrayKeywords");
-			} else if (data.keywords) data.keywords = data.keywords.filter(function(kw) {
+			} else if (data.keywords) data.keywords = data.keywords.filter(function (kw) {
 				if (typeof kw !== "string" || !kw) {
 					this.warn("nonStringKeyword");
 					return false;
 				} else return true;
 			}, this);
 		},
-		fixVersionField: function(data, strict) {
+		fixVersionField: function (data, strict) {
 			var loose = !strict;
 			if (!data.version) {
 				data.version = "";
@@ -50031,11 +50052,11 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			data.version = cleanSemver(data.version, loose);
 			return true;
 		},
-		fixPeople: function(data) {
+		fixPeople: function (data) {
 			modifyPeople(data, unParsePerson);
 			modifyPeople(data, parsePerson);
 		},
-		fixNameField: function(data, options) {
+		fixNameField: function (data, options) {
 			if (typeof options === "boolean") options = { strict: options };
 			else if (typeof options === "undefined") options = {};
 			var strict = options.strict;
@@ -50048,7 +50069,7 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			ensureValidName(data.name, strict, options.allowLegacyCase);
 			if (isBuiltinModule(data.name)) this.warn("conflictingName", data.name);
 		},
-		fixDescriptionField: function(data) {
+		fixDescriptionField: function (data) {
 			if (data.description && typeof data.description !== "string") {
 				this.warn("nonStringDescription");
 				delete data.description;
@@ -50057,13 +50078,13 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			if (data.description === void 0) delete data.description;
 			if (!data.description) this.warn("missingDescription");
 		},
-		fixReadmeField: function(data) {
+		fixReadmeField: function (data) {
 			if (!data.readme) {
 				this.warn("missingReadme");
 				data.readme = "ERROR: No README data found!";
 			}
 		},
-		fixBugsField: function(data) {
+		fixBugsField: function (data) {
 			if (!data.bugs && data.repository && data.repository.url) {
 				var hosted = hostedGitInfo.fromUrl(data.repository.url);
 				if (hosted && hosted.bugs()) data.bugs = { url: hosted.bugs() };
@@ -50086,7 +50107,7 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				}
 			}
 		},
-		fixHomepageField: function(data) {
+		fixHomepageField: function (data) {
 			if (!data.homepage && data.repository && data.repository.url) {
 				var hosted = hostedGitInfo.fromUrl(data.repository.url);
 				if (hosted && hosted.docs()) data.homepage = hosted.docs();
@@ -50098,7 +50119,7 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			}
 			if (!url$5.parse(data.homepage).protocol) data.homepage = "http://" + data.homepage;
 		},
-		fixLicenseField: function(data) {
+		fixLicenseField: function (data) {
 			const license = data.license || data.licence;
 			if (!license) return this.warn("missingLicense");
 			if (typeof license !== "string" || license.length < 1 || license.trim() === "") return this.warn("invalidLicense");
@@ -50119,7 +50140,7 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	}
 	function modifyPeople(data, fn) {
 		if (data.author) data.author = fn(data.author);
-		["maintainers", "contributors"].forEach(function(set) {
+		["maintainers", "contributors"].forEach(function (set) {
 			if (!Array.isArray(data[set])) return;
 			data[set] = data[set].map(fn);
 		});
@@ -50148,7 +50169,7 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		var o = data.optionalDependencies;
 		if (!o) return;
 		var d = data.dependencies || {};
-		Object.keys(o).forEach(function(k) {
+		Object.keys(o).forEach(function (k) {
 			d[k] = o[k];
 		});
 		data.dependencies = d;
@@ -50159,9 +50180,9 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (!Array.isArray(deps)) return deps;
 		warn("deprecatedArrayDependencies", type);
 		var o = {};
-		deps.filter(function(d) {
+		deps.filter(function (d) {
 			return typeof d === "string";
-		}).forEach(function(d) {
+		}).forEach(function (d) {
 			d = d.trim().split(/(:?[@\s><=])/);
 			var dn = d.shift();
 			var dv = d.join("");
@@ -50172,14 +50193,14 @@ var require_fixer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		return o;
 	}
 	function objectifyDeps(data, warn) {
-		depTypes.forEach(function(type) {
+		depTypes.forEach(function (type) {
 			if (!data[type]) return;
 			data[type] = depObjectify(data[type], type, warn);
 		});
 	}
 	function bugsTypos(bugs, warn) {
 		if (!bugs) return;
-		Object.keys(bugs).forEach(function(k) {
+		Object.keys(bugs).forEach(function (k) {
 			if (typos.bugs[k]) {
 				warn("typo", k, typos.bugs[k], "bugs");
 				bugs[typos.bugs[k]] = bugs[k];
@@ -50229,7 +50250,7 @@ var require_warning_messages = /* @__PURE__ */ __commonJSMin(((exports, module) 
 var require_make_warning = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var util$5 = __require("util");
 	var messages = require_warning_messages();
-	module.exports = function() {
+	module.exports = function () {
 		var args = Array.prototype.slice.call(arguments, 0);
 		var warningName = args.shift();
 		if (warningName === "typo") return makeTypoWarning.apply(null, args);
@@ -50276,7 +50297,7 @@ var require_normalize = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		"people",
 		"typos"
 	];
-	var thingsToFix = fieldsToFix.map(function(fieldName) {
+	var thingsToFix = fieldsToFix.map(function (fieldName) {
 		return ucFirst(fieldName) + "Field";
 	});
 	thingsToFix = thingsToFix.concat(otherThingsToFix);
@@ -50286,12 +50307,12 @@ var require_normalize = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			strict = true;
 		}
 		if (!strict) strict = false;
-		if (!warn || data.private) warn = function(msg) {};
+		if (!warn || data.private) warn = function (msg) { };
 		if (data.scripts && data.scripts.install === "node-gyp rebuild" && !data.scripts.preinstall) data.gypfile = true;
-		fixer.warn = function() {
+		fixer.warn = function () {
 			warn(makeWarning.apply(null, arguments));
 		};
-		thingsToFix.forEach(function(thingName) {
+		thingsToFix.forEach(function (thingName) {
 			fixer["fix" + ucFirst(thingName)](data, strict);
 		});
 		data._id = data.name + "@" + data.version;
@@ -50330,12 +50351,12 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		var log, strict, cb;
 		for (var i = 1; i < arguments.length - 1; i++) if (typeof arguments[i] === "boolean") strict = arguments[i];
 		else if (typeof arguments[i] === "function") log = arguments[i];
-		if (!log) log = function() {};
+		if (!log) log = function () { };
 		cb = arguments[arguments.length - 1];
 		readJson_(file, log, strict, cb);
 	}
 	function readJson_(file, log, strict, cb) {
-		fs$13.readFile(file, "utf8", function(er, d) {
+		fs$13.readFile(file, "utf8", function (er, d) {
 			parseJson(file, er, d, log, strict, cb);
 		});
 	}
@@ -50356,7 +50377,7 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		} else return obj;
 	}
 	function parseJson(file, er, d, log, strict, cb) {
-		if (er && er.code === "ENOENT") return fs$13.stat(path$5.dirname(file), function(err, stat$4) {
+		if (er && er.code === "ENOENT") return fs$13.stat(path$5.dirname(file), function (err, stat$4) {
 			if (!err && stat$4 && !stat$4.isDirectory()) {
 				er = Object.create(er);
 				er.code = "ENOTDIR";
@@ -50376,7 +50397,7 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		extrasCached(file, d, data, log, strict, cb);
 	}
 	function extrasCached(file, d, data, log, strict, cb) {
-		extras(file, data, log, strict, function(err, extrasData) {
+		extras(file, data, log, strict, function (err, extrasData) {
 			if (!err) cache[d] = jsonClone(extrasData);
 			cb(err, extrasData);
 		});
@@ -50384,7 +50405,7 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	function indexjs(file, er, log, strict, cb) {
 		if (path$5.basename(file) === "index.js") return cb(er);
 		var index = path$5.resolve(path$5.dirname(file), "index.js");
-		fs$13.readFile(index, "utf8", function(er2, d) {
+		fs$13.readFile(index, "utf8", function (er2, d) {
 			if (er2) return cb(er);
 			if (cache[d]) return cb(null, cache[d]);
 			var data = parseIndex(d);
@@ -50397,12 +50418,12 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		var log, strict, cb;
 		for (var i = 2; i < arguments.length - 1; i++) if (typeof arguments[i] === "boolean") strict = arguments[i];
 		else if (typeof arguments[i] === "function") log = arguments[i];
-		if (!log) log = function() {};
+		if (!log) log = function () { };
 		cb = arguments[i];
 		var set = readJson.extraSet;
 		var n = set.length;
 		var errState = null;
-		set.forEach(function(fn) {
+		set.forEach(function (fn) {
 			fn(file, data, then);
 		});
 		function then(er) {
@@ -50453,15 +50474,15 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	function authors(file, data, cb) {
 		if (data.contributors) return cb(null, data);
 		var af = path$5.resolve(path$5.dirname(file), "AUTHORS");
-		fs$13.readFile(af, "utf8", function(er, ad) {
+		fs$13.readFile(af, "utf8", function (er, ad) {
 			if (er) return cb(null, data);
 			authors_(file, data, ad, cb);
 		});
 	}
 	function authors_(file, data, ad, cb) {
-		ad = ad.split(/\r?\n/g).map(function(line) {
+		ad = ad.split(/\r?\n/g).map(function (line) {
 			return line.replace(/^\s*#.*$/, "").trim();
-		}).filter(function(line) {
+		}).filter(function (line) {
 			return line;
 		});
 		data.contributors = ad;
@@ -50475,7 +50496,7 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			nocase: true,
 			mark: true
 		}).then((files) => {
-			files = files.filter(function(filtered) {
+			files = files.filter(function (filtered) {
 				return !filtered.match(/\/$/);
 			});
 			if (!files.length) return cb();
@@ -50492,7 +50513,7 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	}
 	function readme_(file, data, rm$4, cb) {
 		var rmfn = path$5.basename(rm$4);
-		fs$13.readFile(rm$4, "utf8", function(er, rmData) {
+		fs$13.readFile(rm$4, "utf8", function (er, rmData) {
 			if (er) return cb();
 			data.readme = rmData;
 			data.readmeFilename = rmfn;
@@ -50518,7 +50539,7 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	}
 	function bins_(file, data, binsGlob, cb) {
 		var m = data.directories && data.directories.bin || ".";
-		data.bin = binsGlob.reduce(function(acc, mf) {
+		data.bin = binsGlob.reduce(function (acc, mf) {
 			if (mf && mf.charAt(0) !== ".") {
 				var f = path$5.basename(mf);
 				acc[f] = path$5.join(m, mf);
@@ -50543,7 +50564,7 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (data.gitHead) return cb(null, data);
 		var dir = path$5.dirname(file);
 		var head = path$5.resolve(dir, ".git/HEAD");
-		fs$13.readFile(head, "utf8", function(er, headData) {
+		fs$13.readFile(head, "utf8", function (er, headData) {
 			if (er) {
 				if (path$5.dirname(dir) === dir) return cb(null, data);
 				return githead(dir, data, cb);
@@ -50558,10 +50579,10 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		var headRef = head.replace(/^ref: /, "").trim();
 		var headFile = path$5.resolve(dir, ".git", headRef);
-		fs$13.readFile(headFile, "utf8", function(er, headData) {
+		fs$13.readFile(headFile, "utf8", function (er, headData) {
 			if (er || !headData) {
 				var packFile = path$5.resolve(dir, ".git/packed-refs");
-				return fs$13.readFile(packFile, "utf8", function(readFileErr, refs) {
+				return fs$13.readFile(packFile, "utf8", function (readFileErr, refs) {
 					if (readFileErr || !refs) return cb(null, data);
 					refs = refs.split("\n");
 					for (var i = 0; i < refs.length; i++) {
@@ -50593,7 +50614,7 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			if (!result) warn("No bin file found at " + relName);
 			if (!keysLeft) cb();
 		}
-		keys.forEach(function(key) {
+		keys.forEach(function (key) {
 			var dirName = path$5.dirname(file);
 			var relName = data.bin[key];
 			/* istanbul ignore if - impossible, bins have been normalized */
@@ -50618,7 +50639,7 @@ var require_read_json = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		} catch (error) {
 			return cb(error);
 		}
-		checkBinReferences_(file, data, warn, function() {
+		checkBinReferences_(file, data, warn, function () {
 			typoWarned[pId] = true;
 			cb(null, data);
 		});
@@ -50719,7 +50740,7 @@ var require_minipass$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this.dest.removeListener("drain", this.ondrain);
 		}
 		// istanbul ignore next - only here for the prototype
-		proxyErrors() {}
+		proxyErrors() { }
 		end() {
 			this.unpipe();
 			if (this.opts.end) this.dest.end();
@@ -50805,7 +50826,7 @@ var require_minipass$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		get aborted() {
 			return this[ABORTED];
 		}
-		set aborted(_) {}
+		set aborted(_) { }
 		write(chunk, encoding, cb) {
 			if (this[ABORTED]) return false;
 			if (this[EOF]) throw new Error("write after end");
@@ -50914,8 +50935,8 @@ var require_minipass$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			return this[BUFFER].shift();
 		}
 		[FLUSH](noDrain) {
-			do			;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
+			do;
+			while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
 			if (!noDrain && !this[BUFFER].length && !this[EOF]) this.emit("drain");
 		}
 		[FLUSHCHUNK](chunk) {
@@ -51224,13 +51245,15 @@ var require_file$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			return this.manifest().then((mani) => ({
 				name: mani.name,
 				"dist-tags": { [this.defaultTag]: mani.version },
-				versions: { [mani.version]: {
-					...mani,
-					dist: {
-						tarball: `file:${this.resolved}`,
-						integrity: this.integrity && String(this.integrity)
+				versions: {
+					[mani.version]: {
+						...mani,
+						dist: {
+							tarball: `file:${this.resolved}`,
+							integrity: this.integrity && String(this.integrity)
+						}
 					}
-				} }
+				}
 			}));
 		}
 	};
@@ -51325,7 +51348,7 @@ var require_errors$2 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				else index++;
 				return decodeURIComponent(basePath[index]);
 			}
-		} catch (_) {}
+		} catch (_) { }
 	}
 	var HttpErrorBase = class extends Error {
 		constructor(method, res, body, spec) {
@@ -51380,7 +51403,7 @@ var require_errors$2 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region node_modules/minipass-fetch/node_modules/minipass/dist/commonjs/index.js
 var require_commonjs = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -51465,7 +51488,7 @@ var require_commonjs = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this.dest.removeListener("drain", this.ondrain);
 		}
 		/* c8 ignore start */
-		proxyErrors(_er) {}
+		proxyErrors(_er) { }
 		/* c8 ignore stop */
 		end() {
 			this.unpipe();
@@ -51634,7 +51657,7 @@ var require_commonjs = /* @__PURE__ */ __commonJSMin(((exports) => {
 		* No-op setter. Stream aborted status is set via the AbortSignal provided
 		* in the constructor options.
 		*/
-		set aborted(_) {}
+		set aborted(_) { }
 		write(chunk, encoding, cb) {
 			if (this[ABORTED]) return false;
 			if (this[EOF]) throw new Error("write after end");
@@ -51798,8 +51821,8 @@ var require_commonjs = /* @__PURE__ */ __commonJSMin(((exports) => {
 			return this[BUFFER].shift();
 		}
 		[FLUSH](noDrain = false) {
-			do			;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
+			do;
+			while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
 			if (!noDrain && !this[BUFFER].length && !this[EOF]) this.emit("drain");
 		}
 		[FLUSHCHUNK](chunk) {
@@ -52338,7 +52361,7 @@ var require_fetch_error = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		get name() {
 			return "FetchError";
 		}
-		set name(n) {}
+		set name(n) { }
 		get [Symbol.toStringTag]() {
 			return "FetchError";
 		}
@@ -52365,12 +52388,12 @@ var require_safer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		Safer[key] = Buffer[key];
 	}
 	safer.Buffer.prototype = Buffer.prototype;
-	if (!Safer.from || Safer.from === Uint8Array.from) Safer.from = function(value, encodingOrOffset, length) {
+	if (!Safer.from || Safer.from === Uint8Array.from) Safer.from = function (value, encodingOrOffset, length) {
 		if (typeof value === "number") throw new TypeError("The \"value\" argument must not be of type number. Received type " + typeof value);
 		if (value && typeof value.length === "undefined") throw new TypeError("The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value);
 		return Buffer(value, encodingOrOffset, length);
 	};
-	if (!Safer.alloc) Safer.alloc = function(size, fill, encoding) {
+	if (!Safer.alloc) Safer.alloc = function (size, fill, encoding) {
 		if (typeof size !== "number") throw new TypeError("The \"size\" argument must be of type number. Received type " + typeof size);
 		if (size < 0 || size >= 2 * (1 << 30)) throw new RangeError("The value \"" + size + "\" is invalid for option \"size\"");
 		var buf = Buffer(size);
@@ -52381,7 +52404,7 @@ var require_safer = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	};
 	if (!safer.kStringMaxLength) try {
 		safer.kStringMaxLength = process.binding("buffer").kStringMaxLength;
-	} catch (e) {}
+	} catch (e) { }
 	if (!safer.constants) {
 		safer.constants = { MAX_LENGTH: safer.kMaxLength };
 		if (safer.kStringMaxLength) safer.constants.MAX_STRING_LENGTH = safer.kStringMaxLength;
@@ -52398,14 +52421,14 @@ var require_bom_handling = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.encoder = encoder;
 		this.addBOM = true;
 	}
-	PrependBOMWrapper.prototype.write = function(str) {
+	PrependBOMWrapper.prototype.write = function (str) {
 		if (this.addBOM) {
 			str = BOMChar + str;
 			this.addBOM = false;
 		}
 		return this.encoder.write(str);
 	};
-	PrependBOMWrapper.prototype.end = function() {
+	PrependBOMWrapper.prototype.end = function () {
 		return this.encoder.end();
 	};
 	exports.StripBOM = StripBOMWrapper;
@@ -52414,7 +52437,7 @@ var require_bom_handling = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.pass = false;
 		this.options = options || {};
 	}
-	StripBOMWrapper.prototype.write = function(buf) {
+	StripBOMWrapper.prototype.write = function (buf) {
 		var res = this.decoder.write(buf);
 		if (this.pass || !res) return res;
 		if (res[0] === BOMChar) {
@@ -52424,7 +52447,7 @@ var require_bom_handling = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.pass = true;
 		return res;
 	};
-	StripBOMWrapper.prototype.end = function() {
+	StripBOMWrapper.prototype.end = function () {
 		return this.decoder.end();
 	};
 }));
@@ -52469,39 +52492,39 @@ var require_internal = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	InternalCodec.prototype.encoder = InternalEncoder;
 	InternalCodec.prototype.decoder = InternalDecoder;
 	var StringDecoder$1 = __require("string_decoder").StringDecoder;
-	if (!StringDecoder$1.prototype.end) StringDecoder$1.prototype.end = function() {};
+	if (!StringDecoder$1.prototype.end) StringDecoder$1.prototype.end = function () { };
 	function InternalDecoder(options, codec) {
 		this.decoder = new StringDecoder$1(codec.enc);
 	}
-	InternalDecoder.prototype.write = function(buf) {
+	InternalDecoder.prototype.write = function (buf) {
 		if (!Buffer.isBuffer(buf)) buf = Buffer.from(buf);
 		return this.decoder.write(buf);
 	};
-	InternalDecoder.prototype.end = function() {
+	InternalDecoder.prototype.end = function () {
 		return this.decoder.end();
 	};
 	function InternalEncoder(options, codec) {
 		this.enc = codec.enc;
 	}
-	InternalEncoder.prototype.write = function(str) {
+	InternalEncoder.prototype.write = function (str) {
 		return Buffer.from(str, this.enc);
 	};
-	InternalEncoder.prototype.end = function() {};
+	InternalEncoder.prototype.end = function () { };
 	function InternalEncoderBase64(options, codec) {
 		this.prevStr = "";
 	}
-	InternalEncoderBase64.prototype.write = function(str) {
+	InternalEncoderBase64.prototype.write = function (str) {
 		str = this.prevStr + str;
 		var completeQuads = str.length - str.length % 4;
 		this.prevStr = str.slice(completeQuads);
 		str = str.slice(0, completeQuads);
 		return Buffer.from(str, "base64");
 	};
-	InternalEncoderBase64.prototype.end = function() {
+	InternalEncoderBase64.prototype.end = function () {
 		return Buffer.from(this.prevStr, "base64");
 	};
-	function InternalEncoderCesu8(options, codec) {}
-	InternalEncoderCesu8.prototype.write = function(str) {
+	function InternalEncoderCesu8(options, codec) { }
+	InternalEncoderCesu8.prototype.write = function (str) {
 		var buf = Buffer.alloc(str.length * 3), bufIdx = 0;
 		for (var i = 0; i < str.length; i++) {
 			var charCode = str.charCodeAt(i);
@@ -52517,14 +52540,14 @@ var require_internal = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		return buf.slice(0, bufIdx);
 	};
-	InternalEncoderCesu8.prototype.end = function() {};
+	InternalEncoderCesu8.prototype.end = function () { };
 	function InternalDecoderCesu8(options, codec) {
 		this.acc = 0;
 		this.contBytes = 0;
 		this.accBytes = 0;
 		this.defaultCharUnicode = codec.defaultCharUnicode;
 	}
-	InternalDecoderCesu8.prototype.write = function(buf) {
+	InternalDecoderCesu8.prototype.write = function (buf) {
 		var acc = this.acc, contBytes = this.contBytes, accBytes = this.accBytes, res = "";
 		for (var i = 0; i < buf.length; i++) {
 			var curByte = buf[i];
@@ -52557,7 +52580,7 @@ var require_internal = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this.accBytes = accBytes;
 		return res;
 	};
-	InternalDecoderCesu8.prototype.end = function() {
+	InternalDecoderCesu8.prototype.end = function () {
 		var res = 0;
 		if (this.contBytes > 0) res += this.defaultCharUnicode;
 		return res;
@@ -52590,7 +52613,7 @@ var require_utf32 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.isLE = codec.isLE;
 		this.highSurrogate = 0;
 	}
-	Utf32Encoder.prototype.write = function(str) {
+	Utf32Encoder.prototype.write = function (str) {
 		var src = Buffer.from(str, "ucs2");
 		var dst = Buffer.alloc(src.length * 2);
 		var write32 = this.isLE ? dst.writeUInt32LE : dst.writeUInt32BE;
@@ -52619,7 +52642,7 @@ var require_utf32 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		if (offset < dst.length) dst = dst.slice(0, offset);
 		return dst;
 	};
-	Utf32Encoder.prototype.end = function() {
+	Utf32Encoder.prototype.end = function () {
 		if (!this.highSurrogate) return;
 		var buf = Buffer.alloc(4);
 		if (this.isLE) buf.writeUInt32LE(this.highSurrogate, 0);
@@ -52632,7 +52655,7 @@ var require_utf32 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.badChar = codec.iconv.defaultCharUnicode.charCodeAt(0);
 		this.overflow = [];
 	}
-	Utf32Decoder.prototype.write = function(src) {
+	Utf32Decoder.prototype.write = function (src) {
 		if (src.length === 0) return "";
 		var i = 0;
 		var codepoint = 0;
@@ -52671,7 +52694,7 @@ var require_utf32 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		dst[offset++] = codepoint >> 8;
 		return offset;
 	}
-	Utf32Decoder.prototype.end = function() {
+	Utf32Decoder.prototype.end = function () {
 		this.overflow.length = 0;
 	};
 	exports.utf32 = Utf32AutoCodec;
@@ -52686,10 +52709,10 @@ var require_utf32 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		if (options.addBOM === void 0) options.addBOM = true;
 		this.encoder = codec.iconv.getEncoder(options.defaultEncoding || "utf-32le", options);
 	}
-	Utf32AutoEncoder.prototype.write = function(str) {
+	Utf32AutoEncoder.prototype.write = function (str) {
 		return this.encoder.write(str);
 	};
-	Utf32AutoEncoder.prototype.end = function() {
+	Utf32AutoEncoder.prototype.end = function () {
 		return this.encoder.end();
 	};
 	function Utf32AutoDecoder(options, codec) {
@@ -52699,7 +52722,7 @@ var require_utf32 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.options = options || {};
 		this.iconv = codec.iconv;
 	}
-	Utf32AutoDecoder.prototype.write = function(buf) {
+	Utf32AutoDecoder.prototype.write = function (buf) {
 		if (!this.decoder) {
 			this.initialBufs.push(buf);
 			this.initialBufsLen += buf.length;
@@ -52713,7 +52736,7 @@ var require_utf32 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		}
 		return this.decoder.write(buf);
 	};
-	Utf32AutoDecoder.prototype.end = function() {
+	Utf32AutoDecoder.prototype.end = function () {
 		if (!this.decoder) {
 			var encoding = detectEncoding(this.initialBufs, this.options.defaultEncoding);
 			this.decoder = this.iconv.getDecoder(encoding, this.options);
@@ -52761,12 +52784,12 @@ var require_utf32 = /* @__PURE__ */ __commonJSMin(((exports) => {
 var require_utf16 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var Buffer = require_safer().Buffer;
 	exports.utf16be = Utf16BECodec;
-	function Utf16BECodec() {}
+	function Utf16BECodec() { }
 	Utf16BECodec.prototype.encoder = Utf16BEEncoder;
 	Utf16BECodec.prototype.decoder = Utf16BEDecoder;
 	Utf16BECodec.prototype.bomAware = true;
-	function Utf16BEEncoder() {}
-	Utf16BEEncoder.prototype.write = function(str) {
+	function Utf16BEEncoder() { }
+	Utf16BEEncoder.prototype.write = function (str) {
 		var buf = Buffer.from(str, "ucs2");
 		for (var i = 0; i < buf.length; i += 2) {
 			var tmp = buf[i];
@@ -52775,11 +52798,11 @@ var require_utf16 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		}
 		return buf;
 	};
-	Utf16BEEncoder.prototype.end = function() {};
+	Utf16BEEncoder.prototype.end = function () { };
 	function Utf16BEDecoder() {
 		this.overflowByte = -1;
 	}
-	Utf16BEDecoder.prototype.write = function(buf) {
+	Utf16BEDecoder.prototype.write = function (buf) {
 		if (buf.length == 0) return "";
 		var buf2 = Buffer.alloc(buf.length + 1), i = 0, j = 0;
 		if (this.overflowByte !== -1) {
@@ -52795,7 +52818,7 @@ var require_utf16 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.overflowByte = i == buf.length - 1 ? buf[buf.length - 1] : -1;
 		return buf2.slice(0, j).toString("ucs2");
 	};
-	Utf16BEDecoder.prototype.end = function() {
+	Utf16BEDecoder.prototype.end = function () {
 		this.overflowByte = -1;
 	};
 	exports.utf16 = Utf16Codec;
@@ -52809,10 +52832,10 @@ var require_utf16 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		if (options.addBOM === void 0) options.addBOM = true;
 		this.encoder = codec.iconv.getEncoder("utf-16le", options);
 	}
-	Utf16Encoder.prototype.write = function(str) {
+	Utf16Encoder.prototype.write = function (str) {
 		return this.encoder.write(str);
 	};
-	Utf16Encoder.prototype.end = function() {
+	Utf16Encoder.prototype.end = function () {
 		return this.encoder.end();
 	};
 	function Utf16Decoder(options, codec) {
@@ -52822,7 +52845,7 @@ var require_utf16 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.options = options || {};
 		this.iconv = codec.iconv;
 	}
-	Utf16Decoder.prototype.write = function(buf) {
+	Utf16Decoder.prototype.write = function (buf) {
 		if (!this.decoder) {
 			this.initialBufs.push(buf);
 			this.initialBufsLen += buf.length;
@@ -52836,7 +52859,7 @@ var require_utf16 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		}
 		return this.decoder.write(buf);
 	};
-	Utf16Decoder.prototype.end = function() {
+	Utf16Decoder.prototype.end = function () {
 		if (!this.decoder) {
 			var encoding = detectEncoding(this.initialBufs, this.options.defaultEncoding);
 			this.decoder = this.iconv.getDecoder(encoding, this.options);
@@ -52892,12 +52915,12 @@ var require_utf7 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	function Utf7Encoder(options, codec) {
 		this.iconv = codec.iconv;
 	}
-	Utf7Encoder.prototype.write = function(str) {
-		return Buffer.from(str.replace(nonDirectChars, function(chunk) {
+	Utf7Encoder.prototype.write = function (str) {
+		return Buffer.from(str.replace(nonDirectChars, function (chunk) {
 			return "+" + (chunk === "+" ? "" : this.iconv.encode(chunk, "utf16-be").toString("base64").replace(/=+$/, "")) + "-";
 		}.bind(this)));
 	};
-	Utf7Encoder.prototype.end = function() {};
+	Utf7Encoder.prototype.end = function () { };
 	function Utf7Decoder(options, codec) {
 		this.iconv = codec.iconv;
 		this.inBase64 = false;
@@ -52907,7 +52930,7 @@ var require_utf7 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var base64Chars = [];
 	for (var i = 0; i < 256; i++) base64Chars[i] = base64Regex.test(String.fromCharCode(i));
 	var plusChar = "+".charCodeAt(0), minusChar = "-".charCodeAt(0), andChar = "&".charCodeAt(0);
-	Utf7Decoder.prototype.write = function(buf) {
+	Utf7Decoder.prototype.write = function (buf) {
 		var res = "", lastI = 0, inBase64 = this.inBase64, base64Accum = this.base64Accum;
 		for (var i = 0; i < buf.length; i++) if (!inBase64) {
 			if (buf[i] == plusChar) {
@@ -52938,7 +52961,7 @@ var require_utf7 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.base64Accum = base64Accum;
 		return res;
 	};
-	Utf7Decoder.prototype.end = function() {
+	Utf7Decoder.prototype.end = function () {
 		var res = "";
 		if (this.inBase64 && this.base64Accum.length > 0) res = this.iconv.decode(Buffer.from(this.base64Accum, "base64"), "utf16-be");
 		this.inBase64 = false;
@@ -52958,7 +52981,7 @@ var require_utf7 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.base64Accum = Buffer.alloc(6);
 		this.base64AccumIdx = 0;
 	}
-	Utf7IMAPEncoder.prototype.write = function(str) {
+	Utf7IMAPEncoder.prototype.write = function (str) {
 		var inBase64 = this.inBase64, base64Accum = this.base64Accum, base64AccumIdx = this.base64AccumIdx, buf = Buffer.alloc(str.length * 5 + 10), bufIdx = 0;
 		for (var i = 0; i < str.length; i++) {
 			var uChar = str.charCodeAt(i);
@@ -52994,7 +53017,7 @@ var require_utf7 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.base64AccumIdx = base64AccumIdx;
 		return buf.slice(0, bufIdx);
 	};
-	Utf7IMAPEncoder.prototype.end = function() {
+	Utf7IMAPEncoder.prototype.end = function () {
 		var buf = Buffer.alloc(10), bufIdx = 0;
 		if (this.inBase64) {
 			if (this.base64AccumIdx > 0) {
@@ -53013,7 +53036,7 @@ var require_utf7 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	}
 	var base64IMAPChars = base64Chars.slice();
 	base64IMAPChars[",".charCodeAt(0)] = true;
-	Utf7IMAPDecoder.prototype.write = function(buf) {
+	Utf7IMAPDecoder.prototype.write = function (buf) {
 		var res = "", lastI = 0, inBase64 = this.inBase64, base64Accum = this.base64Accum;
 		for (var i = 0; i < buf.length; i++) if (!inBase64) {
 			if (buf[i] == andChar) {
@@ -53044,7 +53067,7 @@ var require_utf7 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.base64Accum = base64Accum;
 		return res;
 	};
-	Utf7IMAPDecoder.prototype.end = function() {
+	Utf7IMAPDecoder.prototype.end = function () {
 		var res = "";
 		if (this.inBase64 && this.base64Accum.length > 0) res = this.iconv.decode(Buffer.from(this.base64Accum, "base64"), "utf16-be");
 		this.inBase64 = false;
@@ -53076,16 +53099,16 @@ var require_sbcs_codec = /* @__PURE__ */ __commonJSMin(((exports) => {
 	function SBCSEncoder(options, codec) {
 		this.encodeBuf = codec.encodeBuf;
 	}
-	SBCSEncoder.prototype.write = function(str) {
+	SBCSEncoder.prototype.write = function (str) {
 		var buf = Buffer.alloc(str.length);
 		for (var i = 0; i < str.length; i++) buf[i] = this.encodeBuf[str.charCodeAt(i)];
 		return buf;
 	};
-	SBCSEncoder.prototype.end = function() {};
+	SBCSEncoder.prototype.end = function () { };
 	function SBCSDecoder(options, codec) {
 		this.decodeBuf = codec.decodeBuf;
 	}
-	SBCSDecoder.prototype.write = function(buf) {
+	SBCSDecoder.prototype.write = function (buf) {
 		var decodeBuf = this.decodeBuf;
 		var newBuf = Buffer.alloc(buf.length * 2);
 		var idx1 = 0, idx2 = 0;
@@ -53097,7 +53120,7 @@ var require_sbcs_codec = /* @__PURE__ */ __commonJSMin(((exports) => {
 		}
 		return newBuf.toString("ucs2");
 	};
-	SBCSDecoder.prototype.end = function() {};
+	SBCSDecoder.prototype.end = function () { };
 }));
 
 //#endregion
@@ -53760,7 +53783,7 @@ var require_dbcs_codec = /* @__PURE__ */ __commonJSMin(((exports) => {
 	}
 	DBCSCodec.prototype.encoder = DBCSEncoder;
 	DBCSCodec.prototype.decoder = DBCSDecoder;
-	DBCSCodec.prototype._getDecodeTrieNode = function(addr) {
+	DBCSCodec.prototype._getDecodeTrieNode = function (addr) {
 		var bytes = [];
 		for (; addr > 0; addr >>>= 8) bytes.push(addr & 255);
 		if (bytes.length == 0) bytes.push(0);
@@ -53775,7 +53798,7 @@ var require_dbcs_codec = /* @__PURE__ */ __commonJSMin(((exports) => {
 		}
 		return node;
 	};
-	DBCSCodec.prototype._addDecodeChunk = function(chunk) {
+	DBCSCodec.prototype._addDecodeChunk = function (chunk) {
 		var curAddr = parseInt(chunk[0], 16);
 		var writeTable = this._getDecodeTrieNode(curAddr);
 		curAddr = curAddr & 255;
@@ -53802,18 +53825,18 @@ var require_dbcs_codec = /* @__PURE__ */ __commonJSMin(((exports) => {
 		}
 		if (curAddr > 255) throw new Error("Incorrect chunk in " + this.encodingName + " at addr " + chunk[0] + ": too long" + curAddr);
 	};
-	DBCSCodec.prototype._getEncodeBucket = function(uCode) {
+	DBCSCodec.prototype._getEncodeBucket = function (uCode) {
 		var high = uCode >> 8;
 		if (this.encodeTable[high] === void 0) this.encodeTable[high] = UNASSIGNED_NODE.slice(0);
 		return this.encodeTable[high];
 	};
-	DBCSCodec.prototype._setEncodeChar = function(uCode, dbcsCode) {
+	DBCSCodec.prototype._setEncodeChar = function (uCode, dbcsCode) {
 		var bucket = this._getEncodeBucket(uCode);
 		var low = uCode & 255;
 		if (bucket[low] <= SEQ_START) this.encodeTableSeq[SEQ_START - bucket[low]][DEF_CHAR] = dbcsCode;
 		else if (bucket[low] == UNASSIGNED) bucket[low] = dbcsCode;
 	};
-	DBCSCodec.prototype._setEncodeSequence = function(seq, dbcsCode) {
+	DBCSCodec.prototype._setEncodeSequence = function (seq, dbcsCode) {
 		var uCode = seq[0];
 		var bucket = this._getEncodeBucket(uCode);
 		var low = uCode & 255;
@@ -53836,7 +53859,7 @@ var require_dbcs_codec = /* @__PURE__ */ __commonJSMin(((exports) => {
 		uCode = seq[seq.length - 1];
 		node[uCode] = dbcsCode;
 	};
-	DBCSCodec.prototype._fillEncodeTable = function(nodeIdx, prefix, skipEncodeChars) {
+	DBCSCodec.prototype._fillEncodeTable = function (nodeIdx, prefix, skipEncodeChars) {
 		var node = this.decodeTables[nodeIdx];
 		var hasValues = false;
 		var subNodeEmpty = {};
@@ -53869,7 +53892,7 @@ var require_dbcs_codec = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.defaultCharSingleByte = codec.defCharSB;
 		this.gb18030 = codec.gb18030;
 	}
-	DBCSEncoder.prototype.write = function(str) {
+	DBCSEncoder.prototype.write = function (str) {
 		var newBuf = Buffer.alloc(str.length * (this.gb18030 ? 4 : 3)), leadSurrogate = this.leadSurrogate, seqObj = this.seqObj, nextChar = -1, i = 0, j = 0;
 		while (true) {
 			if (nextChar === -1) {
@@ -53952,7 +53975,7 @@ var require_dbcs_codec = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.leadSurrogate = leadSurrogate;
 		return newBuf.slice(0, j);
 	};
-	DBCSEncoder.prototype.end = function() {
+	DBCSEncoder.prototype.end = function () {
 		if (this.leadSurrogate === -1 && this.seqObj === void 0) return;
 		var newBuf = Buffer.alloc(10), j = 0;
 		if (this.seqObj) {
@@ -53979,12 +54002,12 @@ var require_dbcs_codec = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.defaultCharUnicode = codec.defaultCharUnicode;
 		this.gb18030 = codec.gb18030;
 	}
-	DBCSDecoder.prototype.write = function(buf) {
+	DBCSDecoder.prototype.write = function (buf) {
 		var newBuf = Buffer.alloc(buf.length * 2), nodeIdx = this.nodeIdx, prevBytes = this.prevBytes, prevOffset = this.prevBytes.length, seqStart = -this.prevBytes.length, uCode;
 		for (var i = 0, j = 0; i < buf.length; i++) {
 			var curByte = i >= 0 ? buf[i] : prevBytes[i + prevOffset];
 			var uCode = this.decodeTables[nodeIdx][curByte];
-			if (uCode >= 0) {} else if (uCode === UNASSIGNED) {
+			if (uCode >= 0) { } else if (uCode === UNASSIGNED) {
 				uCode = this.defaultCharUnicode.charCodeAt(0);
 				i = seqStart;
 			} else if (uCode === GB18030_CODE) {
@@ -54020,7 +54043,7 @@ var require_dbcs_codec = /* @__PURE__ */ __commonJSMin(((exports) => {
 		this.prevBytes = seqStart >= 0 ? Array.prototype.slice.call(buf, seqStart) : prevBytes.slice(seqStart + prevOffset).concat(Array.prototype.slice.call(buf));
 		return newBuf.slice(0, j).toString("ucs2");
 	};
-	DBCSDecoder.prototype.end = function() {
+	DBCSDecoder.prototype.end = function () {
 		var ret = "";
 		while (this.prevBytes.length > 0) {
 			ret += this.defaultCharUnicode;
@@ -60609,7 +60632,7 @@ var require_dbcs_data = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	module.exports = {
 		"shiftjis": {
 			type: "_dbcs",
-			table: function() {
+			table: function () {
 				return require_shiftjis();
 			},
 			encodeAdd: {
@@ -60633,7 +60656,7 @@ var require_dbcs_data = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		"cp932": "shiftjis",
 		"eucjp": {
 			type: "_dbcs",
-			table: function() {
+			table: function () {
 				return require_eucjp();
 			},
 			encodeAdd: {
@@ -60652,13 +60675,13 @@ var require_dbcs_data = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		"936": "cp936",
 		"cp936": {
 			type: "_dbcs",
-			table: function() {
+			table: function () {
 				return require_cp936();
 			}
 		},
 		"gbk": {
 			type: "_dbcs",
-			table: function() {
+			table: function () {
 				return require_cp936().concat(require_gbk_added());
 			}
 		},
@@ -60666,10 +60689,10 @@ var require_dbcs_data = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		"isoir58": "gbk",
 		"gb18030": {
 			type: "_dbcs",
-			table: function() {
+			table: function () {
 				return require_cp936().concat(require_gbk_added());
 			},
-			gb18030: function() {
+			gb18030: function () {
 				return require_gb18030_ranges();
 			},
 			encodeSkipVals: [128],
@@ -60681,7 +60704,7 @@ var require_dbcs_data = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		"949": "cp949",
 		"cp949": {
 			type: "_dbcs",
-			table: function() {
+			table: function () {
 				return require_cp949();
 			}
 		},
@@ -60698,14 +60721,14 @@ var require_dbcs_data = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		"950": "cp950",
 		"cp950": {
 			type: "_dbcs",
-			table: function() {
+			table: function () {
 				return require_cp950();
 			}
 		},
 		"big5": "big5hkscs",
 		"big5hkscs": {
 			type: "_dbcs",
-			table: function() {
+			table: function () {
 				return require_cp950().concat(require_big5_added());
 			},
 			encodeSkipVals: [
@@ -60808,7 +60831,7 @@ var require_encodings = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#region node_modules/iconv-lite/lib/streams.js
 var require_streams = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var Buffer = require_safer().Buffer;
-	module.exports = function(stream_module) {
+	module.exports = function (stream_module) {
 		var Transform$1 = stream_module.Transform;
 		function IconvLiteEncoderStream(conv, options) {
 			this.conv = conv;
@@ -60817,7 +60840,7 @@ var require_streams = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			Transform$1.call(this, options);
 		}
 		IconvLiteEncoderStream.prototype = Object.create(Transform$1.prototype, { constructor: { value: IconvLiteEncoderStream } });
-		IconvLiteEncoderStream.prototype._transform = function(chunk, encoding, done) {
+		IconvLiteEncoderStream.prototype._transform = function (chunk, encoding, done) {
 			if (typeof chunk != "string") return done(/* @__PURE__ */ new Error("Iconv encoding stream needs strings as its input."));
 			try {
 				var res = this.conv.write(chunk);
@@ -60827,7 +60850,7 @@ var require_streams = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				done(e);
 			}
 		};
-		IconvLiteEncoderStream.prototype._flush = function(done) {
+		IconvLiteEncoderStream.prototype._flush = function (done) {
 			try {
 				var res = this.conv.end();
 				if (res && res.length) this.push(res);
@@ -60836,13 +60859,13 @@ var require_streams = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				done(e);
 			}
 		};
-		IconvLiteEncoderStream.prototype.collect = function(cb) {
+		IconvLiteEncoderStream.prototype.collect = function (cb) {
 			var chunks = [];
 			this.on("error", cb);
-			this.on("data", function(chunk) {
+			this.on("data", function (chunk) {
 				chunks.push(chunk);
 			});
-			this.on("end", function() {
+			this.on("end", function () {
 				cb(null, Buffer.concat(chunks));
 			});
 			return this;
@@ -60854,7 +60877,7 @@ var require_streams = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			Transform$1.call(this, options);
 		}
 		IconvLiteDecoderStream.prototype = Object.create(Transform$1.prototype, { constructor: { value: IconvLiteDecoderStream } });
-		IconvLiteDecoderStream.prototype._transform = function(chunk, encoding, done) {
+		IconvLiteDecoderStream.prototype._transform = function (chunk, encoding, done) {
 			if (!Buffer.isBuffer(chunk) && !(chunk instanceof Uint8Array)) return done(/* @__PURE__ */ new Error("Iconv decoding stream needs buffers as its input."));
 			try {
 				var res = this.conv.write(chunk);
@@ -60864,7 +60887,7 @@ var require_streams = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				done(e);
 			}
 		};
-		IconvLiteDecoderStream.prototype._flush = function(done) {
+		IconvLiteDecoderStream.prototype._flush = function (done) {
 			try {
 				var res = this.conv.end();
 				if (res && res.length) this.push(res, this.encoding);
@@ -60873,13 +60896,13 @@ var require_streams = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				done(e);
 			}
 		};
-		IconvLiteDecoderStream.prototype.collect = function(cb) {
+		IconvLiteDecoderStream.prototype.collect = function (cb) {
 			var res = "";
 			this.on("error", cb);
-			this.on("data", function(chunk) {
+			this.on("data", function (chunk) {
 				res += chunk;
 			});
-			this.on("end", function() {
+			this.on("end", function () {
 				cb(null, res);
 			});
 			return this;
@@ -60956,7 +60979,7 @@ var require_lib$13 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			}
 		}
 	};
-	iconv._canonicalizeEncoding = function(encoding) {
+	iconv._canonicalizeEncoding = function (encoding) {
 		return ("" + encoding).toLowerCase().replace(/:\d{4}$|[^0-9a-z]/g, "");
 	};
 	iconv.getEncoder = function getEncoder(encoding, options) {
@@ -60985,9 +61008,9 @@ var require_lib$13 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	var stream_module;
 	try {
 		stream_module = __require("stream");
-	} catch (e) {}
+	} catch (e) { }
 	if (stream_module && stream_module.Transform) iconv.enableStreamingAPI(stream_module);
-	else iconv.encodeStream = iconv.decodeStream = function() {
+	else iconv.encodeStream = iconv.decodeStream = function () {
 		throw new Error("iconv-lite Streaming API is not enabled. Use iconv.enableStreamingAPI(require('stream')); to enable it.");
 	};
 }));
@@ -61057,7 +61080,7 @@ var require_body$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	let convert;
 	try {
 		convert = require_encoding$3().convert;
-	} catch (e) {}
+	} catch (e) { }
 	const INTERNALS = Symbol("Body internals");
 	const CONSUME_BODY = Symbol("consumeBody");
 	var Body = class {
@@ -61671,7 +61694,7 @@ var require_abort_error = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		get name() {
 			return "AbortError";
 		}
-		set name(s) {}
+		set name(s) { }
 	};
 	module.exports = AbortError;
 }));
@@ -62005,7 +62028,7 @@ var require_clean_url = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 				url$8.password = replace;
 				str = url$8.toString();
 			}
-		} catch {}
+		} catch { }
 		return str.replace(tokenRegex, `npm_${replace}`).replace(guidRegex, `npm_${replace}`);
 	};
 	module.exports = cleanUrl;
@@ -62059,7 +62082,7 @@ More info here: ${moreInfoUrl}`);
 			let parsed = body;
 			try {
 				parsed = JSON.parse(body.toString("utf8"));
-			} catch {}
+			} catch { }
 			if (res.status === 401 && res.headers.get("www-authenticate")) {
 				const auth = res.headers.get("www-authenticate").split(/,\s*/).map((s) => s.toLowerCase());
 				if (auth.indexOf("ipaddress") !== -1) throw new errors.HttpErrorAuthIPAddress(method, res, parsed, opts.spec);
@@ -63304,7 +63327,7 @@ var require_mediaType = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		if (spec.subtype.toLowerCase() == p.subtype.toLowerCase()) s |= 2;
 		else if (spec.subtype != "*") return null;
 		var keys = Object.keys(spec.params);
-		if (keys.length > 0) if (keys.every(function(k) {
+		if (keys.length > 0) if (keys.every(function (k) {
 			return spec.params[k] == "*" || (spec.params[k] || "").toLowerCase() == (p.params[k] || "").toLowerCase();
 		})) s |= 1;
 		else return null;
@@ -63630,7 +63653,7 @@ var require_minipass$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this.dest.removeListener("drain", this.ondrain);
 		}
 		// istanbul ignore next - only here for the prototype
-		proxyErrors() {}
+		proxyErrors() { }
 		end() {
 			this.unpipe();
 			if (this.opts.end) this.dest.end();
@@ -63716,7 +63739,7 @@ var require_minipass$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		get aborted() {
 			return this[ABORTED];
 		}
-		set aborted(_) {}
+		set aborted(_) { }
 		write(chunk, encoding, cb) {
 			if (this[ABORTED]) return false;
 			if (this[EOF]) throw new Error("write after end");
@@ -63825,8 +63848,8 @@ var require_minipass$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			return this[BUFFER].shift();
 		}
 		[FLUSH](noDrain) {
-			do			;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
+			do;
+			while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
 			if (!noDrain && !this[BUFFER].length && !this[EOF]) this.emit("drain");
 		}
 		[FLUSHCHUNK](chunk) {
@@ -64181,7 +64204,7 @@ var require_ms = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	* @return {String|Number}
 	* @api public
 	*/
-	module.exports = function(val, options) {
+	module.exports = function (val, options) {
 		options = options || {};
 		var type = typeof val;
 		if (type === "string" && val.length > 0) return parse(val);
@@ -64288,7 +64311,7 @@ var require_humanize_ms = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	*/
 	var util$3 = __require("util");
 	var ms = require_ms();
-	module.exports = function(t) {
+	module.exports = function (t) {
 		if (typeof t === "number") return t;
 		var r = ms(t);
 		if (r === void 0) {
@@ -64582,7 +64605,7 @@ var require_https_agent = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		"_getSession",
 		"_cacheSession",
 		"_evictSession"
-	].forEach(function(method) {
+	].forEach(function (method) {
 		/* istanbul ignore next */
 		if (typeof OriginalHttpsAgent.prototype[method] === "function") HttpsAgent.prototype[method] = OriginalHttpsAgent.prototype[method];
 	});
@@ -64943,7 +64966,7 @@ var require_browser = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	*
 	* @api public
 	*/
-	exports.log = console.debug || console.log || (() => {});
+	exports.log = console.debug || console.log || (() => { });
 	/**
 	* Save `namespaces`.
 	*
@@ -64954,7 +64977,7 @@ var require_browser = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		try {
 			if (namespaces) exports.storage.setItem("debug", namespaces);
 			else exports.storage.removeItem("debug");
-		} catch (error) {}
+		} catch (error) { }
 	}
 	/**
 	* Load `namespaces`.
@@ -64966,7 +64989,7 @@ var require_browser = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		let r;
 		try {
 			r = exports.storage.getItem("debug") || exports.storage.getItem("DEBUG");
-		} catch (error) {}
+		} catch (error) { }
 		if (!r && typeof process !== "undefined" && "env" in process) r = process.env.DEBUG;
 		return r;
 	}
@@ -64983,14 +65006,14 @@ var require_browser = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	function localstorage() {
 		try {
 			return localStorage;
-		} catch (error) {}
+		} catch (error) { }
 	}
 	module.exports = require_common$1()(exports);
 	const { formatters } = module.exports;
 	/**
 	* Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
 	*/
-	formatters.j = function(v) {
+	formatters.j = function (v) {
 		try {
 			return JSON.stringify(v);
 		} catch (error) {
@@ -65016,7 +65039,7 @@ var require_node = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	exports.save = save;
 	exports.load = load;
 	exports.useColors = useColors;
-	exports.destroy = util$2.deprecate(() => {}, "Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.");
+	exports.destroy = util$2.deprecate(() => { }, "Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.");
 	/**
 	* Colors.
 	*/
@@ -65108,7 +65131,7 @@ var require_node = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			220,
 			221
 		];
-	} catch (error) {}
+	} catch (error) { }
 	/**
 	* Build up the default `inspectOpts` object from the environment variables.
 	*
@@ -65194,14 +65217,14 @@ var require_node = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	/**
 	* Map %o to `util.inspect()`, all on a single line.
 	*/
-	formatters.o = function(v) {
+	formatters.o = function (v) {
 		this.inspectOpts.colors = this.useColors;
 		return util$2.inspect(v, this.inspectOpts).split("\n").map((str) => str.trim()).join(" ");
 	};
 	/**
 	* Map %O to `util.inspect()`, allowing multiple lines if needed.
 	*/
-	formatters.O = function(v) {
+	formatters.O = function (v) {
 		this.inspectOpts.colors = this.useColors;
 		return util$2.inspect(v, this.inspectOpts);
 	};
@@ -65250,7 +65273,7 @@ var require_dist$10 = /* @__PURE__ */ __commonJSMin(((exports) => {
 var require_promisify = /* @__PURE__ */ __commonJSMin(((exports) => {
 	Object.defineProperty(exports, "__esModule", { value: true });
 	function promisify(fn) {
-		return function(req, opts) {
+		return function (req, opts) {
 			return new Promise((resolve$12, reject) => {
 				fn.call(this, req, opts, (err, rtn) => {
 					if (err) reject(err);
@@ -65265,7 +65288,7 @@ var require_promisify = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/agent-base/dist/src/index.js
 var require_src = /* @__PURE__ */ __commonJSMin(((exports, module) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	const events_1$1 = __require("events");
@@ -65283,7 +65306,7 @@ var require_src = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	function createAgent(callback, opts) {
 		return new createAgent.Agent(callback, opts);
 	}
-	(function(createAgent) {
+	(function (createAgent) {
 		/**
 		* Base `http.Agent` implementation.
 		* No pooling/keep-alive is implemented by default.
@@ -65421,13 +65444,13 @@ var require_src = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region node_modules/http-proxy-agent/dist/agent.js
 var require_agent$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -65448,7 +65471,7 @@ var require_agent$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
 	};
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -65542,13 +65565,13 @@ var require_agent$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/http-proxy-agent/dist/index.js
 var require_dist$9 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
-	const agent_1 = (exports && exports.__importDefault || function(mod) {
+	const agent_1 = (exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	})(require_agent$2());
 	function createHttpProxyAgent(opts) {
 		return new agent_1.default(opts);
 	}
-	(function(createHttpProxyAgent) {
+	(function (createHttpProxyAgent) {
 		createHttpProxyAgent.HttpProxyAgent = agent_1.default;
 		createHttpProxyAgent.prototype = agent_1.default.prototype;
 	})(createHttpProxyAgent || (createHttpProxyAgent = {}));
@@ -65558,7 +65581,7 @@ var require_dist$9 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region node_modules/https-proxy-agent/dist/parse-proxy-response.js
 var require_parse_proxy_response = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -65618,13 +65641,13 @@ var require_parse_proxy_response = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/https-proxy-agent/dist/agent.js
 var require_agent$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -65645,7 +65668,7 @@ var require_agent$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
 	};
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -65765,13 +65788,13 @@ var require_agent$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/https-proxy-agent/dist/index.js
 var require_dist$8 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
-	const agent_1 = (exports && exports.__importDefault || function(mod) {
+	const agent_1 = (exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	})(require_agent$1());
 	function createHttpsProxyAgent(opts) {
 		return new agent_1.default(opts);
 	}
-	(function(createHttpsProxyAgent) {
+	(function (createHttpsProxyAgent) {
 		createHttpsProxyAgent.HttpsProxyAgent = agent_1.default;
 		createHttpsProxyAgent.prototype = agent_1.default.prototype;
 	})(createHttpsProxyAgent || (createHttpsProxyAgent = {}));
@@ -67013,20 +67036,20 @@ var require_constants$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	};
 	exports.SOCKS_INCOMING_PACKET_SIZES = SOCKS_INCOMING_PACKET_SIZES;
 	var SocksCommand;
-	(function(SocksCommand) {
+	(function (SocksCommand) {
 		SocksCommand[SocksCommand["connect"] = 1] = "connect";
 		SocksCommand[SocksCommand["bind"] = 2] = "bind";
 		SocksCommand[SocksCommand["associate"] = 3] = "associate";
 	})(SocksCommand || (exports.SocksCommand = SocksCommand = {}));
 	var Socks4Response;
-	(function(Socks4Response) {
+	(function (Socks4Response) {
 		Socks4Response[Socks4Response["Granted"] = 90] = "Granted";
 		Socks4Response[Socks4Response["Failed"] = 91] = "Failed";
 		Socks4Response[Socks4Response["Rejected"] = 92] = "Rejected";
 		Socks4Response[Socks4Response["RejectedIdent"] = 93] = "RejectedIdent";
 	})(Socks4Response || (exports.Socks4Response = Socks4Response = {}));
 	var Socks5Auth;
-	(function(Socks5Auth) {
+	(function (Socks5Auth) {
 		Socks5Auth[Socks5Auth["NoAuth"] = 0] = "NoAuth";
 		Socks5Auth[Socks5Auth["GSSApi"] = 1] = "GSSApi";
 		Socks5Auth[Socks5Auth["UserPass"] = 2] = "UserPass";
@@ -67038,7 +67061,7 @@ var require_constants$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	const SOCKS5_NO_ACCEPTABLE_AUTH = 255;
 	exports.SOCKS5_NO_ACCEPTABLE_AUTH = SOCKS5_NO_ACCEPTABLE_AUTH;
 	var Socks5Response;
-	(function(Socks5Response) {
+	(function (Socks5Response) {
 		Socks5Response[Socks5Response["Granted"] = 0] = "Granted";
 		Socks5Response[Socks5Response["Failure"] = 1] = "Failure";
 		Socks5Response[Socks5Response["NotAllowed"] = 2] = "NotAllowed";
@@ -67050,13 +67073,13 @@ var require_constants$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		Socks5Response[Socks5Response["AddressNotSupported"] = 8] = "AddressNotSupported";
 	})(Socks5Response || (exports.Socks5Response = Socks5Response = {}));
 	var Socks5HostType;
-	(function(Socks5HostType) {
+	(function (Socks5HostType) {
 		Socks5HostType[Socks5HostType["IPv4"] = 1] = "IPv4";
 		Socks5HostType[Socks5HostType["Hostname"] = 3] = "Hostname";
 		Socks5HostType[Socks5HostType["IPv6"] = 4] = "IPv6";
 	})(Socks5HostType || (exports.Socks5HostType = Socks5HostType = {}));
 	var SocksClientState;
-	(function(SocksClientState) {
+	(function (SocksClientState) {
 		SocksClientState[SocksClientState["Created"] = 0] = "Created";
 		SocksClientState[SocksClientState["Connecting"] = 1] = "Connecting";
 		SocksClientState[SocksClientState["Connected"] = 2] = "Connected";
@@ -67116,7 +67139,7 @@ var require_common = /* @__PURE__ */ __commonJSMin(((exports) => {
 		return false;
 	}
 	function isCorrect(defaultBits) {
-		return function() {
+		return function () {
 			if (this.addressMinusSuffix !== this.correctForm()) return false;
 			if (this.subnetMask === defaultBits && !this.parsedSubnet) return true;
 			return this.parsedSubnet === String(this.subnetMask);
@@ -67169,29 +67192,29 @@ var require_address_error = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/ip-address/dist/ipv4.js
 var require_ipv4 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -67625,29 +67648,29 @@ var require_helpers$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/ip-address/dist/v6/regular-expressions.js
 var require_regular_expressions = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -67704,29 +67727,29 @@ var require_regular_expressions = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/ip-address/dist/ipv6.js
 var require_ipv6 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -68507,29 +68530,29 @@ var require_ipv6 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/ip-address/dist/ip-address.js
 var require_ip_address = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -68543,21 +68566,21 @@ var require_ip_address = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var ipv4_1 = require_ipv4();
 	Object.defineProperty(exports, "Address4", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return ipv4_1.Address4;
 		}
 	});
 	var ipv6_1 = require_ipv6();
 	Object.defineProperty(exports, "Address6", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return ipv6_1.Address6;
 		}
 	});
 	var address_error_1 = require_address_error();
 	Object.defineProperty(exports, "AddressError", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return address_error_1.AddressError;
 		}
 	});
@@ -68706,13 +68729,13 @@ var require_receivebuffer = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/socks/build/client/socksclient.js
 var require_socksclient = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -68744,7 +68767,7 @@ var require_socksclient = /* @__PURE__ */ __commonJSMin(((exports) => {
 	const util_1 = require_util$2();
 	Object.defineProperty(exports, "SocksClientError", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return util_1.SocksClientError;
 		}
 	});
@@ -69327,21 +69350,21 @@ var require_socksclient = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/socks/build/index.js
 var require_build$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __exportStar = exports && exports.__exportStar || function(m, exports$1) {
+	var __exportStar = exports && exports.__exportStar || function (m, exports$1) {
 		for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports$1, p)) __createBinding(exports$1, m, p);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -69351,13 +69374,13 @@ var require_build$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/socks-proxy-agent/dist/index.js
 var require_dist$7 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __awaiter = exports && exports.__awaiter || function(thisArg, _arguments, P, generator) {
+	var __awaiter = exports && exports.__awaiter || function (thisArg, _arguments, P, generator) {
 		function adopt(value) {
-			return value instanceof P ? value : new P(function(resolve$12) {
+			return value instanceof P ? value : new P(function (resolve$12) {
 				resolve$12(value);
 			});
 		}
-		return new (P || (P = Promise))(function(resolve$12, reject) {
+		return new (P || (P = Promise))(function (resolve$12, reject) {
 			function fulfilled(value) {
 				try {
 					step(generator.next(value));
@@ -69378,7 +69401,7 @@ var require_dist$7 = /* @__PURE__ */ __commonJSMin(((exports) => {
 			step((generator = generator.apply(thisArg, _arguments || [])).next());
 		});
 	};
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -69881,11 +69904,13 @@ var require_entry$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 						options
 					});
 					return entryA.policy.satisfies(entryB.request);
-				}, { validateEntry: (entry) => {
-					if (entry.metadata && entry.metadata.resHeaders && entry.metadata.resHeaders["content-encoding"] === null) return false;
-					if (entry.integrity === null) return !!(entry.metadata && entry.metadata.status);
-					return true;
-				} });
+				}, {
+					validateEntry: (entry) => {
+						if (entry.metadata && entry.metadata.resHeaders && entry.metadata.resHeaders["content-encoding"] === null) return false;
+						if (entry.integrity === null) return !!(entry.metadata && entry.metadata.status);
+						return true;
+					}
+				});
 			} catch (err) {
 				return;
 			}
@@ -69907,7 +69932,7 @@ var require_entry$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			const key = cacheKey(request$1);
 			try {
 				await cacache.rm.entry(options.cachePath, key, { removeFully: true });
-			} catch (err) {}
+			} catch (err) { }
 		}
 		get request() {
 			if (!this[_request]) this[_request] = new Request(this.entry.metadata.url, {
@@ -69962,9 +69987,11 @@ var require_entry$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 					cacheWriteResolve = resolve$12;
 					cacheWriteReject = reject;
 				});
-				body = new CachingMinipassPipeline({ events: ["integrity", "size"] }, new MinipassFlush({ flush() {
-					return cacheWritePromise;
-				} }));
+				body = new CachingMinipassPipeline({ events: ["integrity", "size"] }, new MinipassFlush({
+					flush() {
+						return cacheWritePromise;
+					}
+				}));
 				body.hasIntegrityEmitter = true;
 				const onResume = () => {
 					const tee = new Minipass();
@@ -70053,7 +70080,7 @@ var require_entry$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 						size: this.entry.size,
 						metadata
 					});
-				} catch (err) {}
+				} catch (err) { }
 				return this.respond(request$1.method, options, "revalidated");
 			}
 			return new CacheEntry({
@@ -70259,7 +70286,7 @@ var require_jsonparse = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		};
 		this.offset = -1;
 	}
-	Parser.toknam = function(code$1) {
+	Parser.toknam = function (code$1) {
 		var keys = Object.keys(C);
 		for (var i = 0, l = keys.length; i < l; i++) {
 			var key = keys[i];
@@ -70268,21 +70295,21 @@ var require_jsonparse = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		return code$1 && "0x" + code$1.toString(16);
 	};
 	var proto = Parser.prototype;
-	proto.onError = function(err) {
+	proto.onError = function (err) {
 		throw err;
 	};
-	proto.charError = function(buffer$1, i) {
+	proto.charError = function (buffer$1, i) {
 		this.tState = STOP;
 		this.onError(/* @__PURE__ */ new Error("Unexpected " + JSON.stringify(String.fromCharCode(buffer$1[i])) + " at position " + i + " in state " + Parser.toknam(this.tState)));
 	};
-	proto.appendStringChar = function(char) {
+	proto.appendStringChar = function (char) {
 		if (this.stringBufferOffset >= STRING_BUFFER_SIZE) {
 			this.string += this.stringBuffer.toString("utf8");
 			this.stringBufferOffset = 0;
 		}
 		this.stringBuffer[this.stringBufferOffset++] = char;
 	};
-	proto.appendStringBuf = function(buf, start, end) {
+	proto.appendStringBuf = function (buf, start, end) {
 		var size = buf.length;
 		if (typeof start === "number") if (typeof end === "number") if (end < 0) size = buf.length - start + end;
 		else size = end - start;
@@ -70295,7 +70322,7 @@ var require_jsonparse = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		buf.copy(this.stringBuffer, this.stringBufferOffset, start, end);
 		this.stringBufferOffset += size;
 	};
-	proto.write = function(buffer$1) {
+	proto.write = function (buffer$1) {
 		if (typeof buffer$1 === "string") buffer$1 = new Buffer(buffer$1);
 		var n;
 		for (var i = 0, l = buffer$1.length; i < l; i++) if (this.tState === START) {
@@ -70320,7 +70347,7 @@ var require_jsonparse = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			} else if (n >= 48 && n < 64) {
 				this.string = String.fromCharCode(n);
 				this.tState = NUMBER3;
-			} else if (n === 32 || n === 9 || n === 10 || n === 13) {} else return this.charError(buffer$1, i);
+			} else if (n === 32 || n === 9 || n === 10 || n === 13) { } else return this.charError(buffer$1, i);
 		} else if (this.tState === STRING1) {
 			n = buffer$1[i];
 			if (this.bytes_remaining > 0) {
@@ -70464,19 +70491,19 @@ var require_jsonparse = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			this.offset += 3;
 		} else return this.charError(buffer$1, i);
 	};
-	proto.onToken = function(token, value) {};
-	proto.parseError = function(token, value) {
+	proto.onToken = function (token, value) { };
+	proto.parseError = function (token, value) {
 		this.tState = STOP;
 		this.onError(/* @__PURE__ */ new Error("Unexpected " + Parser.toknam(token) + (value ? "(" + JSON.stringify(value) + ")" : "") + " in state " + Parser.toknam(this.state)));
 	};
-	proto.push = function() {
+	proto.push = function () {
 		this.stack.push({
 			value: this.value,
 			key: this.key,
 			mode: this.mode
 		});
 	};
-	proto.pop = function() {
+	proto.pop = function () {
 		var value = this.value;
 		var parent = this.stack.pop();
 		this.value = parent.value;
@@ -70485,12 +70512,12 @@ var require_jsonparse = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		this.emit(value);
 		if (!this.mode) this.state = VALUE;
 	};
-	proto.emit = function(value) {
+	proto.emit = function (value) {
 		if (this.mode) this.state = COMMA;
 		this.onValue(value);
 	};
-	proto.onValue = function(value) {};
-	proto.onToken = function(token, value) {
+	proto.onValue = function (value) { };
+	proto.onToken = function (token, value) {
 		if (this.state === VALUE) if (token === STRING || token === NUMBER || token === TRUE || token === FALSE || token === NULL) {
 			if (this.value) this.value[this.key] = value;
 			this.emit(value);
@@ -70546,7 +70573,7 @@ var require_minipass_json_stream = /* @__PURE__ */ __commonJSMin(((exports, modu
 		get name() {
 			return "JSONStreamError";
 		}
-		set name(n) {}
+		set name(n) { }
 	};
 	const check = (x, y) => typeof x === "string" ? String(y) === x : x && typeof x.test === "function" ? x.test(y) : typeof x === "boolean" || typeof x === "object" ? x : typeof x === "function" ? x(y) : false;
 	const _parser = Symbol("_parser");
@@ -70820,7 +70847,7 @@ var require_minipass = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this.dest.removeListener("drain", this.ondrain);
 		}
 		// istanbul ignore next - only here for the prototype
-		proxyErrors() {}
+		proxyErrors() { }
 		end() {
 			this.unpipe();
 			if (this.opts.end) this.dest.end();
@@ -70906,7 +70933,7 @@ var require_minipass = /* @__PURE__ */ __commonJSMin(((exports) => {
 		get aborted() {
 			return this[ABORTED];
 		}
-		set aborted(_) {}
+		set aborted(_) { }
 		write(chunk, encoding, cb) {
 			if (this[ABORTED]) return false;
 			if (this[EOF]) throw new Error("write after end");
@@ -71015,8 +71042,8 @@ var require_minipass = /* @__PURE__ */ __commonJSMin(((exports) => {
 			return this[BUFFER].shift();
 		}
 		[FLUSH](noDrain) {
-			do			;
-while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
+			do;
+			while (this[FLUSHCHUNK](this[BUFFERSHIFT]()) && this[BUFFER].length);
 			if (!noDrain && !this[BUFFER].length && !this[EOF]) this.emit("drain");
 		}
 		[FLUSHCHUNK](chunk) {
@@ -71362,7 +71389,7 @@ var require_lib$10 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 					let otp;
 					try {
 						otp = await opts.otpPrompt();
-					} catch (_) {}
+					} catch (_) { }
 					if (!otp) throw er;
 					return regFetch(uri, {
 						...opts,
@@ -71877,7 +71904,7 @@ var require_lib$8 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			const baseb = basename$2(b).toLowerCase();
 			return exta.localeCompare(extb, "en") || basea.localeCompare(baseb, "en") || a.localeCompare(b, "en");
 		}
-		injectRules(filename, rules, callback = () => {}) {
+		injectRules(filename, rules, callback = () => { }) {
 			this.onReadIgnoreFile(filename, `${rules.join("\n")}\n`, callback);
 		}
 		processPackage(callback) {
@@ -72053,7 +72080,7 @@ var require_windows = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		return checkPathExt(path$40, options);
 	}
 	function isexe(path$40, options, cb) {
-		fs$9.stat(path$40, function(er, stat$4) {
+		fs$9.stat(path$40, function (er, stat$4) {
 			cb(er, er ? false : checkStat(stat$4, path$40, options));
 		});
 	}
@@ -72069,7 +72096,7 @@ var require_mode = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	isexe.sync = sync;
 	var fs$8 = __require("fs");
 	function isexe(path$40, options, cb) {
-		fs$8.stat(path$40, function(er, stat$4) {
+		fs$8.stat(path$40, function (er, stat$4) {
 			cb(er, er ? false : checkStat(stat$4, options));
 		});
 	}
@@ -72109,14 +72136,14 @@ var require_isexe = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 		}
 		if (!cb) {
 			if (typeof Promise !== "function") throw new TypeError("callback not provided");
-			return new Promise(function(resolve$12, reject) {
-				isexe(path$40, options || {}, function(er, is) {
+			return new Promise(function (resolve$12, reject) {
+				isexe(path$40, options || {}, function (er, is) {
 					if (er) reject(er);
 					else resolve$12(is);
 				});
 			});
 		}
-		core(path$40, options || {}, function(er, is) {
+		core(path$40, options || {}, function (er, is) {
 			if (er) {
 				if (er.code === "EACCES" || options && options.ignoreErrors) {
 					er = null;
@@ -72313,8 +72340,8 @@ var require_lib$6 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const spawnWithShell = (cmd, args, opts, extra) => {
 		let command = opts.shell;
 		if (command === true)
- // istanbul ignore next
-		command = process.platform === "win32" ? process.env.ComSpec : "sh";
+			// istanbul ignore next
+			command = process.platform === "win32" ? process.env.ComSpec : "sh";
 		const options = {
 			...opts,
 			shell: false
@@ -72431,7 +72458,7 @@ var require_signal_manager = /* @__PURE__ */ __commonJSMin(((exports, module) =>
 	let handlersInstalled = false;
 	const forwardedSignals = ["SIGINT", "SIGTERM"];
 	// istanbul ignore next - this function does nothing
-	const handleSignal = () => {};
+	const handleSignal = () => { };
 	const setupListeners = () => {
 		for (const signal of forwardedSignals) process.on(signal, handleSignal);
 		handlersInstalled = true;
@@ -72658,17 +72685,17 @@ var require_inflight = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	const active = {};
 	inflight.active = active;
 	function inflight(unique, doFly) {
-		return Bluebird.all([unique, doFly]).then(function(args) {
+		return Bluebird.all([unique, doFly]).then(function (args) {
 			const unique$1 = args[0];
 			const doFly$1 = args[1];
-			if (Array.isArray(unique$1)) return Bluebird.all(unique$1).then(function(uniqueArr) {
+			if (Array.isArray(unique$1)) return Bluebird.all(unique$1).then(function (uniqueArr) {
 				return _inflight(uniqueArr.join(""), doFly$1);
 			});
 			else return _inflight(unique$1, doFly$1);
 		});
 		function _inflight(unique$1, doFly$1) {
 			if (!active[unique$1]) {
-				active[unique$1] = new Bluebird(function(resolve$12) {
+				active[unique$1] = new Bluebird(function (resolve$12) {
 					return resolve$12(doFly$1());
 				});
 				active[unique$1].then(cleanup, cleanup);
@@ -72748,7 +72775,7 @@ var require_which = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 	let gitPath;
 	try {
 		gitPath = which.sync("git");
-	} catch {}
+	} catch { }
 	module.exports = (opts = {}) => {
 		if (opts.git) return opts.git;
 		if (!gitPath || opts.git === false) return Object.assign(/* @__PURE__ */ new Error("No git binary found in $PATH"), { code: "ENOGIT" });
@@ -73627,7 +73654,7 @@ var require_sigstore_common = /* @__PURE__ */ __commonJSMin(((exports) => {
 	* value, represented by '0'.
 	*/
 	var HashAlgorithm;
-	(function(HashAlgorithm) {
+	(function (HashAlgorithm) {
 		HashAlgorithm[HashAlgorithm["HASH_ALGORITHM_UNSPECIFIED"] = 0] = "HASH_ALGORITHM_UNSPECIFIED";
 		HashAlgorithm[HashAlgorithm["SHA2_256"] = 1] = "SHA2_256";
 	})(HashAlgorithm = exports.HashAlgorithm || (exports.HashAlgorithm = {}));
@@ -73658,7 +73685,7 @@ var require_sigstore_common = /* @__PURE__ */ __commonJSMin(((exports) => {
 	* and one for the signature algorithm).
 	*/
 	var PublicKeyDetails;
-	(function(PublicKeyDetails) {
+	(function (PublicKeyDetails) {
 		PublicKeyDetails[PublicKeyDetails["PUBLIC_KEY_DETAILS_UNSPECIFIED"] = 0] = "PUBLIC_KEY_DETAILS_UNSPECIFIED";
 		/** PKCS1_RSA_PKCS1V5 - RSA */
 		PublicKeyDetails[PublicKeyDetails["PKCS1_RSA_PKCS1V5"] = 1] = "PKCS1_RSA_PKCS1V5";
@@ -73710,7 +73737,7 @@ var require_sigstore_common = /* @__PURE__ */ __commonJSMin(((exports) => {
 	}
 	exports.publicKeyDetailsToJSON = publicKeyDetailsToJSON;
 	var SubjectAlternativeNameType;
-	(function(SubjectAlternativeNameType) {
+	(function (SubjectAlternativeNameType) {
 		SubjectAlternativeNameType[SubjectAlternativeNameType["SUBJECT_ALTERNATIVE_NAME_TYPE_UNSPECIFIED"] = 0] = "SUBJECT_ALTERNATIVE_NAME_TYPE_UNSPECIFIED";
 		SubjectAlternativeNameType[SubjectAlternativeNameType["EMAIL"] = 1] = "EMAIL";
 		SubjectAlternativeNameType[SubjectAlternativeNameType["URI"] = 2] = "URI";
@@ -74333,13 +74360,15 @@ var require_sigstore_verification = /* @__PURE__ */ __commonJSMin(((exports) => 
 	};
 	exports.Artifact = {
 		fromJSON(object) {
-			return { data: isSet(object.artifactUri) ? {
-				$case: "artifactUri",
-				artifactUri: String(object.artifactUri)
-			} : isSet(object.artifact) ? {
-				$case: "artifact",
-				artifact: Buffer.from(bytesFromBase64(object.artifact))
-			} : void 0 };
+			return {
+				data: isSet(object.artifactUri) ? {
+					$case: "artifactUri",
+					artifactUri: String(object.artifactUri)
+				} : isSet(object.artifact) ? {
+					$case: "artifact",
+					artifact: Buffer.from(bytesFromBase64(object.artifact))
+				} : void 0
+			};
 		},
 		toJSON(message) {
 			const obj = {};
@@ -74400,21 +74429,21 @@ var require_sigstore_verification = /* @__PURE__ */ __commonJSMin(((exports) => 
 //#endregion
 //#region node_modules/@sigstore/protobuf-specs/dist/index.js
 var require_dist$6 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __exportStar = exports && exports.__exportStar || function(m, exports$1) {
+	var __exportStar = exports && exports.__exportStar || function (m, exports$1) {
 		for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports$1, p)) __createBinding(exports$1, m, p);
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -74639,107 +74668,107 @@ var require_dist$5 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var build_1 = require_build();
 	Object.defineProperty(exports, "toDSSEBundle", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return build_1.toDSSEBundle;
 		}
 	});
 	Object.defineProperty(exports, "toMessageSignatureBundle", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return build_1.toMessageSignatureBundle;
 		}
 	});
 	var bundle_1 = require_bundle$1();
 	Object.defineProperty(exports, "BUNDLE_V01_MEDIA_TYPE", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return bundle_1.BUNDLE_V01_MEDIA_TYPE;
 		}
 	});
 	Object.defineProperty(exports, "BUNDLE_V02_MEDIA_TYPE", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return bundle_1.BUNDLE_V02_MEDIA_TYPE;
 		}
 	});
 	Object.defineProperty(exports, "isBundleWithCertificateChain", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return bundle_1.isBundleWithCertificateChain;
 		}
 	});
 	Object.defineProperty(exports, "isBundleWithDsseEnvelope", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return bundle_1.isBundleWithDsseEnvelope;
 		}
 	});
 	Object.defineProperty(exports, "isBundleWithMessageSignature", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return bundle_1.isBundleWithMessageSignature;
 		}
 	});
 	Object.defineProperty(exports, "isBundleWithPublicKey", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return bundle_1.isBundleWithPublicKey;
 		}
 	});
 	var error_1 = require_error$7();
 	Object.defineProperty(exports, "ValidationError", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return error_1.ValidationError;
 		}
 	});
 	var serialized_1 = require_serialized();
 	Object.defineProperty(exports, "bundleFromJSON", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return serialized_1.bundleFromJSON;
 		}
 	});
 	Object.defineProperty(exports, "bundleToJSON", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return serialized_1.bundleToJSON;
 		}
 	});
 	Object.defineProperty(exports, "envelopeFromJSON", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return serialized_1.envelopeFromJSON;
 		}
 	});
 	Object.defineProperty(exports, "envelopeToJSON", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return serialized_1.envelopeToJSON;
 		}
 	});
 	var validate_1 = require_validate();
 	Object.defineProperty(exports, "assertBundle", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return validate_1.assertBundle;
 		}
 	});
 	Object.defineProperty(exports, "assertBundleLatest", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return validate_1.assertBundleLatest;
 		}
 	});
 	Object.defineProperty(exports, "assertBundleV01", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return validate_1.assertBundleV01;
 		}
 	});
 	Object.defineProperty(exports, "isBundleV01", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return validate_1.isBundleV01;
 		}
 	});
@@ -74748,7 +74777,7 @@ var require_dist$5 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/tuf/dist/appdata.js
 var require_appdata = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -74780,17 +74809,17 @@ var require_appdata = /* @__PURE__ */ __commonJSMin(((exports) => {
 var require_error$6 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.UnsupportedAlgorithmError = exports.CryptoError = exports.LengthOrHashMismatchError = exports.UnsignedMetadataError = exports.RepositoryError = exports.ValueError = void 0;
-	var ValueError = class extends Error {};
+	var ValueError = class extends Error { };
 	exports.ValueError = ValueError;
-	var RepositoryError = class extends Error {};
+	var RepositoryError = class extends Error { };
 	exports.RepositoryError = RepositoryError;
-	var UnsignedMetadataError = class extends RepositoryError {};
+	var UnsignedMetadataError = class extends RepositoryError { };
 	exports.UnsignedMetadataError = UnsignedMetadataError;
-	var LengthOrHashMismatchError = class extends RepositoryError {};
+	var LengthOrHashMismatchError = class extends RepositoryError { };
 	exports.LengthOrHashMismatchError = LengthOrHashMismatchError;
-	var CryptoError = class extends Error {};
+	var CryptoError = class extends Error { };
 	exports.CryptoError = CryptoError;
-	var UnsupportedAlgorithmError = class extends CryptoError {};
+	var UnsupportedAlgorithmError = class extends CryptoError { };
 	exports.UnsupportedAlgorithmError = UnsupportedAlgorithmError;
 }));
 
@@ -74872,7 +74901,7 @@ var require_lib$1 = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region node_modules/@tufjs/models/dist/utils/verify.js
 var require_verify$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -74889,29 +74918,29 @@ var require_verify$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@tufjs/models/dist/utils/index.js
 var require_utils = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -74929,7 +74958,7 @@ var require_utils = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@tufjs/models/dist/base.js
 var require_base$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -74943,7 +74972,7 @@ var require_base$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		"31"
 	];
 	var MetadataKind;
-	(function(MetadataKind) {
+	(function (MetadataKind) {
 		MetadataKind["Root"] = "root";
 		MetadataKind["Timestamp"] = "timestamp";
 		MetadataKind["Snapshot"] = "snapshot";
@@ -75000,7 +75029,7 @@ var require_base$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@tufjs/models/dist/file.js
 var require_file = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -75162,7 +75191,7 @@ var require_oid = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@tufjs/models/dist/utils/key.js
 var require_key$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -75225,53 +75254,57 @@ var require_key$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 		}
 		return { key };
 	}
-	const ed25519 = { hexToDER: (hex) => {
-		const key = Buffer.from(hex, "hex");
-		const oid = (0, oid_1.encodeOIDString)(OID_EDDSA);
-		const elements = Buffer.concat([Buffer.concat([
-			Buffer.from([ASN1_TAG_SEQUENCE]),
-			Buffer.from([oid.length]),
-			oid
-		]), Buffer.concat([
-			Buffer.from([ANS1_TAG_BIT_STRING]),
-			Buffer.from([key.length + 1]),
-			Buffer.from([NULL_BYTE]),
-			key
-		])]);
-		return Buffer.concat([
-			Buffer.from([ASN1_TAG_SEQUENCE]),
-			Buffer.from([elements.length]),
-			elements
-		]);
-	} };
-	const ecdsa = { hexToDER: (hex) => {
-		const key = Buffer.from(hex, "hex");
-		const bitString = Buffer.concat([
-			Buffer.from([ANS1_TAG_BIT_STRING]),
-			Buffer.from([key.length + 1]),
-			Buffer.from([NULL_BYTE]),
-			key
-		]);
-		const oids = Buffer.concat([(0, oid_1.encodeOIDString)(OID_EC_PUBLIC_KEY), (0, oid_1.encodeOIDString)(OID_EC_CURVE_P256V1)]);
-		const oidSequence = Buffer.concat([
-			Buffer.from([ASN1_TAG_SEQUENCE]),
-			Buffer.from([oids.length]),
-			oids
-		]);
-		return Buffer.concat([
-			Buffer.from([ASN1_TAG_SEQUENCE]),
-			Buffer.from([oidSequence.length + bitString.length]),
-			oidSequence,
-			bitString
-		]);
-	} };
+	const ed25519 = {
+		hexToDER: (hex) => {
+			const key = Buffer.from(hex, "hex");
+			const oid = (0, oid_1.encodeOIDString)(OID_EDDSA);
+			const elements = Buffer.concat([Buffer.concat([
+				Buffer.from([ASN1_TAG_SEQUENCE]),
+				Buffer.from([oid.length]),
+				oid
+			]), Buffer.concat([
+				Buffer.from([ANS1_TAG_BIT_STRING]),
+				Buffer.from([key.length + 1]),
+				Buffer.from([NULL_BYTE]),
+				key
+			])]);
+			return Buffer.concat([
+				Buffer.from([ASN1_TAG_SEQUENCE]),
+				Buffer.from([elements.length]),
+				elements
+			]);
+		}
+	};
+	const ecdsa = {
+		hexToDER: (hex) => {
+			const key = Buffer.from(hex, "hex");
+			const bitString = Buffer.concat([
+				Buffer.from([ANS1_TAG_BIT_STRING]),
+				Buffer.from([key.length + 1]),
+				Buffer.from([NULL_BYTE]),
+				key
+			]);
+			const oids = Buffer.concat([(0, oid_1.encodeOIDString)(OID_EC_PUBLIC_KEY), (0, oid_1.encodeOIDString)(OID_EC_CURVE_P256V1)]);
+			const oidSequence = Buffer.concat([
+				Buffer.from([ASN1_TAG_SEQUENCE]),
+				Buffer.from([oids.length]),
+				oids
+			]);
+			return Buffer.concat([
+				Buffer.from([ASN1_TAG_SEQUENCE]),
+				Buffer.from([oidSequence.length + bitString.length]),
+				oidSequence,
+				bitString
+			]);
+		}
+	};
 	const isHex = (key) => /^[0-9a-fA-F]+$/.test(key);
 }));
 
 //#endregion
 //#region node_modules/@tufjs/models/dist/key.js
 var require_key = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -75338,7 +75371,7 @@ var require_key = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@tufjs/models/dist/role.js
 var require_role = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -75563,7 +75596,7 @@ var require_role = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@tufjs/models/dist/root.js
 var require_root = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -75711,7 +75744,7 @@ var require_signature$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@tufjs/models/dist/snapshot.js
 var require_snapshot = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -75778,7 +75811,7 @@ var require_snapshot = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@tufjs/models/dist/delegations.js
 var require_delegations = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -75876,7 +75909,7 @@ var require_delegations = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@tufjs/models/dist/targets.js
 var require_targets = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -76006,7 +76039,7 @@ var require_timestamp = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@tufjs/models/dist/metadata.js
 var require_metadata = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -76082,7 +76115,7 @@ var require_metadata = /* @__PURE__ */ __commonJSMin(((exports) => {
 				try {
 					key.verifySignature(delegatedMetadata);
 					signingKeys.add(key.keyID);
-				} catch (error) {}
+				} catch (error) { }
 			});
 			if (signingKeys.size < role.threshold) throw new error_1.UnsignedMetadataError(`${delegatedRole} was signed by ${signingKeys.size}/${role.threshold} keys`);
 		}
@@ -76144,76 +76177,76 @@ var require_dist$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var base_1 = require_base$1();
 	Object.defineProperty(exports, "MetadataKind", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return base_1.MetadataKind;
 		}
 	});
 	var error_1 = require_error$6();
 	Object.defineProperty(exports, "ValueError", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return error_1.ValueError;
 		}
 	});
 	var file_1 = require_file();
 	Object.defineProperty(exports, "MetaFile", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return file_1.MetaFile;
 		}
 	});
 	Object.defineProperty(exports, "TargetFile", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return file_1.TargetFile;
 		}
 	});
 	var key_1 = require_key();
 	Object.defineProperty(exports, "Key", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return key_1.Key;
 		}
 	});
 	var metadata_1 = require_metadata();
 	Object.defineProperty(exports, "Metadata", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return metadata_1.Metadata;
 		}
 	});
 	var root_1 = require_root();
 	Object.defineProperty(exports, "Root", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return root_1.Root;
 		}
 	});
 	var signature_1 = require_signature$1();
 	Object.defineProperty(exports, "Signature", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return signature_1.Signature;
 		}
 	});
 	var snapshot_1 = require_snapshot();
 	Object.defineProperty(exports, "Snapshot", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return snapshot_1.Snapshot;
 		}
 	});
 	var targets_1 = require_targets();
 	Object.defineProperty(exports, "Targets", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return targets_1.Targets;
 		}
 	});
 	var timestamp_1 = require_timestamp();
 	Object.defineProperty(exports, "Timestamp", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return timestamp_1.Timestamp;
 		}
 	});
@@ -76224,23 +76257,23 @@ var require_dist$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
 var require_error$5 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.DownloadHTTPError = exports.DownloadLengthMismatchError = exports.DownloadError = exports.ExpiredMetadataError = exports.EqualVersionError = exports.BadVersionError = exports.RepositoryError = exports.PersistError = exports.RuntimeError = exports.ValueError = void 0;
-	var ValueError = class extends Error {};
+	var ValueError = class extends Error { };
 	exports.ValueError = ValueError;
-	var RuntimeError = class extends Error {};
+	var RuntimeError = class extends Error { };
 	exports.RuntimeError = RuntimeError;
-	var PersistError = class extends Error {};
+	var PersistError = class extends Error { };
 	exports.PersistError = PersistError;
-	var RepositoryError = class extends Error {};
+	var RepositoryError = class extends Error { };
 	exports.RepositoryError = RepositoryError;
-	var BadVersionError = class extends RepositoryError {};
+	var BadVersionError = class extends RepositoryError { };
 	exports.BadVersionError = BadVersionError;
-	var EqualVersionError = class extends BadVersionError {};
+	var EqualVersionError = class extends BadVersionError { };
 	exports.EqualVersionError = EqualVersionError;
-	var ExpiredMetadataError = class extends RepositoryError {};
+	var ExpiredMetadataError = class extends RepositoryError { };
 	exports.ExpiredMetadataError = ExpiredMetadataError;
-	var DownloadError = class extends Error {};
+	var DownloadError = class extends Error { };
 	exports.DownloadError = DownloadError;
-	var DownloadLengthMismatchError = class extends DownloadError {};
+	var DownloadLengthMismatchError = class extends DownloadError { };
 	exports.DownloadLengthMismatchError = DownloadLengthMismatchError;
 	var DownloadHTTPError = class extends DownloadError {
 		constructor(message, statusCode) {
@@ -76254,7 +76287,7 @@ var require_error$5 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/tuf-js/dist/utils/tmpfile.js
 var require_tmpfile = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -76282,7 +76315,7 @@ var require_tmpfile = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/tuf-js/dist/fetcher.js
 var require_fetcher$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -76504,29 +76537,29 @@ var require_url = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/tuf-js/dist/updater.js
 var require_updater = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -76535,7 +76568,7 @@ var require_updater = /* @__PURE__ */ __commonJSMin(((exports) => {
 		__setModuleDefault(result, mod);
 		return result;
 	};
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -76633,7 +76666,7 @@ var require_updater = /* @__PURE__ */ __commonJSMin(((exports) => {
 			try {
 				const data = this.loadLocalMetadata(models_1.MetadataKind.Timestamp);
 				this.trustedSet.updateTimestamp(data);
-			} catch (error) {}
+			} catch (error) { }
 			const timestampUrl = url.join(this.metadataBaseUrl, "timestamp.json");
 			const bytesData = await this.fetcher.downloadBytes(timestampUrl, this.config.timestampMaxLength);
 			try {
@@ -76742,21 +76775,21 @@ var require_dist$3 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var models_1 = require_dist$4();
 	Object.defineProperty(exports, "TargetFile", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return models_1.TargetFile;
 		}
 	});
 	var fetcher_1 = require_fetcher$1();
 	Object.defineProperty(exports, "BaseFetcher", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return fetcher_1.BaseFetcher;
 		}
 	});
 	var updater_1 = require_updater();
 	Object.defineProperty(exports, "Updater", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return updater_1.Updater;
 		}
 	});
@@ -76781,7 +76814,7 @@ var require_error$4 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/tuf/dist/target.js
 var require_target = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -76834,7 +76867,7 @@ var require_target = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/tuf/dist/client.js
 var require_client$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -76934,7 +76967,7 @@ var require_dist$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var error_1 = require_error$4();
 	Object.defineProperty(exports, "TUFError", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return error_1.TUFError;
 		}
 	});
@@ -76943,7 +76976,7 @@ var require_dist$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/sign/dist/util/crypto.js
 var require_crypto$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -77023,29 +77056,29 @@ var require_json$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/sign/dist/util/oidc.js
 var require_oidc = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -77136,7 +77169,7 @@ var require_package = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 //#endregion
 //#region node_modules/@sigstore/sign/dist/util/ua.js
 var require_ua = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -77151,29 +77184,29 @@ var require_ua = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/sign/dist/util/index.js
 var require_util$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -77234,29 +77267,29 @@ var require_base = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/sign/dist/bundler/bundle.js
 var require_bundle = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -77346,14 +77379,14 @@ var require_bundler = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var dsse_1 = require_dsse$1();
 	Object.defineProperty(exports, "DSSEBundleBuilder", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return dsse_1.DSSEBundleBuilder;
 		}
 	});
 	var message_1 = require_message();
 	Object.defineProperty(exports, "MessageSignatureBundleBuilder", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return message_1.MessageSignatureBundleBuilder;
 		}
 	});
@@ -77378,7 +77411,7 @@ var require_error$3 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/sign/dist/identity/ci.js
 var require_ci = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -77435,7 +77468,7 @@ var require_identity$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var ci_1 = require_ci();
 	Object.defineProperty(exports, "CIContextProvider", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return ci_1.CIContextProvider;
 		}
 	});
@@ -77465,7 +77498,7 @@ var require_error$2 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/sign/dist/external/fulcio.js
 var require_fulcio$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -77548,7 +77581,7 @@ var require_ca = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/sign/dist/signer/fulcio/ephemeral.js
 var require_ephemeral = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -77631,7 +77664,7 @@ var require_signer$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var fulcio_1 = require_fulcio();
 	Object.defineProperty(exports, "FulcioSigner", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return fulcio_1.FulcioSigner;
 		}
 	});
@@ -77640,7 +77673,7 @@ var require_signer$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/sign/dist/external/rekor.js
 var require_rekor = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -77805,10 +77838,12 @@ var require_entry = /* @__PURE__ */ __commonJSMin(((exports) => {
 			apiVersion: "0.0.1",
 			kind: "hashedrekord",
 			spec: {
-				data: { hash: {
-					algorithm: "sha256",
-					value: hexDigest
-				} },
+				data: {
+					hash: {
+						algorithm: "sha256",
+						value: hexDigest
+					}
+				},
 				signature: {
 					content: b64Signature,
 					publicKey: { content: b64Key }
@@ -77820,10 +77855,12 @@ var require_entry = /* @__PURE__ */ __commonJSMin(((exports) => {
 		return {
 			apiVersion: "0.0.1",
 			kind: "dsse",
-			spec: { proposedContent: {
-				envelope: JSON.stringify((0, bundle_1.envelopeToJSON)(envelope)),
-				verifiers: [util_1.encoding.base64Encode(publicKey)]
-			} }
+			spec: {
+				proposedContent: {
+					envelope: JSON.stringify((0, bundle_1.envelopeToJSON)(envelope)),
+					verifiers: [util_1.encoding.base64Encode(publicKey)]
+				}
+			}
 		};
 	}
 	function toProposedIntotoEntry(envelope, publicKey) {
@@ -77845,17 +77882,19 @@ var require_entry = /* @__PURE__ */ __commonJSMin(((exports) => {
 		return {
 			apiVersion: "0.0.2",
 			kind: "intoto",
-			spec: { content: {
-				envelope: dsse,
-				hash: {
-					algorithm: "sha256",
-					value: envelopeHash
-				},
-				payloadHash: {
-					algorithm: "sha256",
-					value: payloadHash
+			spec: {
+				content: {
+					envelope: dsse,
+					hash: {
+						algorithm: "sha256",
+						value: envelopeHash
+					},
+					payloadHash: {
+						algorithm: "sha256",
+						value: payloadHash
+					}
 				}
-			} }
+			}
 		};
 	}
 	function calculateDSSEHash(envelope, publicKey) {
@@ -77896,18 +77935,20 @@ var require_tlog = /* @__PURE__ */ __commonJSMin(((exports) => {
 		const entryBody = JSON.parse(bodyJSON);
 		const promise = entry?.verification?.signedEntryTimestamp ? inclusionPromise(entry.verification.signedEntryTimestamp) : void 0;
 		const proof = entry?.verification?.inclusionProof ? inclusionProof(entry.verification.inclusionProof) : void 0;
-		return { tlogEntries: [{
-			logIndex: entry.logIndex.toString(),
-			logId: { keyId: logID },
-			integratedTime: entry.integratedTime.toString(),
-			kindVersion: {
-				kind: entryBody.kind,
-				version: entryBody.apiVersion
-			},
-			inclusionPromise: promise,
-			inclusionProof: proof,
-			canonicalizedBody: Buffer.from(entry.body, "base64")
-		}] };
+		return {
+			tlogEntries: [{
+				logIndex: entry.logIndex.toString(),
+				logId: { keyId: logID },
+				integratedTime: entry.integratedTime.toString(),
+				kindVersion: {
+					kind: entryBody.kind,
+					version: entryBody.apiVersion
+				},
+				inclusionPromise: promise,
+				inclusionProof: proof,
+				canonicalizedBody: Buffer.from(entry.body, "base64")
+			}]
+		};
 	}
 	function inclusionPromise(promise) {
 		return { signedEntryTimestamp: Buffer.from(promise, "base64") };
@@ -77926,7 +77967,7 @@ var require_tlog = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/@sigstore/sign/dist/external/tsa.js
 var require_tsa$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -78030,14 +78071,14 @@ var require_witness = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var tlog_1 = require_tlog();
 	Object.defineProperty(exports, "RekorWitness", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return tlog_1.RekorWitness;
 		}
 	});
 	var tsa_1 = require_tsa();
 	Object.defineProperty(exports, "TSAWitness", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return tsa_1.TSAWitness;
 		}
 	});
@@ -78051,47 +78092,47 @@ var require_dist$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var bundler_1 = require_bundler();
 	Object.defineProperty(exports, "DSSEBundleBuilder", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return bundler_1.DSSEBundleBuilder;
 		}
 	});
 	Object.defineProperty(exports, "MessageSignatureBundleBuilder", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return bundler_1.MessageSignatureBundleBuilder;
 		}
 	});
 	var error_1 = require_error$3();
 	Object.defineProperty(exports, "InternalError", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return error_1.InternalError;
 		}
 	});
 	var identity_1 = require_identity$1();
 	Object.defineProperty(exports, "CIContextProvider", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return identity_1.CIContextProvider;
 		}
 	});
 	var signer_1 = require_signer$1();
 	Object.defineProperty(exports, "FulcioSigner", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return signer_1.FulcioSigner;
 		}
 	});
 	var witness_1 = require_witness();
 	Object.defineProperty(exports, "RekorWitness", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return witness_1.RekorWitness;
 		}
 	});
 	Object.defineProperty(exports, "TSAWitness", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return witness_1.TSAWitness;
 		}
 	});
@@ -78100,7 +78141,7 @@ var require_dist$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/sigstore/dist/identity/issuer.js
 var require_issuer = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -78139,7 +78180,7 @@ var require_issuer = /* @__PURE__ */ __commonJSMin(((exports) => {
 var require_stream = /* @__PURE__ */ __commonJSMin(((exports) => {
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.ByteStream = exports.StreamError = void 0;
-	var StreamError = class extends Error {};
+	var StreamError = class extends Error { };
 	exports.StreamError = StreamError;
 	var ByteStream = class ByteStream {
 		constructor(buffer$1) {
@@ -78233,9 +78274,9 @@ var require_stream = /* @__PURE__ */ __commonJSMin(((exports) => {
 var require_error$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	Object.defineProperty(exports, "__esModule", { value: true });
 	exports.ASN1TypeError = exports.ASN1ParseError = void 0;
-	var ASN1ParseError = class extends Error {};
+	var ASN1ParseError = class extends Error { };
 	exports.ASN1ParseError = ASN1ParseError;
-	var ASN1TypeError = class extends Error {};
+	var ASN1TypeError = class extends Error { };
 	exports.ASN1TypeError = ASN1TypeError;
 }));
 
@@ -78473,7 +78514,7 @@ var require_obj = /* @__PURE__ */ __commonJSMin(((exports) => {
 		if (tag.constructed) subs = collectSubs(stream$2, len);
 		else if (tag.isOctetString()) try {
 			subs = collectSubs(stream$2, len);
-		} catch (e) {}
+		} catch (e) { }
 		if (subs.length === 0) stream$2.seek(start + len);
 		return new ASN1Obj(tag, value, subs);
 	}
@@ -78496,7 +78537,7 @@ var require_asn1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var obj_1 = require_obj();
 	Object.defineProperty(exports, "ASN1Obj", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return obj_1.ASN1Obj;
 		}
 	});
@@ -78505,7 +78546,7 @@ var require_asn1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/sigstore/dist/util/crypto.js
 var require_crypto = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -78660,29 +78701,29 @@ var require_pem = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/sigstore/dist/util/index.js
 var require_util = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -78704,7 +78745,7 @@ var require_util = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/sigstore/dist/identity/oauth.js
 var require_oauth = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -78894,13 +78935,13 @@ var require_error = /* @__PURE__ */ __commonJSMin(((exports) => {
 			this.name = this.constructor.name;
 		}
 	};
-	var VerificationError = class extends BaseError {};
+	var VerificationError = class extends BaseError { };
 	exports.VerificationError = VerificationError;
-	var PolicyError = class extends BaseError {};
+	var PolicyError = class extends BaseError { };
 	exports.PolicyError = PolicyError;
-	var InternalError = class extends ErrorWithCode {};
+	var InternalError = class extends ErrorWithCode { };
 	exports.InternalError = InternalError;
-	var SignatureError = class extends ErrorWithCode {};
+	var SignatureError = class extends ErrorWithCode { };
 	exports.SignatureError = SignatureError;
 }));
 
@@ -78945,7 +78986,7 @@ var require_sigstore$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var protobuf_specs_1 = require_dist$6();
 	Object.defineProperty(exports, "SubjectAlternativeNameType", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return protobuf_specs_1.SubjectAlternativeNameType;
 		}
 	});
@@ -78958,29 +78999,29 @@ var require_sigstore$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/sigstore/dist/config.js
 var require_config = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -78989,7 +79030,7 @@ var require_config = /* @__PURE__ */ __commonJSMin(((exports) => {
 		__setModuleDefault(result, mod);
 		return result;
 	};
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -79081,11 +79122,13 @@ var require_config = /* @__PURE__ */ __commonJSMin(((exports) => {
 			}));
 			signers = {
 				$case: "certificateIdentities",
-				certificateIdentities: { identities: [{
-					issuer: options.certificateIssuer,
-					san,
-					oids
-				}] }
+				certificateIdentities: {
+					identities: [{
+						issuer: options.certificateIssuer,
+						san,
+						oids
+					}]
+				}
 			};
 		}
 		return {
@@ -79616,29 +79659,29 @@ var require_sct = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/sigstore/dist/ca/verify/signer.js
 var require_signer = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -79879,7 +79922,7 @@ var require_checkpoint = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/sigstore/dist/tlog/verify/merkle.js
 var require_merkle = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __importDefault = exports && exports.__importDefault || function(mod) {
+	var __importDefault = exports && exports.__importDefault || function (mod) {
 		return mod && mod.__esModule ? mod : { "default": mod };
 	};
 	Object.defineProperty(exports, "__esModule", { value: true });
@@ -80037,29 +80080,29 @@ var require_verify$1 = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/sigstore/dist/verify.js
 var require_verify = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -80181,29 +80224,29 @@ var require_sigstore_utils = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/sigstore/dist/sigstore.js
 var require_sigstore = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -80255,10 +80298,12 @@ var require_sigstore = /* @__PURE__ */ __commonJSMin(((exports) => {
 		});
 		const verifier = new verify_1.Verifier(trustedRoot, options.keySelector);
 		const verifyOpts = config.artifactVerificationOptions(options);
-		return { verify: (bundle) => {
-			const deserializedBundle = (0, bundle_1.bundleFromJSON)(bundle);
-			return verifier.verify(deserializedBundle, verifyOpts);
-		} };
+		return {
+			verify: (bundle) => {
+				const deserializedBundle = (0, bundle_1.bundleFromJSON)(bundle);
+				return verifier.verify(deserializedBundle, verifyOpts);
+			}
+		};
 	}
 	exports.createVerifier = createVerifier;
 	const tufUtils = {
@@ -80285,26 +80330,26 @@ var require_sigstore = /* @__PURE__ */ __commonJSMin(((exports) => {
 	var bundle_2 = require_dist$5();
 	Object.defineProperty(exports, "ValidationError", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return bundle_2.ValidationError;
 		}
 	});
 	var error_1 = require_error();
 	Object.defineProperty(exports, "InternalError", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return error_1.InternalError;
 		}
 	});
 	Object.defineProperty(exports, "PolicyError", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return error_1.PolicyError;
 		}
 	});
 	Object.defineProperty(exports, "VerificationError", {
 		enumerable: true,
-		get: function() {
+		get: function () {
 			return error_1.VerificationError;
 		}
 	});
@@ -80316,29 +80361,29 @@ var require_sigstore = /* @__PURE__ */ __commonJSMin(((exports) => {
 //#endregion
 //#region node_modules/sigstore/dist/index.js
 var require_dist = /* @__PURE__ */ __commonJSMin(((exports) => {
-	var __createBinding = exports && exports.__createBinding || (Object.create ? (function(o, m, k, k2) {
+	var __createBinding = exports && exports.__createBinding || (Object.create ? (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		var desc$1 = Object.getOwnPropertyDescriptor(m, k);
 		if (!desc$1 || ("get" in desc$1 ? !m.__esModule : desc$1.writable || desc$1.configurable)) desc$1 = {
 			enumerable: true,
-			get: function() {
+			get: function () {
 				return m[k];
 			}
 		};
 		Object.defineProperty(o, k2, desc$1);
-	}) : (function(o, m, k, k2) {
+	}) : (function (o, m, k, k2) {
 		if (k2 === void 0) k2 = k;
 		o[k2] = m[k];
 	}));
-	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function(o, v) {
+	var __setModuleDefault = exports && exports.__setModuleDefault || (Object.create ? (function (o, v) {
 		Object.defineProperty(o, "default", {
 			enumerable: true,
 			value: v
 		});
-	}) : function(o, v) {
+	}) : function (o, v) {
 		o["default"] = v;
 	});
-	var __importStar = exports && exports.__importStar || function(mod) {
+	var __importStar = exports && exports.__importStar || function (mod) {
 		if (mod && mod.__esModule) return mod;
 		var result = {};
 		if (mod != null) {
@@ -80665,7 +80710,7 @@ var require_fetcher = /* @__PURE__ */ __commonJSMin(((exports, module) => {
 			cstream.on("integrity", (i) => this.integrity = i);
 			cstream.on("error", (err) => stream$2.emit("error", err));
 			stream$2.pipe(cstream);
-			cstream.promise().catch(() => {}).then(() => middleStream.end());
+			cstream.promise().catch(() => { }).then(() => middleStream.end());
 			return middleStream;
 		}
 		pickIntegrityAlgorithm() {
@@ -80929,5 +80974,5 @@ async function mainNpmPublish() {
 mainNpmPublish();
 
 //#endregion
-export {  };
+export { };
 //# sourceMappingURL=index.js.map
